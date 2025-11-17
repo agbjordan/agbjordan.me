@@ -6,8 +6,8 @@
 }
 
 :root {
-    --primary-color: #2563eb;
-    --primary-dark: #1e40af;
+    --primary-color: #fe4300  ;
+    --primary-dark: #cb3600;
     --accent-color: #10b981;
     --text-primary: #111827;
     --text-secondary: #6b7280;
@@ -136,6 +136,7 @@ nav .container {
 
 .nav-links {
     display: flex;
+    align-items: center;
     list-style: none;
     gap: 2.5rem;
 }
@@ -425,7 +426,7 @@ section:nth-child(even) {
 .timeline::before {
     content: '';
     position: absolute;
-    left: 0;
+    left: -3px;
     top: 0;
     bottom: 0;
     width: 2px;
