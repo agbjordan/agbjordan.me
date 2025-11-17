@@ -1,0 +1,18 @@
+// 
+// Utilities.scss
+// 
+
+/**************************************/
+/*              Utilities             */    
+/**************************************/
+
+// Shadow
+.shadow {
+    box-shadow: $shadow !important;
+}
+.shadow-lg {
+    box-shadow: $shadow-lg !important;
+}
+.shadow-md {
+    box-shadow: $shadow-md !important;
+}

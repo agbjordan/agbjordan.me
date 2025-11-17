@@ -1,0 +1,97 @@
+// 
+// components.scss
+// 
+
+/**********************************/
+/*          components            */    
+/**********************************/
+// Buttons
+@each $name,
+$value in $colors {
+    .btn-#{$name} {
+        background-color: $value;
+        color: $white !important;
+        box-shadow: 0 3px 5px 0 rgba($value, 0.1);
+        border-width: 0 !important; 
+        &:hover,
+        &:focus,
+        &:active,
+        &.active,
+        &.focus{
+            background-color: darken($value, 3%) !important;
+            color: $white !important;
+        }
+    }
+
+    .btn-outline-#{$name} {
+        color: #{$white};
+        background-color: transparent;
+        border: 1px solid $value;
+        &:hover, &:focus, &:active, &.active, &.focus, &:not(:disabled):not(.disabled):active{
+            background-color: $value;
+            color: $white;
+            box-shadow: 0 3px 5px 0 rgba($value, 0.1);
+            border: 1px solid $value;
+        }
+    }
+}
+
+.btn {
+    padding: 15px 30px;
+    outline: none;
+    text-decoration: none;
+    font-size: 15px;
+    letter-spacing: 0px;
+    transition: all 0.3s ease;
+    border-radius: 0px;
+    border: 1px solid transparent;
+    &:focus {
+        box-shadow: none !important;
+    }
+    &:hover {
+        transform: translateY(-2px);
+        transition: all 0.5s; 
+    }
+    &.btn-sm {
+        padding: 7px 16px;
+        font-size: 10px;
+    }
+    &.btn-lg {
+        padding: 14px 30px;
+        font-size: 16px;
+    }
+    &.btn-pills {
+        border-radius: 30px;
+    }
+    &.btn-light {
+        background-color: $light;
+        color: $dark !important;
+        border: 1px solid $gray-300 !important;
+        &:hover, &:focus, &:active, &.active, &.focus{
+            background-color: darken($light, 10%) !important;
+            color: $dark !important; 
+        }
+    }
+    &.btn-outline-primary {
+        border: 1px solid $primary;
+        color: $white;
+        padding: 15px 35px;
+        &:hover, &:focus, &.focus, &:active, &.active {
+            background-color: $primary;
+            border: 1px solid $primary;
+            color: $white !important;
+        }
+    }
+}
+
+.form-control {
+    border: 1px solid $gray-200;
+    font-size: 14px !important;
+    line-height: 30px;
+    text-align: left;
+    color: $dark !important;
+    &:focus{
+        box-shadow: none !important;
+        border-color: $primary !important;
+    }
+}

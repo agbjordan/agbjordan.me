@@ -1,0 +1,83 @@
+//
+// variables.scss
+//
+
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap');
+
+// Color variables
+$white:                         #ffffff;
+
+$primary:                       #ebb884;  
+$secondary:                     #f8f9f9;
+$success:                       #28a745;
+$info:                          #17a2b8;
+$warning:                       #ffc107;
+$danger:                        #dc3545;
+$purple:                        #aa65e8;
+$dark:                          #1d1d1d; //  1C1D15 
+$black:                         #161c2d;
+$muted:                         #696969;
+$light:                         #efefef;
+$light-100:                     #f1f3f5;
+
+// Gray
+$gray-100:                      #f8f9fa;
+$gray-200:                      #e9ecef;
+$gray-300:                      #dee2e6;
+$gray-400:                      #ced4da;
+$gray-500:                      #adb5bd;
+$gray-600:                      #6c757d; 
+$gray-700:                      #495057;
+
+// Body Background
+$body-bg:                       #f8f9f9;
+$body-bg-cream:                 #f3e4d9;
+
+
+$shadow:                        0 0 3px rgba(60, 72, 88, 0.15) !important;
+$shadow-md:                     0 5px 13px rgba($dark, .2);
+$shadow-lg:                     0 25px 25px rgba($dark, 0.05);
+
+// Base font
+$font-size-base:                16px;
+$font-size-sm:                  14px;
+
+$font-family-base:              "Sora", sans-serif;
+$font-family-secondary:         "Sora", sans-serif;
+
+// Overlay
+$overlay:                       rgba($black, 0.75);
+$card-overlay:                  linear-gradient(to bottom, transparent 0%, transparent 25%, transparent 35%, rgba($black, 0.9) 100%);
+
+$colors: (
+    "primary": $primary,
+    "secondary": $secondary,
+    "success": $success,
+    "warning": $warning,
+    "info": $info,
+    "danger": $danger,
+    "purple": $purple,
+    "dark": $dark,
+    "black": $black,
+    "muted": $muted,
+    "light": $light,
+    "light-100": $light-100,
+);
+
+$heading-font-sizes: (
+    "h1, .fs-1": 42px,
+    "h2, .fs-2": 36px,
+    "h3, .fs-3": 30px,
+    "h4, .fs-4": 24px,
+    "h5, .fs-5": 18px,
+    "h6, .fs-6": 16px,
+);
+
+$display-font-sizes: (
+    "display-1": 80px,
+    "display-2": 72px,
+    "display-3": 64px,
+    "display-4": 56px,
+    "display-5": 48px,
+    "display-6": 40px,
+)

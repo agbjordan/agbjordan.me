@@ -1,0 +1,192 @@
+// 
+// _nav.scss
+// 
+
+/************************************/
+// Menu
+/************************************/
+.navbar {
+    transition: all 0.5s ease;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    .navbar-brand {
+        font-size: 0;
+        padding: 0;
+        .l-dark,
+        .logo-dark-mode {
+            display: none;
+        }
+        .l-light,
+        .logo-light-mode {
+            display: inline-block;
+        }
+    }
+    .navbar-nav {
+        .nav-item {
+            .nav-link {
+                color: $white;
+                font-size: 13px;
+                letter-spacing: 1px;
+                font-weight: 600;
+                text-transform: uppercase;
+                background-color: transparent;
+                margin: 0px 10px;
+                transition: all 0.3s ease;
+                font-family: $font-family-base;
+                padding: 15px 0px;
+                margin: 0px 15px;
+            }
+            &:hover,
+            &.active,
+            &.active {
+                .nav-link {
+                    color: $primary;
+                }
+            }
+        }
+    }
+    .navbar-toggler {
+        position: relative;
+        font-size: 20px;
+        border: none;
+        padding: 0;
+        margin: 0;
+        cursor: pointer;
+        &:hover,
+        &:focus,
+        .navbar-nav > li > a:hover {
+            background-color: transparent;
+            box-shadow: none;
+        }
+    }
+    .navbar-toggler-icon {
+        color: $white !important;
+    }
+
+    &.nav-light {
+        .navbar-brand {
+            .l-dark,
+            .logo-dark-mode {
+                display: none !important;
+            }
+            .l-light,
+            .logo-light-mode {
+                display: inline-block !important;
+            }
+        }
+    }
+
+    &.nav-sticky {
+        background: $white;
+        margin-top: 0px;
+        box-shadow: $shadow;
+        .nav-item {
+            .nav-link {
+                color: $dark;
+            }
+            &:hover,
+            &.active,
+            &:active {
+                .nav-link {
+                    color: $primary;
+                }
+            }
+        }
+        .menu-social {
+            .login-btn-primary {
+                display: inline-block;
+            }
+            .login-btn-light {
+                display: none;
+            }
+        }
+        .navbar-brand {
+            .l-dark {
+                display: inline-block;
+            }
+            .l-light {
+                display: none;
+            }
+        }
+    }
+    @media (min-width: 992.98px) {
+        .navbar-nav {
+            .nav-item {
+                &:last-child {
+                    .nav-link {
+                        padding-right: 0;
+                        margin-right: 0;
+                    }
+                }
+            }
+        }
+        &.nav-light {
+            .navbar-nav {
+                .nav-item {
+                    .nav-link {
+                        color: $dark;
+                        font-family: $font-family-base;
+                    }
+                    &:hover,
+                    &:active,
+                    &.active {
+                        .nav-link {
+                            color: $primary;
+                        }
+                    }
+                }
+            }
+            &.nav-sticky {
+                background: $white;
+                .nav-item {
+                    .nav-link {
+                        color: $dark;
+                    }
+
+                    &:hover,
+                    &.active,
+                    &:active {
+                        .nav-link {
+                            color: $primary;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 991px) {
+    .navbar {
+        background-color: $white;   
+        box-shadow: $shadow;
+        .l-dark {
+            display: inline-block !important;
+        }
+        .l-light {
+            display: none !important;
+        }
+        .navbar-nav {
+            .nav-item {
+                .nav-link {
+                    color: $dark;
+                    font-size: 13px;
+                    letter-spacing: 1px;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    background-color: transparent;
+                    margin: 0px 10px;
+                    transition: all 0.3s ease;
+                    font-family: $font-family-base;
+                    padding: 15px 0px;
+                    margin: 0px 15px;
+                }
+                &.active {
+                    .nav-link {
+                        color: $primary;
+                    }
+                }
+            }
+        }
+    }
+}

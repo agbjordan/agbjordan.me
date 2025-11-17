@@ -1,0 +1,110 @@
+// 
+// Bootstrap-custom.scss
+// 
+
+.container {
+    @media (min-width: 1400px) {
+        max-width: 1140px !important;
+    }
+}
+
+.row > * {
+    position: relative;
+}
+
+@each $heading,
+$size in $heading-font-sizes {
+    #{$heading}, .#{$heading} {
+        font-size: $size !important;
+    }
+}
+
+@each $heading,
+$size in $display-font-sizes {
+    .#{$heading} {
+        font-size: $size !important;
+    }
+}
+
+@each $name,
+$value in $colors {
+    .bg-#{$name} {
+        background: #{$value} !important;
+    }
+    .text-#{$name} {
+        color: #{$value} !important;
+    }
+    a {
+        &.text-#{$name} {
+            &:hover,
+            &:focus {
+                color: #{$value} !important;
+            }
+        }
+        &.text-gradient-#{$name} {
+            &:hover,
+            &:focus {
+                background: -webkit-linear-gradient(45deg, $value, $danger);
+            }
+        }
+    }
+}
+
+.bg-black {
+    background: $black !important;
+}
+
+.text-white-50 {
+    color: rgba($white, 0.5);
+}
+
+// Opacity
+.opacity-05 {
+    opacity: 0.05;
+}
+
+.opacity-075 {
+    opacity: 0.075;
+}
+
+.opacity-1 {
+    opacity: 0.1;
+}
+
+.opacity-2 {
+    opacity: 0.2;
+}
+
+.opacity-3 {
+    opacity: 0.3;
+}
+
+.opacity-4 {
+    opacity: 0.4;
+}
+
+.opacity-5 {
+    opacity: 0.5;
+}
+
+.opacity-6 {
+    opacity: 0.6;
+}
+
+.opacity-7 {
+    opacity: 0.7;
+}
+
+.opacity-8 {
+    opacity: 0.8;
+}
+
+.opacity-9 {
+    opacity: 0.9;
+}
+
+
+//Small
+.small, small {
+    font-size: 90%;
+}

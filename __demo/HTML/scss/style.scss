@@ -1,0 +1,45 @@
+/* Template Name: Natio - Bootstrap 5 Personal Landing Template
+   Author: Zoyothemes
+   Email: zoyothemes@gmail.com
+   Version: 1.0.0
+   Website: https://zoyothemes.com
+   Created: March 2024
+   File Description: Main Css file of the template
+*/
+
+/*********************************/
+/*                INDEX          */
+/*********************************
+ *     01.  Variables            *
+ *     02.  General              *
+ *     03.  Helper               *
+ *     04.  Bootstrap Custom     *
+ *     05.  Components           *
+ *     06.  Nav                  *
+ *     07.  Home / Landing       *
+ *     08.  About                *
+ *     09.  Work                 *
+ *     11.  Services             *
+ *     12.  Testimonial          *
+ *     13.  Blog                 *
+ *     14.  Contact              *
+ *     15.  Footer               *  
+**********************************/
+
+/* Bootstrap icons */
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css");
+
+@import "variables";
+@import "general";
+@import "helper";
+@import "bootstrap-custom";
+@import "component";
+@import "nav";
+@import "home";
+@import "about";
+@import "work";
+@import "services";
+@import "testimonial";
+@import "blog";
+@import "contact";
+@import "footer";
