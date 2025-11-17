@@ -17,11 +17,16 @@
             <div class="container">
                 <div class="logo" aria-label="Andrew Jordan">AJ</div>
                 <ul class="nav-links" id="main-menu">
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#experience">Experience</a></li>
-                    <li><a href="#skills">Skills</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#about">About <kbd class="nav-shortcut" aria-label="Keyboard shortcut: Alt A">A</kbd></a></li>
+                    <li><a href="#experience">Experience <kbd class="nav-shortcut" aria-label="Keyboard shortcut: Alt E">E</kbd></a></li>
+                    <li><a href="#skills">Skills <kbd class="nav-shortcut" aria-label="Keyboard shortcut: Alt S">S</kbd></a></li>
+                    <li><a href="#contact">Contact <kbd class="nav-shortcut" aria-label="Keyboard shortcut: Alt C">C</kbd></a></li>
                 </ul>
+                <button class="keyboard-help-btn"
+                        aria-label="Show keyboard shortcuts (press ? key)"
+                        title="Keyboard shortcuts (?)">
+                    <span aria-hidden="true">⌨</span>
+                </button>
                 <button class="menu-toggle"
                         aria-label="Toggle navigation menu"
                         aria-expanded="false"
@@ -359,16 +364,39 @@
         <div class="container">
             <h2>Accessibility Statement</h2>
             <p>This website is designed to be accessible to all users, including those using assistive technologies. We follow WCAG 2.1 Level AA standards.</p>
-            <h3>Features:</h3>
+            <h3>Accessibility Features:</h3>
             <ul>
-                <li>Semantic HTML5 markup</li>
-                <li>ARIA landmarks and labels</li>
-                <li>Keyboard navigation support</li>
-                <li>Focus indicators on interactive elements</li>
-                <li>Screen reader compatible</li>
-                <li>Responsive design for all devices</li>
+                <li>Semantic HTML5 markup with proper heading hierarchy</li>
+                <li>ARIA landmarks and labels for screen reader navigation</li>
+                <li>Full keyboard navigation support (Tab, Enter, Escape)</li>
+                <li>Enhanced focus indicators on all interactive elements</li>
+                <li>Skip navigation link for keyboard users</li>
+                <li>Screen reader compatible with live region announcements</li>
+                <li>Responsive design optimized for all devices</li>
+                <li>Reduced motion support for users with motion sensitivity</li>
             </ul>
-            <p>If you encounter any accessibility barriers, please contact me at <a href="mailto:agbjordan@hotmail.com">agbjordan@hotmail.com</a>.</p>
+            <h3>Keyboard Shortcuts:</h3>
+            <p>This site includes keyboard shortcuts for power users:</p>
+            <ul>
+                <li><kbd>Alt</kbd> + <kbd>A</kbd> - Jump to About section (Option on Mac)</li>
+                <li><kbd>Alt</kbd> + <kbd>E</kbd> - Jump to Experience section</li>
+                <li><kbd>Alt</kbd> + <kbd>S</kbd> - Jump to Skills section</li>
+                <li><kbd>Alt</kbd> + <kbd>C</kbd> - Jump to Contact section</li>
+                <li><kbd>?</kbd> - Show keyboard shortcuts help</li>
+                <li><kbd>Esc</kbd> - Close dialogs and mobile menu</li>
+                <li><kbd>Tab</kbd> - Navigate through interactive elements</li>
+            </ul>
+            <h3>Standards Compliance:</h3>
+            <p>This website has been designed to meet WCAG 2.1 Level AA success criteria including:</p>
+            <ul>
+                <li>Bypass Blocks (2.4.1) - Skip navigation link</li>
+                <li>Focus Order (2.4.3) - Logical tab order</li>
+                <li>Focus Visible (2.4.7) - Enhanced focus indicators</li>
+                <li>Info and Relationships (1.3.1) - Semantic markup</li>
+                <li>Name, Role, Value (4.1.2) - ARIA attributes</li>
+                <li>Keyboard (2.1.1) - Full keyboard access</li>
+            </ul>
+            <p>If you encounter any accessibility barriers, please contact me at <a href="mailto:agbjordan@hotmail.com">agbjordan@hotmail.com</a>. I'm committed to making this site accessible to everyone.</p>
         </div>
     </div>
 

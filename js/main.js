@@ -148,3 +148,153 @@ window.addEventListener('load', () => {
         }, 1000);
     }
 });
+
+// Keyboard Shortcuts for Navigation
+// Alt+A = About, Alt+E = Experience, Alt+S = Skills, Alt+C = Contact
+const keyboardShortcuts = {
+    'a': 'about',
+    'e': 'experience',
+    's': 'skills',
+    'c': 'contact'
+};
+
+document.addEventListener('keydown', (e) => {
+    // Check if Alt key (Option on Mac) is pressed
+    if (e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
+        const key = e.key.toLowerCase();
+
+        if (keyboardShortcuts[key]) {
+            e.preventDefault();
+
+            const section = document.getElementById(keyboardShortcuts[key]);
+            if (section) {
+                // Smooth scroll to section
+                const headerOffset = 80;
+                const elementPosition = section.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+
+                // Focus on the section heading for accessibility
+                const heading = section.querySelector('h2');
+                if (heading) {
+                    heading.setAttribute('tabindex', '-1');
+                    heading.focus();
+
+                    // Visual feedback - briefly highlight the section
+                    section.style.outline = '3px solid var(--primary-color)';
+                    section.style.outlineOffset = '-3px';
+                    setTimeout(() => {
+                        section.style.outline = '';
+                        section.style.outlineOffset = '';
+                    }, 2000);
+                }
+
+                // Announce to screen readers
+                const announcement = document.createElement('div');
+                announcement.setAttribute('role', 'status');
+                announcement.setAttribute('aria-live', 'polite');
+                announcement.className = 'sr-only';
+                announcement.textContent = `Navigated to ${keyboardShortcuts[key]} section`;
+                document.body.appendChild(announcement);
+
+                setTimeout(() => {
+                    document.body.removeChild(announcement);
+                }, 1000);
+            }
+        }
+    }
+});
+
+// Show keyboard shortcuts help on ? key
+document.addEventListener('keydown', (e) => {
+    if (e.key === '?' && !e.altKey && !e.ctrlKey && !e.metaKey) {
+        e.preventDefault();
+        showKeyboardShortcutsHelp();
+    }
+});
+
+// Keyboard help button click handler
+const keyboardHelpBtn = document.querySelector('.keyboard-help-btn');
+if (keyboardHelpBtn) {
+    keyboardHelpBtn.addEventListener('click', () => {
+        showKeyboardShortcutsHelp();
+    });
+}
+
+function showKeyboardShortcutsHelp() {
+    // Check if help already exists
+    let helpDialog = document.getElementById('keyboard-shortcuts-help');
+
+    if (helpDialog) {
+        helpDialog.removeAttribute('hidden');
+        helpDialog.focus();
+        return;
+    }
+
+    // Create help dialog
+    helpDialog = document.createElement('div');
+    helpDialog.id = 'keyboard-shortcuts-help';
+    helpDialog.className = 'keyboard-shortcuts-help';
+    helpDialog.setAttribute('role', 'dialog');
+    helpDialog.setAttribute('aria-labelledby', 'shortcuts-title');
+    helpDialog.setAttribute('tabindex', '-1');
+
+    helpDialog.innerHTML = `
+        <div class="shortcuts-overlay" aria-hidden="true"></div>
+        <div class="shortcuts-content">
+            <h2 id="shortcuts-title">Keyboard Shortcuts</h2>
+            <button class="shortcuts-close" aria-label="Close keyboard shortcuts help">&times;</button>
+            <div class="shortcuts-grid">
+                <div class="shortcut-item">
+                    <kbd>Alt</kbd> + <kbd>A</kbd>
+                    <span>Jump to About section</span>
+                </div>
+                <div class="shortcut-item">
+                    <kbd>Alt</kbd> + <kbd>E</kbd>
+                    <span>Jump to Experience section</span>
+                </div>
+                <div class="shortcut-item">
+                    <kbd>Alt</kbd> + <kbd>S</kbd>
+                    <span>Jump to Skills section</span>
+                </div>
+                <div class="shortcut-item">
+                    <kbd>Alt</kbd> + <kbd>C</kbd>
+                    <span>Jump to Contact section</span>
+                </div>
+                <div class="shortcut-item">
+                    <kbd>?</kbd>
+                    <span>Show this help</span>
+                </div>
+                <div class="shortcut-item">
+                    <kbd>Esc</kbd>
+                    <span>Close dialogs / mobile menu</span>
+                </div>
+            </div>
+            <p class="shortcuts-note"><small>On Mac, use Option key instead of Alt</small></p>
+        </div>
+    `;
+
+    document.body.appendChild(helpDialog);
+    helpDialog.focus();
+
+    // Close handlers
+    const closeBtn = helpDialog.querySelector('.shortcuts-close');
+    const overlay = helpDialog.querySelector('.shortcuts-overlay');
+
+    const closeHelp = () => {
+        helpDialog.setAttribute('hidden', '');
+    };
+
+    closeBtn.addEventListener('click', closeHelp);
+    overlay.addEventListener('click', closeHelp);
+
+    helpDialog.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeHelp();
+        }
+    });
+}
