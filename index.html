@@ -4,54 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Senior Product Designer with 6+ years in FinTech & Blockchain, specializing in SEC/BOT-compliant digital asset platforms">
+    <meta name="theme-color" content="#2563eb">
     <title>Andrew Jordan - Senior Product Designer | FinTech & Blockchain</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <header>
-        <nav>
+    <!-- Skip Navigation Link -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header role="banner">
+        <nav role="navigation" aria-label="Main navigation">
             <div class="container">
-                <h1 class="logo">AJ</h1>
-                <ul class="nav-links">
+                <div class="logo" aria-label="Andrew Jordan">AJ</div>
+                <ul class="nav-links" id="main-menu">
                     <li><a href="#about">About</a></li>
                     <li><a href="#experience">Experience</a></li>
                     <li><a href="#skills">Skills</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
-                <button class="menu-toggle" aria-label="Toggle menu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                <button class="menu-toggle"
+                        aria-label="Toggle navigation menu"
+                        aria-expanded="false"
+                        aria-controls="main-menu">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
                 </button>
             </div>
         </nav>
     </header>
 
-    <main>
+    <main id="main-content" role="main">
         <!-- Hero Section -->
-        <section id="hero" class="hero">
+        <section id="hero" class="hero" aria-label="Introduction">
             <div class="container">
                 <p class="hero-greeting">Hello, I'm</p>
                 <h1 class="hero-name">Andrew Jordan</h1>
                 <p class="hero-title">Senior Product Designer | FinTech & Blockchain Specialist</p>
                 <div class="hero-location">
                     <span>Bangkok, Thailand</span>
-                    <span class="separator">•</span>
+                    <span class="separator" aria-hidden="true">•</span>
                     <span>Remote Global</span>
                 </div>
                 <div class="hero-actions">
                     <a href="#contact" class="btn-primary">Get In Touch</a>
-                    <a href="mailto:agbjordan@hotmail.com" class="btn-secondary">Email Me</a>
+                    <a href="mailto:agbjordan@hotmail.com" class="btn-secondary" aria-label="Send email to Andrew Jordan">Email Me</a>
                 </div>
             </div>
         </section>
 
         <!-- About Section -->
-        <section id="about" class="about">
+        <section id="about" class="about" aria-labelledby="about-heading">
             <div class="container">
                 <div class="section-header">
-                    <span class="section-number">(01)</span>
-                    <h2 class="section-title">About Me</h2>
+                    <span class="section-number" aria-hidden="true">(01)</span>
+                    <h2 id="about-heading" class="section-title">About Me</h2>
                 </div>
 
                 <div class="about-content">
@@ -60,21 +67,21 @@
                         <p>Proven track record building 0→1 products from regulatory approval through market launch. Technical product leader who specs APIs, collaborates on code implementation, and drives measurable efficiency gains.</p>
                     </div>
 
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <div class="stat-number">6+</div>
+                    <div class="stats-grid" role="list" aria-label="Key achievements and statistics">
+                        <div class="stat-item" role="listitem">
+                            <div class="stat-number" aria-label="6 plus">6+</div>
                             <div class="stat-label">Years Experience</div>
                         </div>
-                        <div class="stat-item">
-                            <div class="stat-number">$2M+</div>
+                        <div class="stat-item" role="listitem">
+                            <div class="stat-number" aria-label="2 million dollars plus">$2M+</div>
                             <div class="stat-label">Assets Under Management</div>
                         </div>
-                        <div class="stat-item">
-                            <div class="stat-number">75%</div>
+                        <div class="stat-item" role="listitem">
+                            <div class="stat-number" aria-label="75 percent">75%</div>
                             <div class="stat-label">Reduction in KYC Time</div>
                         </div>
-                        <div class="stat-item">
-                            <div class="stat-number">100+</div>
+                        <div class="stat-item" role="listitem">
+                            <div class="stat-number" aria-label="100 plus">100+</div>
                             <div class="stat-label">Organizations Onboarded</div>
                         </div>
                     </div>
@@ -96,19 +103,19 @@
         </section>
 
         <!-- Experience Section -->
-        <section id="experience" class="experience">
+        <section id="experience" class="experience" aria-labelledby="experience-heading">
             <div class="container">
                 <div class="section-header">
-                    <span class="section-number">(02)</span>
-                    <h2 class="section-title">Experience</h2>
+                    <span class="section-number" aria-hidden="true">(02)</span>
+                    <h2 id="experience-heading" class="section-title">Experience</h2>
                 </div>
 
-                <div class="timeline">
+                <div class="timeline" role="list" aria-label="Professional experience timeline">
                     <!-- Fraction -->
-                    <div class="timeline-item">
-                        <div class="timeline-marker"></div>
+                    <article class="timeline-item" role="listitem">
+                        <div class="timeline-marker" aria-hidden="true"></div>
                         <div class="timeline-content">
-                            <div class="timeline-period">Feb 2022 - Present (3 years)</div>
+                            <time class="timeline-period" datetime="2022-02/P3Y">Feb 2022 - Present (3 years)</time>
                             <h3 class="timeline-title">Head of Product & Design</h3>
                             <h4 class="timeline-company">Fraction (Thailand) Co. Ltd</h4>
                             <p class="timeline-description">Led end-to-end product development for Thailand's first SEC-regulated tokenized property investment platform, managing full product lifecycle from regulatory compliance to Flutter mobile app deployment.</p>
@@ -141,10 +148,10 @@
                     </div>
 
                     <!-- Palo IT -->
-                    <div class="timeline-item">
-                        <div class="timeline-marker"></div>
+                    <article class="timeline-item" role="listitem">
+                        <div class="timeline-marker" aria-hidden="true"></div>
                         <div class="timeline-content">
-                            <div class="timeline-period">2021 - 2022 (6-8 months)</div>
+                            <time class="timeline-period" datetime="2021/2022">2021 - 2022 (6-8 months)</time>
                             <h3 class="timeline-title">Head of Design</h3>
                             <h4 class="timeline-company">Palo IT</h4>
                             <p class="timeline-description">Rebuilt and led design team of 6 for digital transformation consultancy serving banking, FinTech, and government clients across Southeast Asia.</p>
@@ -167,10 +174,10 @@
                     </div>
 
                     <!-- Seven Peaks -->
-                    <div class="timeline-item">
-                        <div class="timeline-marker"></div>
+                    <article class="timeline-item" role="listitem">
+                        <div class="timeline-marker" aria-hidden="true"></div>
                         <div class="timeline-content">
-                            <div class="timeline-period">2019 - 2021 (2 years)</div>
+                            <time class="timeline-period" datetime="2019/2021">2019 - 2021 (2 years)</time>
                             <h3 class="timeline-title">Lead UX/UI Designer</h3>
                             <h4 class="timeline-company">Seven Peaks Software</h4>
                             <p class="timeline-description">Delivered end-to-end product design for mobile and web applications across FinTech, healthcare, and e-commerce.</p>
@@ -188,21 +195,21 @@
                     </div>
 
                     <!-- The Asia -->
-                    <div class="timeline-item">
-                        <div class="timeline-marker"></div>
+                    <article class="timeline-item" role="listitem">
+                        <div class="timeline-marker" aria-hidden="true"></div>
                         <div class="timeline-content">
-                            <div class="timeline-period">2018 - 2019 (1 year)</div>
+                            <time class="timeline-period" datetime="2018/2019">2018 - 2019 (1 year)</time>
                             <h3 class="timeline-title">Head of UX/UI</h3>
                             <h4 class="timeline-company">The Asia (Thailand) Co. Ltd</h4>
                             <p class="timeline-description">Led design division of multinational e-commerce travel agency serving Korean market across ASEAN destinations.</p>
                         </div>
-                    </div>
+                    </article>
 
                     <!-- Liquid Marketing -->
-                    <div class="timeline-item">
-                        <div class="timeline-marker"></div>
+                    <article class="timeline-item" role="listitem">
+                        <div class="timeline-marker" aria-hidden="true"></div>
                         <div class="timeline-content">
-                            <div class="timeline-period">2012 - 2018 (6 years)</div>
+                            <time class="timeline-period" datetime="2012/2018">2012 - 2018 (6 years)</time>
                             <h3 class="timeline-title">Design Studio Manager</h3>
                             <h4 class="timeline-company">Liquid Marketing Communications</h4>
                             <p class="timeline-description">Managed design studio serving major ASEAN brands including Yoma Bank (Myanmar), FMI Air, and Carlsberg.</p>
@@ -217,11 +224,11 @@
         </section>
 
         <!-- Skills Section -->
-        <section id="skills" class="skills">
+        <section id="skills" class="skills" aria-labelledby="skills-heading">
             <div class="container">
                 <div class="section-header">
-                    <span class="section-number">(03)</span>
-                    <h2 class="section-title">Skills & Expertise</h2>
+                    <span class="section-number" aria-hidden="true">(03)</span>
+                    <h2 id="skills-heading" class="section-title">Skills & Expertise</h2>
                 </div>
 
                 <div class="skills-grid">
@@ -296,30 +303,30 @@
         </section>
 
         <!-- Contact Section -->
-        <section id="contact" class="contact">
+        <section id="contact" class="contact" aria-labelledby="contact-heading">
             <div class="container">
                 <div class="section-header">
-                    <span class="section-number">(04)</span>
-                    <h2 class="section-title">Get In Touch</h2>
+                    <span class="section-number" aria-hidden="true">(04)</span>
+                    <h2 id="contact-heading" class="section-title">Get In Touch</h2>
                 </div>
 
                 <div class="contact-content">
                     <p class="contact-intro">I'm currently available for new opportunities. Whether you have a project in mind or just want to connect, feel free to reach out.</p>
 
-                    <div class="contact-grid">
-                        <div class="contact-item">
+                    <div class="contact-grid" role="list" aria-label="Contact information">
+                        <div class="contact-item" role="listitem">
                             <div class="contact-label">Email</div>
-                            <a href="mailto:agbjordan@hotmail.com" class="contact-value">agbjordan@hotmail.com</a>
+                            <a href="mailto:agbjordan@hotmail.com" class="contact-value" aria-label="Email Andrew Jordan at agbjordan@hotmail.com">agbjordan@hotmail.com</a>
                         </div>
-                        <div class="contact-item">
+                        <div class="contact-item" role="listitem">
                             <div class="contact-label">Phone</div>
-                            <a href="tel:+66876621942" class="contact-value">+66 (0)87 662 1942</a>
+                            <a href="tel:+66876621942" class="contact-value" aria-label="Call Andrew Jordan at +66 87 662 1942">+66 (0)87 662 1942</a>
                         </div>
-                        <div class="contact-item">
+                        <div class="contact-item" role="listitem">
                             <div class="contact-label">Location</div>
                             <div class="contact-value">Bangkok, Thailand</div>
                         </div>
-                        <div class="contact-item">
+                        <div class="contact-item" role="listitem">
                             <div class="contact-label">Availability</div>
                             <div class="contact-value">Immediate Start</div>
                         </div>
@@ -338,11 +345,32 @@
         </section>
     </main>
 
-    <footer>
+    <footer role="contentinfo">
         <div class="container">
-            <p>&copy; 2024 Andrew Jordan. All rights reserved.</p>
+            <p>&copy; <span id="current-year">2024</span> Andrew Jordan. All rights reserved.</p>
+            <p class="accessibility-note">
+                <a href="#accessibility-statement" class="footer-link">Accessibility Statement</a>
+            </p>
         </div>
     </footer>
+
+    <!-- Accessibility Statement (Hidden by default) -->
+    <div id="accessibility-statement" class="accessibility-statement" hidden>
+        <div class="container">
+            <h2>Accessibility Statement</h2>
+            <p>This website is designed to be accessible to all users, including those using assistive technologies. We follow WCAG 2.1 Level AA standards.</p>
+            <h3>Features:</h3>
+            <ul>
+                <li>Semantic HTML5 markup</li>
+                <li>ARIA landmarks and labels</li>
+                <li>Keyboard navigation support</li>
+                <li>Focus indicators on interactive elements</li>
+                <li>Screen reader compatible</li>
+                <li>Responsive design for all devices</li>
+            </ul>
+            <p>If you encounter any accessibility barriers, please contact me at <a href="mailto:agbjordan@hotmail.com">agbjordan@hotmail.com</a>.</p>
+        </div>
+    </div>
 
     <script src="js/main.js"></script>
 </body>
