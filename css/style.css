@@ -79,7 +79,8 @@ a:focus,
 button:focus,
 [tabindex]:focus {
     outline: 3px solid var(--primary-color);
-    outline-offset: 2px;
+    outline-offset: 4px;
+    border-radius: 4px;
 }
 
 a:focus:not(:focus-visible),
@@ -91,7 +92,8 @@ a:focus-visible,
 button:focus-visible,
 [tabindex]:focus-visible {
     outline: 3px solid var(--primary-color);
-    outline-offset: 2px;
+    outline-offset: 4px;
+    border-radius: 4px;
 }
 
 /* Screen Reader Only Text */
@@ -162,7 +164,7 @@ nav .container {
 }
 
 .nav-links a:hover {
-    color: var(--primary-color);
+    color: var(--primary-color);    
 }
 
 .nav-links a:hover::after {
@@ -191,6 +193,7 @@ nav .container {
     opacity: 1;
     color: var(--primary-color);
     border-color: var(--primary-color);
+    border-radius: 4px;
 }
 
 /* Keyboard Shortcuts Help Button */
@@ -256,7 +259,7 @@ nav .container {
 .hero-title {
     font-size: 1.5rem;
     color: var(--text-secondary);
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     font-weight: 400;
 }
 
@@ -636,7 +639,7 @@ a.contact-value:hover {
 }
 
 .work-preferences {
-    max-width: 700px;
+    max-width: 100%;
     margin: 3rem auto 0;
     padding: 2rem;
     background-color: var(--bg-white);
