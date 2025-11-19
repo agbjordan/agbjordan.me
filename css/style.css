@@ -1400,7 +1400,7 @@ a.text-gradient-light-100:hover, a.text-gradient-light-100:focus {
 
 .counter-section {
   margin: 0 auto;
-  max-width: 500px;
+  max-width: 100%;
 }
 
 .counter-section .counter-item .count {
