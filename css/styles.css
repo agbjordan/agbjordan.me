@@ -1,5 +1,5 @@
 /* ==========================================================================
-   agbjordan.com
+   agbjordan.me
    Hand-authored, no build step — what is written here is what ships.
    Baseline target: Chrome/Edge 120+, Safari 17.2+, Firefox 117+.
    Features used: native nesting (always with an explicit `&`), :is()/:where(),
@@ -26,35 +26,52 @@
    ========================================================================== */
 :root {
   /* --- Colour -------------------------------------------------------------
-     --papaya is the brand orange. It measures 2.5:1 on white, below both the
-     4.5:1 WCAG AA minimum for text and the 3:1 minimum for focus rings.
-     --papaya-text is the seam that lets readable text, links and focus rings
-     use a different value from decorative fills. Set it to #B35600 (4.94:1)
-     to meet AA; it currently points at the brand orange, so text and focus
-     rings drawn with it do NOT pass. */
-  --papaya: #FF8000;
-  --papaya-text: #FF8000;
+     --papaya is the brand orange, and --papaya-text deliberately matches it.
+
+     DO NOT DARKEN --papaya-text. At 2.52:1 on white it does not meet the 4.5:1
+     WCAG AA minimum for text, and darkening it to something that does (#B35600
+     and similar) is a rejected change -- the brand orange is the brand orange.
+     This is an accepted, documented exception, not an oversight, and the a11y
+     gate is configured around it: .pa11yci.js excludes the specific selectors
+     that draw with this token. Change the value and that exclusion list goes
+     stale.
+
+     Lighthouse cannot be scoped the same way, so its color-contrast audit
+     fails on these elements and drags the accessibility category to 0.96
+     against a 0.95 threshold. That is expected and still passes. The thin
+     margin is deliberate: any NEW accessibility problem drops it below 0.95
+     and fails CI, which is what the gate is for.
+
+     The two tokens stay separate so a darker text-only value can be swapped in
+     from one place if that call is ever revisited. --ink-tertiary is the token
+     to reach for when text needs to be quiet AND pass AA. */
+  --papaya: #ff8000;
+  --papaya-text: #ff8000; /*  2.52:1 on white -- see the note above */
   --papaya-text-hover: color-mix(in oklab, var(--papaya-text) 85%, black);
-  --ink: #111111;            /* 18.9:1 on white */
-  --ink-secondary: #555555;  /*  7.3:1 */
-  --ink-tertiary: #767676;   /*  4.6:1 — was #999 (2.9:1), which failed AA */
-  --white: #FFFFFF;
-  --surface: #F9F8F6;
-  --surface-blue: #F0F4FF;
-  --rule: #E8E6E2;
+  --ink: #111111; /* 18.9:1 on white */
+  --ink-secondary: #555555; /*  7.3:1 */
+  /* Sits on white and on the tinted case-study surfaces (--surface,
+     --surface-blue, #eee8f5, #f5f0f0). #767676 cleared 4.5:1 on white only
+     (4.54:1) and dropped to 3.78:1 on the darkest of those; #666666 holds
+     4.78:1 on all of them. */
+  --ink-tertiary: #666666; /*  5.74:1 on white, 4.78:1 worst case */
+  --white: #ffffff;
+  --surface: #f9f8f6;
+  --surface-blue: #f0f4ff;
+  --rule: #e8e6e2;
 
   /* --- Typography --------------------------------------------------------- */
-  --font-serif: 'Cormorant Garamond', Georgia, serif;
-  --font-sans: 'Geist', system-ui, sans-serif;
-  --font-mono: 'Geist Mono', ui-monospace, 'SF Mono', 'Fira Code', monospace;
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Geist", system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SF Mono", "Fira Code", monospace;
 
   /* Root stays at 100% so the user's browser font-size preference is honoured;
      body opts into 18px. 1rem = 16px. */
-  --text-2xs: 0.75rem;     /* 12px */
-  --text-xs: 0.8125rem;    /* 13px */
-  --text-sm: 0.875rem;     /* 14px */
-  --text-md: 1rem;         /* 16px */
-  --text-lg: 1.125rem;     /* 18px — body */
+  --text-2xs: 0.75rem; /* 12px */
+  --text-xs: 0.8125rem; /* 13px */
+  --text-sm: 0.875rem; /* 14px */
+  --text-md: 1rem; /* 16px */
+  --text-lg: 1.125rem; /* 18px — body */
 
   /* Serif display ramp. Four steps because the design genuinely uses four. */
   --display-sm: clamp(1.6875rem, 3vw, 2.8125rem);
@@ -97,7 +114,11 @@
    ========================================================================== */
 *,
 *::before,
-*::after { box-sizing: border-box; margin: 0; padding: 0; }
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 html {
   font-size: 100%;
   /* iOS Safari never shipped the unprefixed property, so this is the only
@@ -111,10 +132,23 @@ body {
   background: var(--white);
   color: var(--ink);
 }
-:where(img, svg, video) { max-width: 100%; display: block; }
-:where(a) { color: inherit; text-decoration: none; }
-:where(ul, ol):where([class]) { list-style: none; }
-:where(button) { font: inherit; color: inherit; background: none; border: none; }
+:where(img, svg, video) {
+  max-width: 100%;
+  display: block;
+}
+:where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+:where(ul, ol):where([class]) {
+  list-style: none;
+}
+:where(button) {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+}
 
 /* One focus style for everything; :focus-visible keeps it off mouse clicks. */
 :where(a, button, [tabindex]):focus-visible {
@@ -126,27 +160,36 @@ body {
 /* Scroll-driven reveal. The hidden state lives inside no-preference so that
    reduced-motion users — and anyone whose JS fails — always see the content. */
 @media (prefers-reduced-motion: no-preference) {
-  html { scroll-behavior: smooth; }
+  html {
+    scroll-behavior: smooth;
+  }
   .fade-in {
     opacity: 0;
     transform: translateY(16px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
-    &.visible { opacity: 1; transform: none; }
+    transition:
+      opacity 0.5s ease,
+      transform 0.5s ease;
+    &.visible {
+      opacity: 1;
+      transform: none;
+    }
   }
 }
 .skip-link {
   position: absolute;
   top: -100%;
   left: var(--space-md);
-  z-index: 1000;             /* above the sticky header (100) */
+  z-index: 1000; /* above the sticky header (100) */
   padding: var(--space-xs) var(--space-sm);
-  background: var(--ink);    /* white-on-papaya was 2.5:1 */
+  background: var(--ink); /* white-on-papaya was 2.5:1 */
   color: var(--white);
   font-size: var(--text-sm);
   font-weight: 500;
   border-radius: 0 0 var(--radius-sm) var(--radius-sm);
   transition: top 0.2s;
-  &:focus { top: 0; }
+  &:focus {
+    top: 0;
+  }
 }
 
 /* ==========================================================================
@@ -195,7 +238,10 @@ header[role="banner"] {
 .logo {
   flex-shrink: 0;
   transform: translateY(12px);
-  & img { width: auto; height: 88px; }
+  & img {
+    width: auto;
+    height: 88px;
+  }
 }
 .header-contact {
   display: flex;
@@ -235,8 +281,12 @@ footer[role="contentinfo"] {
   font-size: var(--text-sm);
   color: var(--ink-secondary);
   transition: color var(--ease);
-  &.link-muted--faint { color: var(--ink-tertiary); }
-  &:hover { color: var(--papaya-text); }
+  &.link-muted--faint {
+    color: var(--ink-tertiary);
+  }
+  &:hover {
+    color: var(--papaya-text);
+  }
 }
 
 /* --- Underlined link ------------------------------------------------------ */
@@ -244,7 +294,10 @@ footer[role="contentinfo"] {
   display: inline-block;
   border-bottom: 1px solid var(--rule);
   padding-bottom: 2px;
-  transition: color var(--ease), border-color var(--ease), opacity var(--ease);
+  transition:
+    color var(--ease),
+    border-color var(--ease),
+    opacity var(--ease);
   &:hover {
     color: var(--papaya-text);
     border-color: var(--papaya-text);
@@ -271,7 +324,10 @@ footer[role="contentinfo"] {
     gap: 6px;
     font-size: var(--text-sm);
     margin-top: var(--space-sm);
-    &::after { content: "\2197"; font-size: var(--text-2xs); }
+    &::after {
+      content: "\2197";
+      font-size: var(--text-2xs);
+    }
   }
 }
 
@@ -279,7 +335,9 @@ footer[role="contentinfo"] {
 .link-inline {
   color: var(--papaya-text);
   transition: color var(--ease);
-  &:hover { color: var(--papaya-text-hover); }
+  &:hover {
+    color: var(--papaya-text-hover);
+  }
 }
 
 /* --- Uppercase eyebrow label ---------------------------------------------- */
@@ -290,11 +348,21 @@ footer[role="contentinfo"] {
   text-transform: uppercase;
   color: var(--ink-tertiary);
   margin-bottom: var(--eyebrow-gap, 0);
-  &.eyebrow--accent { color: var(--papaya-text); }
-  &.eyebrow--wide { --eyebrow-tracking: 0.12em; }
-  &.eyebrow--gap { --eyebrow-gap: var(--space-sm); }
-  &.eyebrow--gap-lg { --eyebrow-gap: 20px; }
-  &.eyebrow--gap-xs { --eyebrow-gap: 4px; }
+  &.eyebrow--accent {
+    color: var(--papaya-text);
+  }
+  &.eyebrow--wide {
+    --eyebrow-tracking: 0.12em;
+  }
+  &.eyebrow--gap {
+    --eyebrow-gap: var(--space-sm);
+  }
+  &.eyebrow--gap-lg {
+    --eyebrow-gap: 20px;
+  }
+  &.eyebrow--gap-xs {
+    --eyebrow-gap: 4px;
+  }
 }
 
 /* --- Serif display heading ------------------------------------------------ */
@@ -311,7 +379,10 @@ footer[role="contentinfo"] {
 }
 
 /* Per-context ramp: property-only rules, no repeated declarations. */
-.intro h1 { --display-size: var(--display-lg); --display-gap: var(--space-md); }
+.intro h1 {
+  --display-size: var(--display-lg);
+  --display-gap: var(--space-md);
+}
 .hero h1 {
   --display-size: var(--display-xl);
   --display-weight: 400;
@@ -357,11 +428,19 @@ body.case-study h2 {
   }
 
   /* Fills the row with as many cells as fit — no breakpoint needed. */
-  &.card-grid--auto { grid-template-columns: repeat(auto-fit, minmax(var(--card-min, 120px), 1fr)); }
+  &.card-grid--auto {
+    grid-template-columns: repeat(auto-fit, minmax(var(--card-min, 120px), 1fr));
+  }
 }
 @media (min-width: 30em) {
-  .grid--2, .card-grid--2 { --cols: 2; }
-  .grid--3, .card-grid--3 { --cols: 3; }
+  .grid--2,
+  .card-grid--2 {
+    --cols: 2;
+  }
+  .grid--3,
+  .card-grid--3 {
+    --cols: 3;
+  }
 }
 
 /* --- Bordered, rounded, clipped container --------------------------------- */
@@ -392,15 +471,18 @@ body.case-study h2 {
   flex-wrap: wrap;
   gap: var(--space-xs);
   margin-top: var(--pill-list-gap, var(--space-lg));
-  &.pill-list--gap { --pill-list-gap: var(--space-md); }
+  &.pill-list--gap {
+    --pill-list-gap: var(--space-md);
+  }
 }
-
 
 /* ==========================================================================
    5. COMPONENTS — HOMEPAGE
    ========================================================================== */
 .intro {
-  & h1 span { color: var(--papaya-text); }
+  & h1 span {
+    color: var(--papaya-text);
+  }
 }
 .intro-meta {
   display: flex;
@@ -419,7 +501,9 @@ body.case-study h2 {
 .work-item {
   display: block;
   cursor: pointer;
-  &:hover .work-thumb { transform: translateY(-3px) scale(1.02); }
+  &:hover .work-thumb {
+    transform: translateY(-3px) scale(1.02);
+  }
 }
 .work-thumb {
   position: relative;
@@ -428,7 +512,19 @@ body.case-study h2 {
   border-radius: var(--radius-lg);
   overflow: hidden;
   margin-bottom: var(--space-sm);
-  box-shadow: 0 12px 40px rgb(0 0 0 / 0.1);
+  /* Two layers: a tight ambient plus a wider key with negative spread, so the
+     falloff clears the card edge instead of hiding under it.
+     Strength is a knob because an identical cast does not read identically —
+     against a near-black card (Fraction, Winga) it looks like a crisp lift,
+     against a white one (Payconnect, Yoma) the same grey looks like a heavy
+     haze. The light cards dial these down in THEMES to match by eye, which is
+     the only match that matters here.
+     Defaults live in the var() fallbacks, not as declarations on this rule --
+     same idiom as --thumb-bg above. A declaration here would sit on the
+     element itself and beat the value Yoma inherits from its .work-item. */
+  box-shadow:
+    0 2px 6px rgb(0 0 0 / var(--thumb-shadow-ambient, 0.06)),
+    0 18px 45px -12px rgb(0 0 0 / var(--thumb-shadow-key, 0.28));
   transition: transform var(--ease-slow);
   display: flex;
   align-items: center;
@@ -438,8 +534,14 @@ body.case-study h2 {
 /* Only the Yoma card is a plain thumb; every other card is covered edge to
    edge by .hero-bg, so it needs no background of its own. */
 .work-item[data-project="yoma"] {
-  --thumb-bg: #F5F0F0;
-  & .work-thumb-label { color: rgb(180 30 30 / 0.15); }
+  --thumb-bg: #f5f0f0;
+  /* Same reason as Payconnect — a light card needs less shadow to read level
+     with the dark ones. Set here rather than on .work-thumb so it inherits. */
+  --thumb-shadow-ambient: 0.04;
+  --thumb-shadow-key: 0.16;
+  & .work-thumb-label {
+    color: rgb(180 30 30 / 0.15);
+  }
 }
 .work-thumb-label {
   font-family: var(--font-serif);
@@ -467,13 +569,14 @@ body.case-study h2 {
    .hero-phone-shot; inline styles beat these rules, which is the intent. */
 .work-thumb--hero {
   --hero-bg-image: none;
-  --hero-bg-fill: #0a0a0a;   /* matches the page bg so the letterbox is seamless */
-  --hero-phone-left: auto;   /* set one of left/right; leave the other auto */
+  --hero-bg-fill: #0a0a0a; /* matches the page bg so the letterbox is seamless */
+  --hero-phone-left: auto; /* set one of left/right; leave the other auto */
   --hero-phone-right: 6%;
   --hero-phone-top: 26%;
   --hero-phone-width: 40%;
   --hero-screen-fill: #0a0a0a;
   background-color: var(--hero-bg-fill);
+  z-index: -10;
 }
 .hero-bg {
   position: absolute;
@@ -483,31 +586,31 @@ body.case-study h2 {
      shorthand would silently reset it. */
   background-color: var(--hero-bg-fill);
   background-image: var(--hero-bg-image);
-  background-position: top center;   /* fit full-width, anchored to the top */
+  background-position: top center; /* fit full-width, anchored to the top */
   background-size: 100% auto;
   background-repeat: no-repeat;
   will-change: background-position;
 }
 .hero-phone {
-  position: absolute;        /* bleeds off the bottom of the card */
+  position: absolute; /* bleeds off the bottom of the card */
   z-index: 2;
   width: var(--hero-phone-width);
   left: var(--hero-phone-left);
   right: var(--hero-phone-right);
   top: var(--hero-phone-top);
-  aspect-ratio: 480 / 988;   /* matches mobile-frame.png */
+  aspect-ratio: 480 / 988; /* matches mobile-frame.png */
 }
 .hero-phone-frame {
   position: absolute;
   inset: 0;
-  z-index: 2;                /* frame + island sit over the screenshot */
+  z-index: 2; /* frame + island sit over the screenshot */
   width: 100%;
   height: 100%;
   pointer-events: none;
   filter: drop-shadow(0 24px 38px rgb(0 0 0 / 0.5));
 }
 .hero-phone-screen {
-  position: absolute;        /* aligned to the frame's transparent cutout */
+  position: absolute; /* aligned to the frame's transparent cutout */
   inset: 6% 4% 0;
   z-index: 1;
   overflow: hidden;
@@ -515,10 +618,10 @@ body.case-study h2 {
 }
 .hero-phone-shot {
   position: absolute;
-  top: 0;                    /* frame supplies the 9:41 status bar */
+  top: 0; /* frame supplies the 9:41 status bar */
   left: 0;
   width: 100%;
-  height: auto;              /* JS reads offsetHeight to size the travel */
+  height: auto; /* JS reads offsetHeight to size the travel */
   display: block;
   will-change: transform;
 }
@@ -530,7 +633,9 @@ body.case-study h2 {
   gap: 2px;
   padding-block: var(--space-md);
   border-bottom: 1px solid var(--rule);
-  &:last-child { border-bottom: none; }
+  &:last-child {
+    border-bottom: none;
+  }
 }
 @media (min-width: 30em) {
   .exp-item {
@@ -547,7 +652,9 @@ body.case-study h2 {
   font-size: var(--text-md);
   color: var(--ink-secondary);
 }
-.exp-location { color: var(--ink-tertiary); }
+.exp-location {
+  color: var(--ink-tertiary);
+}
 .exp-dates {
   font-size: var(--text-md);
   color: var(--ink-tertiary);
@@ -570,7 +677,9 @@ body.case-study h2 {
 /* ==========================================================================
    5b. COMPONENTS — CASE STUDY
    ========================================================================== */
-body.case-study { --footer-pad: var(--space-block); }
+body.case-study {
+  --footer-pad: var(--space-block);
+}
 
 /* Prose defaults for case-study body copy.
    These are wrapped in :where() so they carry specificity 0. Without it,
@@ -586,7 +695,9 @@ body.case-study { --footer-pad: var(--space-block); }
   color: var(--ink);
   margin-bottom: var(--space-sm);
   margin-top: var(--space-block-lg);
-  &:first-child { margin-top: 0; }
+  &:first-child {
+    margin-top: 0;
+  }
 }
 :where(body.case-study .content) p {
   font-size: var(--text-lg);
@@ -595,8 +706,13 @@ body.case-study { --footer-pad: var(--space-block); }
   line-height: 2;
   margin-bottom: var(--space-sm);
   text-wrap: pretty;
-  &:last-child { margin-bottom: 0; }
-  & strong { color: var(--ink); font-weight: 500; }
+  &:last-child {
+    margin-bottom: 0;
+  }
+  & strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
 }
 .nav-back {
   display: flex;
@@ -606,8 +722,12 @@ body.case-study { --footer-pad: var(--space-block); }
   color: var(--ink-tertiary);
   margin-bottom: 2.8125rem;
   transition: color var(--ease);
-  &::before { content: "\2190"; }
-  &:hover { color: var(--papaya-text); }
+  &::before {
+    content: "\2190";
+  }
+  &:hover {
+    color: var(--papaya-text);
+  }
 }
 .hero {
   padding-block: var(--space-xl) var(--space-section);
@@ -618,7 +738,9 @@ body.case-study { --footer-pad: var(--space-block); }
   color: var(--ink-secondary);
   line-height: 2;
   margin-bottom: var(--space-block-lg);
-  & a { color: var(--papaya-text); }
+  & a {
+    color: var(--papaya-text);
+  }
 }
 .meta-row {
   display: grid;
@@ -627,7 +749,9 @@ body.case-study { --footer-pad: var(--space-block); }
   padding-top: var(--space-block);
   border-top: 1px solid var(--rule);
 }
-.meta-value { font-size: var(--text-md); }
+.meta-value {
+  font-size: var(--text-md);
+}
 
 /* Hero image — per-case colours come from the THEMES section. */
 .hero-image {
@@ -647,7 +771,11 @@ body.case-study { --footer-pad: var(--space-block); }
     width: 100%;
     height: 100%;
   }
-  & img { width: 100%; height: 100%; object-fit: cover; }
+  & img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 }
 .hero-image-placeholder {
   font-family: var(--font-serif);
@@ -656,10 +784,14 @@ body.case-study { --footer-pad: var(--space-block); }
   font-style: italic;
   color: var(--case-hero-placeholder, var(--ink-tertiary));
 }
-.content { padding-block: var(--space-section); }
+.content {
+  padding-block: var(--space-section);
+}
 .content-section {
   margin-bottom: var(--space-section);
-  &:last-child { margin-bottom: 0; }
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
 
 /* --- Stats (card-grid) ---------------------------------------------------- */
@@ -704,20 +836,32 @@ body.case-study { --footer-pad: var(--space-block); }
   display: flex;
   align-items: center;
   justify-content: center;
-  &.dark { --img-bg: #0D0D0D; }
-  &.blue { --img-bg: var(--surface-blue); }
-  &.purple { --img-bg: #EEE8F5; }
-  &.red { --img-bg: #F5F0F0; }
+  &.dark {
+    --img-bg: #0d0d0d;
+  }
+  &.blue {
+    --img-bg: var(--surface-blue);
+  }
+  &.purple {
+    --img-bg: #eee8f5;
+  }
+  &.red {
+    --img-bg: #f5f0f0;
+  }
   & span {
     font-size: var(--text-2xs);
     color: var(--ink-tertiary);
     letter-spacing: 0.05em;
   }
-  &.dark span { color: rgb(255 255 255 / 0.35); }
+  &.dark span {
+    color: rgb(255 255 255 / 0.35);
+  }
 }
 .img-row {
   margin-block: var(--space-block);
-  & .img-placeholder { margin-block: 0; }
+  & .img-placeholder {
+    margin-block: 0;
+  }
 }
 
 /* --- Next project --------------------------------------------------------- */
@@ -747,19 +891,28 @@ body.case-study { --footer-pad: var(--space-block); }
   visibility: hidden;
   pointer-events: none;
   transform: translateY(8px);
-  transition: opacity 0.2s ease, transform 0.2s ease, background var(--ease);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    background var(--ease);
   &.visible {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
     transform: none;
   }
-  &:hover { background: var(--papaya-text-hover); }
+  &:hover {
+    background: var(--papaya-text-hover);
+  }
   &:focus-visible {
     outline: 2px solid var(--ink);
     outline-offset: 3px;
   }
-  & svg { width: 18px; height: 18px; display: block; }
+  & svg {
+    width: 18px;
+    height: 18px;
+    display: block;
+  }
   &[data-tooltip]::after {
     content: attr(data-tooltip);
     position: absolute;
@@ -776,7 +929,9 @@ body.case-study { --footer-pad: var(--space-block); }
     opacity: 0;
     pointer-events: none;
     transform: translateY(4px);
-    transition: opacity var(--ease), transform var(--ease);
+    transition:
+      opacity var(--ease),
+      transform var(--ease);
   }
   &:hover[data-tooltip]::after,
   &:focus-visible[data-tooltip]::after {
@@ -784,8 +939,12 @@ body.case-study { --footer-pad: var(--space-block); }
     transform: none;
   }
 }
-.back-to-top { right: var(--space-md); }
-.back-home { right: calc(var(--space-md) + 56px); }
+.back-to-top {
+  right: var(--space-md);
+}
+.back-home {
+  right: calc(var(--space-md) + 56px);
+}
 
 /* --- Comparison (card-grid) ----------------------------------------------- */
 .comparison {
@@ -794,7 +953,7 @@ body.case-study { --footer-pad: var(--space-block); }
 }
 .comparison-side {
   & ul {
-    list-style: none;   /* this list carries no class, so the base reset misses it */
+    list-style: none; /* this list carries no class, so the base reset misses it */
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -819,8 +978,12 @@ body.case-study { --footer-pad: var(--space-block); }
 }
 
 /* --- Team structure ------------------------------------------------------- */
-.team-grid { margin-block: var(--space-block-lg); }
-.team-office { --panel-radius: 6px; }
+.team-grid {
+  margin-block: var(--space-block-lg);
+}
+.team-office {
+  --panel-radius: 6px;
+}
 .team-office-header {
   background: var(--surface);
   padding: 12px var(--space-sm);
@@ -835,7 +998,10 @@ body.case-study { --footer-pad: var(--space-block); }
 .team-role {
   font-size: var(--text-xs);
   color: var(--ink-secondary);
-  & span { font-weight: 500; color: var(--papaya-text); }
+  & span {
+    font-weight: 500;
+    color: var(--papaya-text);
+  }
 }
 
 /* --- Sprint flow (card-grid) ---------------------------------------------- */
@@ -854,15 +1020,21 @@ body.case-study { --footer-pad: var(--space-block); }
 }
 
 /* --- Stack decisions table ------------------------------------------------ */
-.decisions { margin-block: var(--space-block); }
+.decisions {
+  margin-block: var(--space-block);
+}
 .decision-row {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   border-bottom: 1px solid var(--rule);
-  &:last-child { border-bottom: none; }
+  &:last-child {
+    border-bottom: none;
+  }
   /* Scoped to .decision-row: a bare `.header` rule would also hit this row's
      own class list. */
-  &.header { background: var(--surface); }
+  &.header {
+    background: var(--surface);
+  }
 }
 .decision-cell {
   padding: 14px var(--space-sm);
@@ -870,8 +1042,13 @@ body.case-study { --footer-pad: var(--space-block); }
   color: var(--ink-secondary);
   border-right: 1px solid var(--rule);
   line-height: 1.4;
-  &:last-child { border-right: none; }
-  & strong { color: var(--ink); font-weight: 500; }
+  &:last-child {
+    border-right: none;
+  }
+  & strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
 }
 /* .decision-cell sets font-size and colour at the same specificity as .eyebrow
    and comes later, so the header cells restate just those two. */
@@ -916,6 +1093,9 @@ body.case-study { --footer-pad: var(--space-block); }
   padding: var(--space-md);
   margin-block: var(--space-block);
   overflow-x: auto;
+  & pre {
+    margin: 0;
+  }
   & code {
     font-family: var(--font-mono);
     font-size: var(--text-xs);
@@ -924,9 +1104,15 @@ body.case-study { --footer-pad: var(--space-block); }
     white-space: pre;
   }
 }
-.code-comment { color: rgb(255 255 255 / 0.55); }  /* 0.35 composited to 3.2:1 */
-.code-keyword { color: var(--papaya); }
-.code-string { color: #98D982; }
+.code-comment {
+  color: rgb(255 255 255 / 0.55);
+} /* 0.35 composited to 3.2:1 */
+.code-keyword {
+  color: var(--papaya);
+}
+.code-string {
+  color: #98d982;
+}
 
 /* ==========================================================================
    6. THEMES
@@ -937,11 +1123,15 @@ body.case-study { --footer-pad: var(--space-block); }
 /* Homepage work-card heroes */
 .work-thumb--fraction {
   --hero-bg-image: url("../static/fraction-hero-bg.jpg");
-  --hero-bg-fill: #0D0D0D;
+  --hero-bg-fill: #0d0d0d;
 }
 .work-thumb--payconnect {
   --hero-bg-image: url("../static/payconnect-hero-bg.jpg");
-  --hero-bg-fill: #FFFFFF;
+  --hero-bg-fill: #ffffff;
+  /* White card: the shared shadow reads far heavier here than on the dark
+     cards, so it is pulled back to sit level with them by eye. */
+  --thumb-shadow-ambient: 0.04;
+  --thumb-shadow-key: 0.15;
 }
 .work-thumb--winga {
   --hero-bg-image: url("../static/winga-hero-bg.jpg");
@@ -949,12 +1139,12 @@ body.case-study { --footer-pad: var(--space-block); }
 }
 .work-thumb--levelup {
   --hero-bg-image: url("../static/levelup-hero-bg.jpg");
-  --hero-bg-fill: #4B0082;
+  --hero-bg-fill: #4b0082;
 }
 
 /* Case-study pages */
 body.cs-fraction {
-  --case-hero-bg: #0D0D0D;
+  --case-hero-bg: #0d0d0d;
   --case-hero-placeholder: rgb(255 255 255 / 0.15);
 }
 body.cs-payconnect {
@@ -962,18 +1152,22 @@ body.cs-payconnect {
   --case-hero-placeholder: rgb(30 60 180 / 0.15);
 }
 body.cs-scb {
-  --case-hero-bg: #EEE8F5;
+  --case-hero-bg: #eee8f5;
   --case-hero-placeholder: rgb(75 0 130 / 0.12);
-  & .stats { --card-min: 140px; }
+  & .stats {
+    --card-min: 140px;
+  }
 }
 body.cs-winga {
   --case-hero-bg: var(--surface);
   --case-hero-border: 1px solid var(--rule);
   --case-hero-placeholder: rgb(0 0 0 / 0.1);
-  & .img-placeholder { border: 1px solid var(--rule); }
+  & .img-placeholder {
+    border: 1px solid var(--rule);
+  }
 }
 body.cs-yoma {
-  --case-hero-bg: #F5F0F0;
+  --case-hero-bg: #f5f0f0;
   --case-hero-placeholder: rgb(180 30 30 / 0.12);
 }
 
@@ -985,13 +1179,19 @@ body.cs-yoma {
    deliberate kill-switch for the transforms JS writes as inline styles. */
 @media (prefers-reduced-motion: reduce) {
   .hero-bg,
-  .hero-phone-shot { transform: none !important; }
-  .work-item:hover .work-thumb { transform: none; }
+  .hero-phone-shot {
+    transform: none !important;
+  }
+  .work-item:hover .work-thumb {
+    transform: none;
+  }
   .back-to-top,
   .back-home {
     transition: opacity 0.01s linear;
     transform: none;
-    &.visible { transform: none; }
+    &.visible {
+      transform: none;
+    }
     &[data-tooltip]::after {
       transition: opacity 0.01s linear;
       transform: none;
@@ -999,8 +1199,12 @@ body.cs-yoma {
   }
 }
 @media print {
-  .work-thumb { background: #eee !important; }
+  .work-thumb {
+    background: #eee !important;
+  }
   .back-to-top,
   .back-home,
-  .skip-link { display: none; }
+  .skip-link {
+    display: none;
+  }
 }

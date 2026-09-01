@@ -1,0 +1,9 @@
+.DS_Store
+node_modules/
+.lighthouseci/
+_site/
+*.zip
+lhci-report/
+
+# Throwaway debug/screenshot scripts
+_*.mjs
