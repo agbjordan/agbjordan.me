@@ -326,18 +326,13 @@
             </div>
 
             <div class="code-block" role="group" aria-label="Winga SDK integration example">
-              <code
-                ><span class="code-comment">// Three lines. That's it.</span>
-                <span class="code-keyword">import</span> { Winga }
-                <span class="code-keyword">from</span> <span class="code-string">'@winga/js'</span>
-                <span class="code-keyword">const</span> winga =
-                <span class="code-keyword">new</span> Winga({ apiKey:
-                <span class="code-string">'proj_live_xxx'</span> })
+              <pre><code><span class="code-comment">// Three lines. That's it.</span>
+<span class="code-keyword">import</span> { Winga } <span class="code-keyword">from</span> <span class="code-string">'@winga/js'</span>
+<span class="code-keyword">const</span> winga = <span class="code-keyword">new</span> Winga({ apiKey: <span class="code-string">'proj_live_xxx'</span> })
 
-                <span class="code-keyword">if</span> (winga.isEnabled(<span class="code-string"
-                  >'new-checkout'</span
-                >)) { showNewCheckout() }</code
-              >
+<span class="code-keyword">if</span> (winga.isEnabled(<span class="code-string">'new-checkout'</span>)) {
+  showNewCheckout()
+}</code></pre>
             </div>
           </section>
 

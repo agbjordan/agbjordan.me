@@ -1093,6 +1093,9 @@ body.case-study {
   padding: var(--space-md);
   margin-block: var(--space-block);
   overflow-x: auto;
+  & pre {
+    margin: 0;
+  }
   & code {
     font-family: var(--font-mono);
     font-size: var(--text-xs);
