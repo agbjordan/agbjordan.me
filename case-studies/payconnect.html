@@ -1,342 +1,489 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="How I designed PayConnect — an enterprise KYC and payment platform that replaced manual email-based onboarding with a structured, AI-verified, multilingual process.">
-  <title>PayConnect — Andrew Jordan</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="How I designed PayConnect — an enterprise KYC and payment platform that replaced manual email-based onboarding with a structured, AI-verified, multilingual process."
+    />
+    <title>PayConnect — Andrew Jordan</title>
 
-  <link rel="canonical" href="https://agbjordan.me/case-studies/payconnect.html">
+    <link rel="canonical" href="https://agbjordan.me/case-studies/payconnect.html" />
 
-  <!-- Open Graph -->
-  <meta property="og:site_name" content="Andrew Jordan">
-  <meta property="og:locale" content="en_GB">
-  <meta property="og:type" content="article">
-  <meta property="og:title" content="PayConnect — Andrew Jordan">
-  <meta property="og:description" content="How I designed PayConnect — an enterprise KYC and payment platform that replaced manual email-based onboarding with a structured, AI-verified, multilingual process.">
-  <meta property="og:url" content="https://agbjordan.me/case-studies/payconnect.html">
-  <meta property="og:image" content="https://agbjordan.me/static/og-image.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Andrew Jordan — Senior Product Owner & Designer, agbjordan.me">
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="Andrew Jordan" />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="PayConnect — Andrew Jordan" />
+    <meta
+      property="og:description"
+      content="How I designed PayConnect — an enterprise KYC and payment platform that replaced manual email-based onboarding with a structured, AI-verified, multilingual process."
+    />
+    <meta property="og:url" content="https://agbjordan.me/case-studies/payconnect.html" />
+    <meta property="og:image" content="https://agbjordan.me/static/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Andrew Jordan — Senior Product Owner and Designer, agbjordan.me"
+    />
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="PayConnect — Andrew Jordan">
-  <meta name="twitter:description" content="How I designed PayConnect — an enterprise KYC and payment platform that replaced manual email-based onboarding with a structured, AI-verified, multilingual process.">
-  <meta name="twitter:image" content="https://agbjordan.me/static/og-image.png">
-  <meta name="twitter:image:alt" content="Andrew Jordan — Senior Product Owner & Designer, agbjordan.me">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="PayConnect — Andrew Jordan" />
+    <meta
+      name="twitter:description"
+      content="How I designed PayConnect — an enterprise KYC and payment platform that replaced manual email-based onboarding with a structured, AI-verified, multilingual process."
+    />
+    <meta name="twitter:image" content="https://agbjordan.me/static/og-image.png" />
+    <meta
+      name="twitter:image:alt"
+      content="Andrew Jordan — Senior Product Owner and Designer, agbjordan.me"
+    />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Geist:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- Icons. The .ico is declared at 32x32 so browsers that understand SVG
+         prefer the scalable one; the .ico is the fallback for those that don't. -->
+    <link rel="icon" href="../favicon.ico" sizes="32x32" />
+    <link rel="icon" href="../static/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="../static/apple-touch-icon.png" />
 
-  <link rel="stylesheet" href="../css/styles.css">
-</head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Geist:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
 
-<body class="case-study cs-payconnect">
+    <link rel="stylesheet" href="../css/styles.css" />
+  </head>
 
-  <!-- HEADER -->
-  <header role="banner">
-    <div class="header-inner">
-      <a href="../index.html" class="logo" aria-label="Andrew Jordan — home">
-        <img src="../static/aj.svg" alt="Andrew Jordan" height="88px"/>
-      </a>
-      <nav class="header-contact" aria-label="Contact links">
-        <a class="link-muted" href="mailto:andrew@agbjordan.me">andrew@agbjordan.me</a>
-        <a class="link-muted" href="../Andrew-Jordan-Resume.pdf" download>Download Resume</a>
-        <a class="link-muted" href="https://www.linkedin.com/in/andrew-jordan21" aria-label="LinkedIn profile">LinkedIn</a>
-      </nav>
-    </div>
-  </header>
-
-  <div class="column">
-
-    <main id="main">
-
-      <section class="hero fade-in">
-
-        <a href="../index.html" class="nav-back">Back</a>
-
-        <p class="eyebrow eyebrow--accent eyebrow--wide eyebrow--gap-lg">PayConnect · Fraction Global · 2024 – Present</p>
-        <h1>Replacing email-based KYC with a structured, AI-verified onboarding platform</h1>
-        <p class="hero-summary">
-          Enterprise KYC and KYB was being done entirely by email — back and forth chains, language barriers, executives CC'd on admin tasks. PayConnect replaced all of it with a guided, multilingual, multi-party onboarding platform that gets compliance reviewers a complete file on first submission.
-        </p>
-        <div class="meta-row">
-          <div class="meta-item">
-            <p class="eyebrow eyebrow--gap-xs">Role</p>
-            <p class="meta-value">Product Owner / Designer</p>
-          </div>
-          <div class="meta-item">
-            <p class="eyebrow eyebrow--gap-xs">Status</p>
-            <p class="meta-value">Live — onboarding daily</p>
-          </div>
-          <div class="meta-item">
-            <p class="eyebrow eyebrow--gap-xs">Users</p>
-            <p class="meta-value">Individuals · Businesses · Compliance team</p>
-          </div>
-          <div class="meta-item">
-            <p class="eyebrow eyebrow--gap-xs">Scope</p>
-            <p class="meta-value">KYC · KYB · AML · Payments</p>
-          </div>
-        </div>
-      </section>
-
-      <div class="hero-image fade-in" aria-label="PayConnect platform screenshot">
-        <span class="hero-image-placeholder quote">PayConnect</span>
-      </div>
-
-      <article class="content">
-
-        <!-- THE PROBLEM -->
-        <section class="content-section fade-in">
-          <h2>The problem</h2>
-          <p>
-            KYC and KYB onboarding for financial platforms in Southeast Asia is genuinely painful. The process involves collecting identity documents, business registrations, director information, AML checks, suitability assessments, and risk evaluations — across multiple parties, multiple languages, and multiple regulatory frameworks.
-          </p>
-          <p>
-            Before PayConnect, all of this was done by email. A compliance officer would send a list of required documents. The applicant would reply with whatever they had. Back and forth would follow — missing documents, wrong formats, unclear requirements. For business onboarding (KYB), multiple directors and authorised signatories needed to contribute, which meant CC chains that included CEOs and board members who were too busy to respond promptly.
-          </p>
-          <p>
-            For international businesses, language was a compounding barrier. A compliance request written in English to a Japanese company's Thai subsidiary, CC'ing a Hong Kong director, was not going to move quickly.
-          </p>
-
-          <div class="pullquote">
-            <p class="quote">CEOs being CC'd on compliance emails is not a process. It's a problem masquerading as one.</p>
-          </div>
-
-          <div class="card-grid card-grid--2 comparison" role="region" aria-label="Before and after comparison">
-            <div class="comparison-side">
-              <p class="eyebrow eyebrow--gap">Before</p>
-              <ul>
-                <li>Fully manual — email only</li>
-                <li>No clear document requirements</li>
-                <li>Language barriers causing delays</li>
-                <li>Multiple parties with no coordination</li>
-                <li>Executives CC'd on admin tasks</li>
-                <li>Incomplete submissions sent to compliance</li>
-                <li>Average 10 business days to onboard</li>
-                <li>4-person onboarding team</li>
-              </ul>
-            </div>
-            <div class="comparison-side after">
-              <p class="eyebrow eyebrow--accent eyebrow--gap">After</p>
-              <ul>
-                <li>Structured guided platform</li>
-                <li>Clear requirements with document examples</li>
-                <li>Localised language and document types by region</li>
-                <li>Multiple contributors on one application</li>
-                <li>Role-based access — right people, right tasks</li>
-                <li>AI verification before compliance review</li>
-                <li>Average 3 business days to onboard</li>
-                <li>1-person onboarding team</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        <!-- STATS -->
-        <div class="card-grid card-grid--auto stats fade-in" role="region" aria-label="Key outcomes">
-          <div class="stat">
-            <p class="stat-number">10→3</p>
-            <p class="stat-label">Business days average onboarding time</p>
-          </div>
-          <div class="stat">
-            <p class="stat-number">4→1</p>
-            <p class="stat-label">Onboarding team reduced</p>
-          </div>
-          <div class="stat">
-            <p class="stat-number">~95%</p>
-            <p class="stat-label">Submissions complete on first compliance review</p>
-          </div>
-          <div class="stat">
-            <p class="stat-number">Live</p>
-            <p class="stat-label">Onboarding businesses and individuals daily</p>
-          </div>
-        </div>
-
-        <!-- INDIVIDUAL KYC -->
-        <section class="content-section fade-in">
-          <h2>Individual KYC</h2>
-          <p>
-            Individual onboarding covers Thai nationals and overseas applicants. The flow guides the user through identity verification, document submission, liveness check via ZOLOZ eKYC, suitability assessment, and risk evaluation — all in sequence, with clear explanations of what's required at each step and why.
-          </p>
-          <p>
-            Document requirements vary by nationality and region. A Thai national submitting a national ID card has a different flow to a UK national submitting a passport, which is different again from a US national with FATCA implications. The system handles this through configurable document requirement sets by region — the applicant sees only what's relevant to them, with examples of acceptable documents shown in context.
-          </p>
-          <p>
-            Correspondence — status updates, requests for additional information, clarification prompts — is delivered in the applicant's local language. A Japanese applicant gets Japanese. A Thai applicant gets Thai. This alone eliminated a significant category of delays.
-          </p>
-
-          <div class="grid grid--2 img-row">
-            <div class="img-placeholder blue" role="img" aria-label="KYC individual onboarding flow">
-              <span>KYC flow — add screenshot</span>
-            </div>
-            <div class="img-placeholder blue" role="img" aria-label="Document submission screen">
-              <span>Document submission — add screenshot</span>
-            </div>
-          </div>
-        </section>
-
-        <!-- ENTERPRISE KYB -->
-        <section class="content-section fade-in">
-          <h2>Enterprise KYB</h2>
-          <p>
-            Business onboarding is more complex. A KYB application requires company registration documents, director identification, beneficial ownership declarations, AML screening across all parties, and authorised signatory verification. For larger businesses this means multiple people contributing to a single application — and previously, that meant multiple email threads that nobody had full visibility of.
-          </p>
-
-          <h3>Multi-party collaboration</h3>
-          <p>
-            PayConnect treats a KYB application as a shared workspace. The primary applicant creates the application and invites contributors — directors, compliance contacts, authorised signatories — each with their own login and a scoped view of what they need to complete. Progress is visible to everyone. No one is waiting on someone else without knowing it.
-          </p>
-          <p>
-            This removed the need for executives to be involved in the email chain at all. A CEO can be invited to complete their director verification independently, at a time that suits them, without being copied on every administrative exchange.
-          </p>
-
-          <div class="img-placeholder blue" role="img" aria-label="KYB multi-party collaboration view">
-            <span>KYB collaboration — add screenshot</span>
-          </div>
-
-          <h3>Regional document configuration</h3>
-          <p>
-            Different jurisdictions require different documents. A Thai company's requirements differ from a Singapore entity, which differ from a BVI holding company. Rather than presenting every possible document type and leaving applicants to figure out what applies to them, PayConnect uses a configurable requirements engine — the right documents for the right entity type in the right jurisdiction, with localised guidance and examples.
-          </p>
-        </section>
-
-        <!-- AI VERIFICATION -->
-        <section class="content-section fade-in">
-          <h2>AI verification before human review</h2>
-          <p>
-            The core efficiency gain comes from a gate that didn't exist before: AI-assisted document verification before anything reaches the compliance team. Documents are checked for validity, completeness, and consistency automatically. Expired IDs, mismatched names, missing pages, unreadable uploads — all caught before a human reviewer sees the application.
-          </p>
-          <p>
-            This means that by the time a compliance officer opens an application, it's complete. The reviewer's job shifts from chasing missing information to making the actual compliance decision. That's the work they're qualified for.
-          </p>
-          <p>
-            The result is near-complete submissions on first review — dramatically reducing the back-and-forth that previously consumed most of the onboarding timeline.
-          </p>
-
-          <div class="img-placeholder blue" role="img" aria-label="AI document verification flow">
-            <span>AI verification — add screenshot</span>
-          </div>
-        </section>
-
-        <!-- COMPLIANCE REVIEW PLATFORM -->
-        <section class="content-section fade-in">
-          <h2>The compliance review platform</h2>
-          <p>
-            PayConnect has two sides — the applicant experience and the compliance team's review platform. Most KYC products focus heavily on the former and treat the reviewer interface as an afterthought. I designed both with equal care.
-          </p>
-          <p>
-            The review platform presents compliance officers with a structured case view: all submitted documents, AI verification results, AML screening outputs, suitability scores, and risk evaluation summaries in one place. Every piece of information needed to make a decision is surfaced without requiring the reviewer to navigate between systems or dig through email attachments.
-          </p>
-          <p>
-            Actions available to the reviewer are clear and consequential: approve, request additional information with a specific prompt, escalate, or reject with a documented reason. Each action triggers the appropriate applicant-facing communication in the right language automatically.
-          </p>
-
-          <div class="img-placeholder" role="img" aria-label="Compliance review platform">
-            <span>Review platform — add screenshot</span>
-          </div>
-        </section>
-
-        <!-- AML AND PAYMENTS -->
-        <section class="content-section fade-in">
-          <h2>AML checks and payment settlement</h2>
-          <p>
-            Beyond KYC and KYB, PayConnect handles AML screening against international watchlists and sanctions databases, and manages payment settlement for connected platforms. For Fraction Global, PayConnect is the onboarding and payment infrastructure layer — investors and issuers are onboarded through PayConnect before they access the investment platform.
-          </p>
-          <p>
-            The payment settlement flow handles the transfer of funds between parties in a compliant, auditable way — with clear status tracking for operations teams and an audit trail that satisfies both internal governance and regulatory reporting requirements.
-          </p>
-        </section>
-
-        <!-- CLOSING -->
-        <section class="content-section fade-in">
-          <h2>What this solved</h2>
-          <p>
-            PayConnect is a good example of a problem that looks like a compliance problem but is actually a communication and coordination problem. The regulatory requirements were fixed. What was broken was the process around them.
-          </p>
-          <p>
-            The design work was about making a complicated, high-stakes process feel manageable to the people going through it — in their own language, at their own pace, with clear guidance at every step — while giving the compliance team the complete, structured information they need to do their job properly.
-          </p>
-
-          <div class="pill-list" role="list" aria-label="Skills used">
-            <span class="pill pill--sm" role="listitem">Product Ownership</span>
-            <span class="pill pill--sm" role="listitem">UX Research</span>
-            <span class="pill pill--sm" role="listitem">KYC / KYB</span>
-            <span class="pill pill--sm" role="listitem">AML Design</span>
-            <span class="pill pill--sm" role="listitem">Compliance UX</span>
-            <span class="pill pill--sm" role="listitem">Multilingual Design</span>
-            <span class="pill pill--sm" role="listitem">AI Integration</span>
-            <span class="pill pill--sm" role="listitem">Multi-party Workflows</span>
-            <span class="pill pill--sm" role="listitem">Payment Settlement</span>
-            <span class="pill pill--sm" role="listitem">Figma</span>
-            <span class="pill pill--sm" role="listitem">Next.js · Firebase</span>
-          </div>
-        </section>
-
-      </article>
-
-      <nav class="next-project fade-in" aria-label="Next case study">
-        <p class="eyebrow eyebrow--wide eyebrow--gap">Next project</p>
-        <a href="./winga.html" class="link-underline link-underline--display">Winga — Feature Flag Platform</a>
-      </nav>
-
-    </main>
-
-    <footer role="contentinfo">
-      <div class="footer-inner">
-        <p class="footer-copy">© Andrew Jordan 2026</p>
-        <nav class="footer-links" aria-label="Footer links">
-          <a class="link-muted link-muted--faint" href="../index.html">Home</a>
-          <a class="link-muted link-muted--faint" href="mailto:andrew@agbjordan.me">Email</a>
-          <a class="link-muted link-muted--faint" href="https://www.linkedin.com/in/andrew-jordan21">LinkedIn</a>
+  <body class="case-study cs-payconnect">
+    <!-- HEADER -->
+    <header role="banner">
+      <div class="header-inner">
+        <a href="../index.html" class="logo" aria-label="Andrew Jordan — home">
+          <img src="../static/aj.svg" alt="Andrew Jordan" height="88" />
+        </a>
+        <nav class="header-contact" aria-label="Contact links">
+          <a class="link-muted" href="mailto:andrew@agbjordan.me">andrew@agbjordan.me</a>
+          <a class="link-muted" href="../Andrew-Jordan-Resume.pdf" download>Download Resume</a>
+          <a
+            class="link-muted"
+            href="https://www.linkedin.com/in/andrew-jordan21"
+            aria-label="LinkedIn profile"
+            >LinkedIn</a
+          >
         </nav>
       </div>
-    </footer>
+    </header>
 
-  </div>
+    <div class="column">
+      <main id="main">
+        <section class="hero fade-in">
+          <a href="../index.html" class="nav-back">Back</a>
 
-  <a class="back-home" href="../index.html" aria-label="Back to home" data-tooltip="Back to home" inert>
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-      <polyline points="9 22 9 12 15 12 15 22"/>
-    </svg>
-  </a>
-  <button class="back-to-top" type="button" aria-label="Back to top" data-tooltip="Back to top" inert>
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M12 19V5M5 12l7-7 7 7"/>
-    </svg>
-  </button>
+          <p class="eyebrow eyebrow--accent eyebrow--wide eyebrow--gap-lg">
+            PayConnect · Fraction Global · 2024 – Present
+          </p>
+          <h1>Replacing email-based KYC with a structured, AI-verified onboarding platform</h1>
+          <p class="hero-summary">
+            Enterprise KYC and KYB was being done entirely by email — back and forth chains,
+            language barriers, executives CC'd on admin tasks. PayConnect replaced all of it with a
+            guided, multilingual, multi-party onboarding platform that gets compliance reviewers a
+            complete file on first submission.
+          </p>
+          <div class="meta-row">
+            <div class="meta-item">
+              <p class="eyebrow eyebrow--gap-xs">Role</p>
+              <p class="meta-value">Product Owner / Designer</p>
+            </div>
+            <div class="meta-item">
+              <p class="eyebrow eyebrow--gap-xs">Status</p>
+              <p class="meta-value">Live — onboarding daily</p>
+            </div>
+            <div class="meta-item">
+              <p class="eyebrow eyebrow--gap-xs">Users</p>
+              <p class="meta-value">Individuals · Businesses · Compliance team</p>
+            </div>
+            <div class="meta-item">
+              <p class="eyebrow eyebrow--gap-xs">Scope</p>
+              <p class="meta-value">KYC · KYB · AML · Payments</p>
+            </div>
+          </div>
+        </section>
 
-  <script>
-    const floatingBtns = document.querySelectorAll('.back-to-top, .back-home');
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const toggleFloatingBtns = () => {
-      const show = window.scrollY > 400;
-      floatingBtns.forEach(b => {
-        b.classList.toggle('visible', show);
-        b.toggleAttribute('inert', !show);
-      });
-    };
-    window.addEventListener('scroll', toggleFloatingBtns, { passive: true });
-    toggleFloatingBtns();
-    document.querySelector('.back-to-top').addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
-    });
+        <div class="hero-image fade-in" role="img" aria-label="PayConnect platform screenshot">
+          <span class="hero-image-placeholder quote">PayConnect</span>
+        </div>
 
-    if ('IntersectionObserver' in window) {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+        <article class="content">
+          <!-- THE PROBLEM -->
+          <section class="content-section fade-in">
+            <h2>The problem</h2>
+            <p>
+              KYC and KYB onboarding for financial platforms in Southeast Asia is genuinely painful.
+              The process involves collecting identity documents, business registrations, director
+              information, AML checks, suitability assessments, and risk evaluations — across
+              multiple parties, multiple languages, and multiple regulatory frameworks.
+            </p>
+            <p>
+              Before PayConnect, all of this was done by email. A compliance officer would send a
+              list of required documents. The applicant would reply with whatever they had. Back and
+              forth would follow — missing documents, wrong formats, unclear requirements. For
+              business onboarding (KYB), multiple directors and authorised signatories needed to
+              contribute, which meant CC chains that included CEOs and board members who were too
+              busy to respond promptly.
+            </p>
+            <p>
+              For international businesses, language was a compounding barrier. A compliance request
+              written in English to a Japanese company's Thai subsidiary, CC'ing a Hong Kong
+              director, was not going to move quickly.
+            </p>
+
+            <div class="pullquote">
+              <p class="quote">
+                CEOs being CC'd on compliance emails is not a process. It's a problem masquerading
+                as one.
+              </p>
+            </div>
+
+            <div
+              class="card-grid card-grid--2 comparison"
+              role="region"
+              aria-label="Before and after comparison"
+            >
+              <div class="comparison-side">
+                <p class="eyebrow eyebrow--gap">Before</p>
+                <ul>
+                  <li>Fully manual — email only</li>
+                  <li>No clear document requirements</li>
+                  <li>Language barriers causing delays</li>
+                  <li>Multiple parties with no coordination</li>
+                  <li>Executives CC'd on admin tasks</li>
+                  <li>Incomplete submissions sent to compliance</li>
+                  <li>Average 10 business days to onboard</li>
+                  <li>4-person onboarding team</li>
+                </ul>
+              </div>
+              <div class="comparison-side after">
+                <p class="eyebrow eyebrow--accent eyebrow--gap">After</p>
+                <ul>
+                  <li>Structured guided platform</li>
+                  <li>Clear requirements with document examples</li>
+                  <li>Localised language and document types by region</li>
+                  <li>Multiple contributors on one application</li>
+                  <li>Role-based access — right people, right tasks</li>
+                  <li>AI verification before compliance review</li>
+                  <li>Average 3 business days to onboard</li>
+                  <li>1-person onboarding team</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <!-- STATS -->
+          <div
+            class="card-grid card-grid--auto stats fade-in"
+            role="region"
+            aria-label="Key outcomes"
+          >
+            <div class="stat">
+              <p class="stat-number">10→3</p>
+              <p class="stat-label">Business days average onboarding time</p>
+            </div>
+            <div class="stat">
+              <p class="stat-number">4→1</p>
+              <p class="stat-label">Onboarding team reduced</p>
+            </div>
+            <div class="stat">
+              <p class="stat-number">~95%</p>
+              <p class="stat-label">Submissions complete on first compliance review</p>
+            </div>
+            <div class="stat">
+              <p class="stat-number">Live</p>
+              <p class="stat-label">Onboarding businesses and individuals daily</p>
+            </div>
+          </div>
+
+          <!-- INDIVIDUAL KYC -->
+          <section class="content-section fade-in">
+            <h2>Individual KYC</h2>
+            <p>
+              Individual onboarding covers Thai nationals and overseas applicants. The flow guides
+              the user through identity verification, document submission, liveness check via ZOLOZ
+              eKYC, suitability assessment, and risk evaluation — all in sequence, with clear
+              explanations of what's required at each step and why.
+            </p>
+            <p>
+              Document requirements vary by nationality and region. A Thai national submitting a
+              national ID card has a different flow to a UK national submitting a passport, which is
+              different again from a US national with FATCA implications. The system handles this
+              through configurable document requirement sets by region — the applicant sees only
+              what's relevant to them, with examples of acceptable documents shown in context.
+            </p>
+            <p>
+              Correspondence — status updates, requests for additional information, clarification
+              prompts — is delivered in the applicant's local language. A Japanese applicant gets
+              Japanese. A Thai applicant gets Thai. This alone eliminated a significant category of
+              delays.
+            </p>
+
+            <div class="grid grid--2 img-row">
+              <div
+                class="img-placeholder blue"
+                role="img"
+                aria-label="KYC individual onboarding flow"
+              >
+                <span>KYC flow — add screenshot</span>
+              </div>
+              <div class="img-placeholder blue" role="img" aria-label="Document submission screen">
+                <span>Document submission — add screenshot</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- ENTERPRISE KYB -->
+          <section class="content-section fade-in">
+            <h2>Enterprise KYB</h2>
+            <p>
+              Business onboarding is more complex. A KYB application requires company registration
+              documents, director identification, beneficial ownership declarations, AML screening
+              across all parties, and authorised signatory verification. For larger businesses this
+              means multiple people contributing to a single application — and previously, that
+              meant multiple email threads that nobody had full visibility of.
+            </p>
+
+            <h3>Multi-party collaboration</h3>
+            <p>
+              PayConnect treats a KYB application as a shared workspace. The primary applicant
+              creates the application and invites contributors — directors, compliance contacts,
+              authorised signatories — each with their own login and a scoped view of what they need
+              to complete. Progress is visible to everyone. No one is waiting on someone else
+              without knowing it.
+            </p>
+            <p>
+              This removed the need for executives to be involved in the email chain at all. A CEO
+              can be invited to complete their director verification independently, at a time that
+              suits them, without being copied on every administrative exchange.
+            </p>
+
+            <div
+              class="img-placeholder blue"
+              role="img"
+              aria-label="KYB multi-party collaboration view"
+            >
+              <span>KYB collaboration — add screenshot</span>
+            </div>
+
+            <h3>Regional document configuration</h3>
+            <p>
+              Different jurisdictions require different documents. A Thai company's requirements
+              differ from a Singapore entity, which differ from a BVI holding company. Rather than
+              presenting every possible document type and leaving applicants to figure out what
+              applies to them, PayConnect uses a configurable requirements engine — the right
+              documents for the right entity type in the right jurisdiction, with localised guidance
+              and examples.
+            </p>
+          </section>
+
+          <!-- AI VERIFICATION -->
+          <section class="content-section fade-in">
+            <h2>AI verification before human review</h2>
+            <p>
+              The core efficiency gain comes from a gate that didn't exist before: AI-assisted
+              document verification before anything reaches the compliance team. Documents are
+              checked for validity, completeness, and consistency automatically. Expired IDs,
+              mismatched names, missing pages, unreadable uploads — all caught before a human
+              reviewer sees the application.
+            </p>
+            <p>
+              This means that by the time a compliance officer opens an application, it's complete.
+              The reviewer's job shifts from chasing missing information to making the actual
+              compliance decision. That's the work they're qualified for.
+            </p>
+            <p>
+              The result is near-complete submissions on first review — dramatically reducing the
+              back-and-forth that previously consumed most of the onboarding timeline.
+            </p>
+
+            <div class="img-placeholder blue" role="img" aria-label="AI document verification flow">
+              <span>AI verification — add screenshot</span>
+            </div>
+          </section>
+
+          <!-- COMPLIANCE REVIEW PLATFORM -->
+          <section class="content-section fade-in">
+            <h2>The compliance review platform</h2>
+            <p>
+              PayConnect has two sides — the applicant experience and the compliance team's review
+              platform. Most KYC products focus heavily on the former and treat the reviewer
+              interface as an afterthought. I designed both with equal care.
+            </p>
+            <p>
+              The review platform presents compliance officers with a structured case view: all
+              submitted documents, AI verification results, AML screening outputs, suitability
+              scores, and risk evaluation summaries in one place. Every piece of information needed
+              to make a decision is surfaced without requiring the reviewer to navigate between
+              systems or dig through email attachments.
+            </p>
+            <p>
+              Actions available to the reviewer are clear and consequential: approve, request
+              additional information with a specific prompt, escalate, or reject with a documented
+              reason. Each action triggers the appropriate applicant-facing communication in the
+              right language automatically.
+            </p>
+
+            <div class="img-placeholder" role="img" aria-label="Compliance review platform">
+              <span>Review platform — add screenshot</span>
+            </div>
+          </section>
+
+          <!-- AML AND PAYMENTS -->
+          <section class="content-section fade-in">
+            <h2>AML checks and payment settlement</h2>
+            <p>
+              Beyond KYC and KYB, PayConnect handles AML screening against international watchlists
+              and sanctions databases, and manages payment settlement for connected platforms. For
+              Fraction Global, PayConnect is the onboarding and payment infrastructure layer —
+              investors and issuers are onboarded through PayConnect before they access the
+              investment platform.
+            </p>
+            <p>
+              The payment settlement flow handles the transfer of funds between parties in a
+              compliant, auditable way — with clear status tracking for operations teams and an
+              audit trail that satisfies both internal governance and regulatory reporting
+              requirements.
+            </p>
+          </section>
+
+          <!-- CLOSING -->
+          <section class="content-section fade-in">
+            <h2>What this solved</h2>
+            <p>
+              PayConnect is a good example of a problem that looks like a compliance problem but is
+              actually a communication and coordination problem. The regulatory requirements were
+              fixed. What was broken was the process around them.
+            </p>
+            <p>
+              The design work was about making a complicated, high-stakes process feel manageable to
+              the people going through it — in their own language, at their own pace, with clear
+              guidance at every step — while giving the compliance team the complete, structured
+              information they need to do their job properly.
+            </p>
+
+            <div class="pill-list" role="list" aria-label="Skills used">
+              <span class="pill pill--sm" role="listitem">Product Ownership</span>
+              <span class="pill pill--sm" role="listitem">UX Research</span>
+              <span class="pill pill--sm" role="listitem">KYC / KYB</span>
+              <span class="pill pill--sm" role="listitem">AML Design</span>
+              <span class="pill pill--sm" role="listitem">Compliance UX</span>
+              <span class="pill pill--sm" role="listitem">Multilingual Design</span>
+              <span class="pill pill--sm" role="listitem">AI Integration</span>
+              <span class="pill pill--sm" role="listitem">Multi-party Workflows</span>
+              <span class="pill pill--sm" role="listitem">Payment Settlement</span>
+              <span class="pill pill--sm" role="listitem">Figma</span>
+              <span class="pill pill--sm" role="listitem">Next.js · Firebase</span>
+            </div>
+          </section>
+        </article>
+
+        <nav class="next-project fade-in" aria-label="Next case study">
+          <p class="eyebrow eyebrow--wide eyebrow--gap">Next project</p>
+          <a href="./winga.html" class="link-underline link-underline--display"
+            >Winga — Feature Flag Platform</a
+          >
+        </nav>
+      </main>
+
+      <footer role="contentinfo">
+        <div class="footer-inner">
+          <p class="footer-copy">© Andrew Jordan 2026</p>
+          <nav class="footer-links" aria-label="Footer links">
+            <a class="link-muted link-muted--faint" href="../index.html">Home</a>
+            <a class="link-muted link-muted--faint" href="mailto:andrew@agbjordan.me">Email</a>
+            <a
+              class="link-muted link-muted--faint"
+              href="https://www.linkedin.com/in/andrew-jordan21"
+              >LinkedIn</a
+            >
+          </nav>
+        </div>
+      </footer>
+    </div>
+
+    <a
+      class="back-home"
+      href="../index.html"
+      aria-label="Back to home"
+      data-tooltip="Back to home"
+      inert
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+        <polyline points="9 22 9 12 15 12 15 22" />
+      </svg>
+    </a>
+    <button
+      class="back-to-top"
+      type="button"
+      aria-label="Back to top"
+      data-tooltip="Back to top"
+      inert
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M12 19V5M5 12l7-7 7 7" />
+      </svg>
+    </button>
+
+    <script>
+      const floatingBtns = document.querySelectorAll(".back-to-top, .back-home");
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const toggleFloatingBtns = () => {
+        const show = window.scrollY > 400;
+        floatingBtns.forEach((b) => {
+          b.classList.toggle("visible", show);
+          b.toggleAttribute("inert", !show);
         });
-      }, { threshold: 0.08 });
-      document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-    } else {
-      document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
-    }
-  </script>
+      };
+      window.addEventListener("scroll", toggleFloatingBtns, { passive: true });
+      toggleFloatingBtns();
+      document.querySelector(".back-to-top").addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: reducedMotion.matches ? "auto" : "smooth" });
+      });
 
-</body>
+      if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.08 },
+        );
+        document.querySelectorAll(".fade-in").forEach((el) => observer.observe(el));
+      } else {
+        document.querySelectorAll(".fade-in").forEach((el) => el.classList.add("visible"));
+      }
+    </script>
+  </body>
 </html>

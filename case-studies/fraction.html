@@ -1,418 +1,607 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="How I designed Thailand's first SEC-regulated tokenised property investment platform — from product discovery through to a $3M Series A.">
-  <title>Fraction Global — Andrew Jordan</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="How I designed Thailand's first SEC-regulated tokenised property investment platform — from product discovery through to a $3M Series A."
+    />
+    <title>Fraction Global — Andrew Jordan</title>
 
-  <link rel="canonical" href="https://agbjordan.me/case-studies/fraction.html">
+    <link rel="canonical" href="https://agbjordan.me/case-studies/fraction.html" />
 
-  <!-- Open Graph -->
-  <meta property="og:site_name" content="Andrew Jordan">
-  <meta property="og:locale" content="en_GB">
-  <meta property="og:type" content="article">
-  <meta property="og:title" content="Fraction Global — Andrew Jordan">
-  <meta property="og:description" content="How I designed Thailand's first SEC-regulated tokenised property investment platform — from product discovery through to a $3M Series A.">
-  <meta property="og:url" content="https://agbjordan.me/case-studies/fraction.html">
-  <meta property="og:image" content="https://agbjordan.me/static/og-image.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Andrew Jordan — Senior Product Owner & Designer, agbjordan.me">
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="Andrew Jordan" />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Fraction Global — Andrew Jordan" />
+    <meta
+      property="og:description"
+      content="How I designed Thailand's first SEC-regulated tokenised property investment platform — from product discovery through to a $3M Series A."
+    />
+    <meta property="og:url" content="https://agbjordan.me/case-studies/fraction.html" />
+    <meta property="og:image" content="https://agbjordan.me/static/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Andrew Jordan — Senior Product Owner and Designer, agbjordan.me"
+    />
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Fraction Global — Andrew Jordan">
-  <meta name="twitter:description" content="How I designed Thailand's first SEC-regulated tokenised property investment platform — from product discovery through to a $3M Series A.">
-  <meta name="twitter:image" content="https://agbjordan.me/static/og-image.png">
-  <meta name="twitter:image:alt" content="Andrew Jordan — Senior Product Owner & Designer, agbjordan.me">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Fraction Global — Andrew Jordan" />
+    <meta
+      name="twitter:description"
+      content="How I designed Thailand's first SEC-regulated tokenised property investment platform — from product discovery through to a $3M Series A."
+    />
+    <meta name="twitter:image" content="https://agbjordan.me/static/og-image.png" />
+    <meta
+      name="twitter:image:alt"
+      content="Andrew Jordan — Senior Product Owner and Designer, agbjordan.me"
+    />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Geist:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- Icons. The .ico is declared at 32x32 so browsers that understand SVG
+         prefer the scalable one; the .ico is the fallback for those that don't. -->
+    <link rel="icon" href="../favicon.ico" sizes="32x32" />
+    <link rel="icon" href="../static/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="../static/apple-touch-icon.png" />
 
-  <link rel="stylesheet" href="../css/styles.css">
-</head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Geist:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
 
-<body class="case-study cs-fraction">
+    <link rel="stylesheet" href="../css/styles.css" />
+  </head>
 
-  <!-- HEADER -->
-  <header role="banner">
-    <div class="header-inner">
-      <a href="../index.html" class="logo" aria-label="Andrew Jordan — home">
-        <img src="../static/aj.svg" alt="Andrew Jordan" height="88px"/>
-      </a>
-      <nav class="header-contact" aria-label="Contact links">
-        <a class="link-muted" href="mailto:andrew@agbjordan.me">andrew@agbjordan.me</a>
-        <a class="link-muted" href="../Andrew-Jordan-Resume.pdf" download>Download Resume</a>
-        <a class="link-muted" href="https://www.linkedin.com/in/andrew-jordan21" aria-label="LinkedIn profile">LinkedIn</a>
-      </nav>
-    </div>
-  </header>
-
-  <div class="column">
-
-    <main id="main">
-
-      <!-- HERO -->
-      <section class="hero fade-in">
-
-        <a href="../index.html" class="nav-back">Back</a>
-        
-        <p class="eyebrow eyebrow--accent eyebrow--wide eyebrow--gap-lg">Fraction Global · 2022 – Present</p>
-        <h1>Building Thailand's first SEC-regulated tokenized real world assets investment platform</h1>
-        <p class="hero-summary">
-          What started as a 2-week product discovery. Grew into a six-year engagement spanning brand identity, investor platform & mobile app development, Web 3.0 and blockhain integrations, SEC compliance and regulatory hurdles, and the sporning of an entire new eKYC / eKYB business in the form of <a href="./payconnect.html"><span>PayConnect</span></a>.
-        </p>
-        <div class="meta-row">
-          <div class="meta-item">
-            <p class="eyebrow eyebrow--gap-xs">Role</p>
-            <p class="meta-value">Head of UX / UI / Product Owner</p>
-          </div>
-          <div class="meta-item">
-            <p class="eyebrow eyebrow--gap-xs">Duration</p>
-            <p class="meta-value">2019 – Present</p>
-          </div>
-          <div class="meta-item">
-            <p class="eyebrow eyebrow--gap-xs">Platforms</p>
-            <p class="meta-value">Web • Mobile • Admin</p>
-          </div>
-          <div class="meta-item">
-            <p class="eyebrow eyebrow--gap-xs">Stack</p>
-            <p class="meta-value">Next.js • C# • Flutter • Blockchain • Figma</p>
-          </div>
-        </div>
-      </section>
-
-      <div class="hero-image fade-in" aria-label="Fraction Global platform screenshot">
-        <span class="hero-image-placeholder quote">Fraction Global — Platform</span>
-      </div>
-
-      <!-- CONTENT -->
-      <article class="content">
-
-        <!-- THE SITUATION -->
-        <section class="content-section fade-in">
-          <h2>A discovery that became a company</h2>
-          <p>
-            Real world asset investment in Southeast Asia is largely inaccessible to ordinary people. The process is opaque, and secondary liquidity is almost nonexistent. Fraction set out to change that by tokenising real-world assets on the Solana blockchain, so investors could buy and sell fractional ownership the same way they trade shares.
-          </p>
-          <p>
-            When I came in the company was called Ownr. There were founders, an idea, and some early investor interest. No product, no brand, no process. I was Lead UX Designer at Seven Peaks Software at the time, engaged by Fraction to run what was meant to be a 2-week discovery sprint. The consulting carried on through their seed rounds.
-          </p>
-          <p>
-            A year after I left Seven Peaks, the founders came back. I joined Fraction full-time as Head of UX. Six years later the title is largely beside the point. I'm the person who picks up whatever needs to get done. Design, brand, web and mobile development, admin tooling, mentoring. Whatever the business needs, it gets done.
-          </p>
-        </section>
-
-        <!-- DISCOVERY -->
-        <section class="content-section fade-in">
-          <h2>Discovery & MVP</h2>
-          <p>
-            Before a single wireframe, I ran a 2-week discovery period with the founders and early investors. The goal was to define the parameters of a viable MVP. Not what we wanted to build, but what the market needed and what was feasible.
-          </p>
-          <p>
-            I ran competitor audits across stock trading and real-estate investment platforms, established user roles, performed task analysis, and mapped the key flows and sitemaps for three interconnected platforms: an investor trading experience, an issuer management portal, and an admin interface.
-          </p>
-          <p>
-            The resulting lo-fi wireframes and prototype were enough to <strong>secure initial investor buy-in</strong> and green-light full development. That work later contributed directly to a <strong>$3M Series A</strong>.
-          </p>
-
-          <div class="img-placeholder dark" role="img" aria-label="Discovery outputs — user flows and sitemaps">
-            <span>User flows &amp; sitemaps — add screenshot</span>
-          </div>
-        </section>
-
-        <!-- STATS -->
-        <div class="card-grid card-grid--auto stats fade-in" role="region" aria-label="Key outcomes">
-          <div class="stat">
-            <p class="stat-number">$3M</p>
-            <p class="stat-label">Series A — discovery work contributed directly</p>
-          </div>
-          <div class="stat">
-            <p class="stat-number">First</p>
-            <p class="stat-label">SEC-regulated tokenised property platform in Thailand</p>
-          </div>
-          <div class="stat">
-            <p class="stat-number">6 yrs</p>
-            <p class="stat-label">Ongoing — sole designer across the full product</p>
-          </div>
-          <div class="stat">
-            <p class="stat-number">3</p>
-            <p class="stat-label">Platforms designed — investor, issuer, admin</p>
-          </div>
-        </div>
-
-        <!-- BRAND -->
-        <section class="content-section fade-in">
-          <h2>Brand & identity</h2>
-          <p>
-            Midway through the initial design phase my role expanded to include brand strategy. The original name, Ownr, wasn't working. Through workshops with the founders we landed on Fraction: clear, descriptive, with the right connotations of shared ownership and precision.
-          </p>
-          <p>
-            I designed the complete brand identity: mark, typography, colour system, guidelines. The whole thing positioned the platform as a serious financial product rather than a crypto project. That distinction matters for regulatory credibility as much as user trust.
-          </p>
-
-          <div class="grid grid--2 img-row">
-            <div class="img-placeholder" role="img" aria-label="Fraction brand identity">
-              <span>Brand identity — add image</span>
-            </div>
-            <div class="img-placeholder dark" role="img" aria-label="Fraction design system">
-              <span>Design system — add image</span>
-            </div>
-          </div>
-        </section>
-
-        <!-- INVESTOR EXPERIENCE -->
-        <section class="content-section fade-in">
-          <h2>The investor experience</h2>
-          <p>
-            The investor platform needed to work for two very different users: someone familiar with trading apps, and someone who has never bought a financial instrument in their life. The information architecture follows a discover → research → invest → manage pattern that mirrors trading conventions with property-specific context layered in.
-          </p>
-
-          <h3>Discovery and ICOs</h3>
-          <p>
-            Investors browse available properties and assets, view live token prices, and participate in initial coin offerings when new assets are listed. The discovery experience surfaces upcoming ICOs, trending assets, and portfolio recommendations. ICO participation involves allocation requests, which required careful flow design to manage limited supply fairly across multiple simultaneous investors.
-          </p>
-
-          <div class="img-placeholder dark" role="img" aria-label="Fraction investor — asset discovery and ICO screens">
-            <span>Asset discovery &amp; ICO — add screenshot</span>
-          </div>
-
-          <h3>A secondary market that doesn't exist anywhere else</h3>
-          <p>
-            Once an ICO closes, tokens need somewhere to trade. The obvious answer, a traditional spot order book, isn't available in Thailand. SEC regulation doesn't permit conventional secondary marketplaces for tokenised ICO products.
-          </p>
-          <p>
-            What we built instead is a P2P chat-based marketplace. Investors find each other on the platform and negotiate trades directly through a structured chat system. Every flow was engineered against SEC, BOT, and AMLO constraints: pricing visibility, counterparty disclosure, settlement. The trick was keeping the feel of a real marketplace intact.
-          </p>
-          <p>
-            It's a first. No other SEC-regulated platform in Thailand runs anything like it, and the SEC has placed the system in a 24-month sandbox to evaluate whether P2P negotiation can become a fully regulated path to secondary liquidity for tokenised assets.
-          </p>
-
-          <div class="img-placeholder dark" role="img" aria-label="Fraction secondary market trading interface">
-            <span>Secondary market — add screenshot</span>
-          </div>
-
-          <h3>Portfolio, distributions and entitlements</h3>
-          <p>
-            The portfolio view shows holdings, current valuations, and projected returns. When an asset generates income (rental yield, property sale proceeds), distributions are paid directly to token holders. I designed the distribution flow to be transparent: investors see exactly what they're owed, why, and when it lands in their wallet.
-          </p>
-          <p>
-            Entitlements extend this further. Rewards and benefits tied to holding specific assets or reaching portfolio thresholds. These required a separate design system pattern that distinguished entitlements from financial distributions without confusing the two.
-          </p>
-
-          <div class="grid grid--2 img-row">
-            <div class="img-placeholder dark" role="img" aria-label="Portfolio overview screen">
-              <span>Portfolio — add screenshot</span>
-            </div>
-            <div class="img-placeholder dark" role="img" aria-label="Distributions screen">
-              <span>Distributions — add screenshot</span>
-            </div>
-          </div>
-
-          <h3>Voting</h3>
-          <p>
-            Token holders can vote on decisions affecting their assets: renovations, sales, management changes. Designing this well meant making the stakes of each vote clear, the options unambiguous, and the outcome transparent after voting closes. Small detail, high trust impact.
-          </p>
-        </section>
-
-        <!-- ISSUER EXPERIENCE -->
-        <section class="content-section fade-in">
-          <h2>The issuer experience</h2>
-          <p>
-            Issuers are the asset owners and managers who list properties on the platform. Their needs are operationally complex. They're running financial products, not just posting listings, and the interface had to reflect that without becoming overwhelming.
-          </p>
-
-          <h3>Asset listing and tokenisation</h3>
-          <p>
-            The listing flow takes an issuer from asset submission through legal structuring, smart contract generation, wallet setup, and token minting. Each stage has its own review state. Some automated, some requiring Fraction admin approval. I designed the flow to give issuers clear visibility of where they are in the process and what's blocking them, without exposing the technical complexity underneath.
-          </p>
-
-          <div class="img-placeholder dark" role="img" aria-label="Issuer asset listing flow">
-            <span>Asset listing flow — add screenshot</span>
-          </div>
-
-          <h3>ICO management and allocations</h3>
-          <p>
-            Issuers configure and manage their ICOs: opening and closing dates, pricing, token supply, allocation thresholds. During an active ICO they can monitor subscription progress in real time. Post-ICO, the allocation tools let them manage oversubscription fairly and confirm final token distribution before smart contract execution.
-          </p>
-
-          <h3>Distribution payments</h3>
-          <p>
-            When an asset generates income, the issuer runs a distribution. I designed this as a structured workflow: calculate the payment per token, review the recipient list, confirm totals, trigger settlement. The system handles the USDC transfers on Solana, but the issuer needs confidence at every step that the right people are getting the right amounts. Audit trail and reconciliation views are built into the flow.
-          </p>
-
-          <div class="img-placeholder dark" role="img" aria-label="Issuer distribution payment workflow">
-            <span>Distribution payments — add screenshot</span>
-          </div>
-
-          <h3>Reporting</h3>
-          <p>
-            Issuers have reporting obligations to both their investors and Thai regulators. The reporting interface generates investor statements, transaction histories, and regulatory filings. It's designed to be clear enough for a property manager to use without a finance team looking over their shoulder.
-          </p>
-        </section>
-
-        <!-- PLATFORMS -->
-        <section class="content-section fade-in">
-          <h2>Three platforms, one design system</h2>
-          <p>
-            Fraction isn't one product. It's three distinct platforms serving different users, each with its own technical constraints and design requirements. All three needed to feel consistent while serving completely different jobs.
-          </p>
-
-          <h3>Mobile app</h3>
-          <p>
-            The investor-facing mobile app was the original product, built in Flutter for iOS and Android. This is where most investors interact with the platform: browsing assets, participating in ICOs, monitoring their portfolio, and receiving distributions. Designing for mobile-first meant making complex financial data readable on small screens without losing the detail serious investors need.
-          </p>
-
-          <div class="img-placeholder dark" role="img" aria-label="Fraction mobile app screens">
-            <span>Mobile app — add screenshot</span>
-          </div>
-
-          <h3>Web platform</h3>
-          <p>
-            Fraction Next is the web replacement for the mobile app. It's a broader platform that extends the investor experience to desktop and opens up the issuer-facing tools. The web platform handles the more operationally complex workflows: issuer asset listing, ICO configuration, distribution runs, and investor reporting. Designed in Next.js, it also serves as the primary interface for the overseas investor market where mobile app distribution has more friction.
-          </p>
-
-          <div class="img-placeholder dark" role="img" aria-label="Fraction web platform">
-            <span>Web platform — add screenshot</span>
-          </div>
-
-          <h3>Admin portal — Retool</h3>
-          <p>
-            The admin platform was built in Retool, chosen as a "low code" solution to move quickly without a dedicated front-end build. In practice the level of customisation required (custom queries, component logic, permission systems, API integrations, workflow automation) made it as involved as building a conventional admin portal.
-          </p>
-          <p>
-            I designed and developed the admin portal end to end: KYC review queues, asset approval workflows, user management, transaction monitoring, feature flag management, and distribution processing tools. It's the operational backbone the compliance and operations teams run daily.
-          </p>
-          <p>
-            This was the first project where my role formally crossed from designer into developer. That line has stayed blurred ever since.
-          </p>
-
-          <div class="img-placeholder" role="img" aria-label="Fraction admin portal — Retool">
-            <span>Admin portal — add screenshot</span>
-          </div>
-        </section>
-
-        <!-- DESIGN SYSTEM -->
-        <section class="content-section fade-in">
-          <h2>Design system</h2>
-          <p>
-            Three developers, two product lines, a roadmap that kept moving. A proper design system wasn't optional. So I built one in Figma and I've maintained it ever since. Dark theme, DM Sans, every component for every pattern across the apps and the web platform. Everyone works from the same file, so there's no guessing and very little drift.
-          </p>
-          <p>
-            Six years in, it looks nothing like the first version. New patterns get folded in as the product grows. Old components get retired when they stop earning their place. The mobile app, web platform, and admin tools all stay in step because they pull from the same source.
-          </p>
-
-          <div class="img-placeholder dark" role="img" aria-label="Fraction Figma design system">
-            <span>Design system — add screenshot</span>
-          </div>
-        </section>
-
-        <!-- COMPLIANCE -->
-        <section class="content-section fade-in">
-          <h2>Designing for regulation</h2>
-          <p>
-            SEC digital asset licensing in Thailand has direct product implications. KYC requirements, wallet management rules, transaction limits, secondary market restrictions, and reporting obligations all had to be designed as hard constraints, not afterthoughts.
-          </p>
-          <p>
-            I became the team's point person for translating SEC, BOT, and AMLO requirements into product decisions. That meant reading Thai regulatory documents, working with legal advisors, and designing flows that satisfied compliance without making the experience needlessly painful.
-          </p>
-          <p>
-            The P2P secondary market is the clearest example of regulatory design in practice. Two years of work, SEC approval obtained, the first of its kind in Thailand. A strong foundation to build on, with much more still to come.
-          </p>
-        </section>
-
-        <!-- CLOSING -->
-        <section class="content-section fade-in">
-          <h2>What this project is</h2>
-          <p>
-            Fraction isn't a typical case study. There's no clean brief, no defined scope, no hand-off. It's a live regulated financial platform built by a small team under real business pressure, and it's been my primary product for six years.
-          </p>
-          <p>
-            What it demonstrates is harder to show than a polished sprint: sustained product ownership, the ability to hold design quality while absorbing expanding scope, and the judgment to make the right calls when the conditions aren't ideal.
-          </p>
-          <p>
-            The platform is live, SEC-regulated, and processing real transactions. That's the outcome.
-          </p>
-
-          <div class="pill-list" role="list" aria-label="Skills used">
-            <span class="pill pill--sm" role="listitem">Product Ownership</span>
-            <span class="pill pill--sm" role="listitem">UX Research &amp; Discovery</span>
-            <span class="pill pill--sm" role="listitem">Brand Identity</span>
-            <span class="pill pill--sm" role="listitem">Design Systems</span>
-            <span class="pill pill--sm" role="listitem">Investor UX</span>
-            <span class="pill pill--sm" role="listitem">Issuer UX</span>
-            <span class="pill pill--sm" role="listitem">Compliance Design</span>
-            <span class="pill pill--sm" role="listitem">Solana / Blockchain</span>
-            <span class="pill pill--sm" role="listitem">Figma</span>
-            <span class="pill pill--sm" role="listitem">Next.js · Firebase</span>
-            <span class="pill pill--sm" role="listitem">Mobile · Web · Admin</span>
-          </div>
-        </section>
-
-      </article>
-
-      <!-- NEXT PROJECT -->
-      <nav class="next-project fade-in" aria-label="Next case study">
-        <p class="eyebrow eyebrow--wide eyebrow--gap">Next project</p>
-        <a href="./payconnect.html" class="link-underline link-underline--display">PayConnect — Enterprise KYC Platform</a>
-      </nav>
-
-    </main>
-
-    <footer role="contentinfo">
-      <div class="footer-inner">
-        <p class="footer-copy">© Andrew Jordan 2026</p>
-        <nav class="footer-links" aria-label="Footer links">
-          <a class="link-muted link-muted--faint" href="../index.html">Home</a>
-          <a class="link-muted link-muted--faint" href="mailto:andrew@agbjordan.me">Email</a>
-          <a class="link-muted link-muted--faint" href="https://www.linkedin.com/in/andrew-jordan21">LinkedIn</a>
+  <body class="case-study cs-fraction">
+    <!-- HEADER -->
+    <header role="banner">
+      <div class="header-inner">
+        <a href="../index.html" class="logo" aria-label="Andrew Jordan — home">
+          <img src="../static/aj.svg" alt="Andrew Jordan" height="88" />
+        </a>
+        <nav class="header-contact" aria-label="Contact links">
+          <a class="link-muted" href="mailto:andrew@agbjordan.me">andrew@agbjordan.me</a>
+          <a class="link-muted" href="../Andrew-Jordan-Resume.pdf" download>Download Resume</a>
+          <a
+            class="link-muted"
+            href="https://www.linkedin.com/in/andrew-jordan21"
+            aria-label="LinkedIn profile"
+            >LinkedIn</a
+          >
         </nav>
       </div>
-    </footer>
+    </header>
 
-  </div>
+    <div class="column">
+      <main id="main">
+        <!-- HERO -->
+        <section class="hero fade-in">
+          <a href="../index.html" class="nav-back">Back</a>
 
-  <a class="back-home" href="../index.html" aria-label="Back to home" data-tooltip="Back to home" inert>
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-      <polyline points="9 22 9 12 15 12 15 22"/>
-    </svg>
-  </a>
-  <button class="back-to-top" type="button" aria-label="Back to top" data-tooltip="Back to top" inert>
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M12 19V5M5 12l7-7 7 7"/>
-    </svg>
-  </button>
+          <p class="eyebrow eyebrow--accent eyebrow--wide eyebrow--gap-lg">
+            Fraction Global · 2022 – Present
+          </p>
+          <h1>
+            Building Thailand's first SEC-regulated tokenized real world assets investment platform
+          </h1>
+          <p class="hero-summary">
+            What started as a 2-week product discovery. Grew into a six-year engagement spanning
+            brand identity, investor platform &amp; mobile app development, Web 3.0 and blockhain
+            integrations, SEC compliance and regulatory hurdles, and the sporning of an entire new
+            eKYC / eKYB business in the form of
+            <a href="./payconnect.html"><span>PayConnect</span></a
+            >.
+          </p>
+          <div class="meta-row">
+            <div class="meta-item">
+              <p class="eyebrow eyebrow--gap-xs">Role</p>
+              <p class="meta-value">Head of UX / UI / Product Owner</p>
+            </div>
+            <div class="meta-item">
+              <p class="eyebrow eyebrow--gap-xs">Duration</p>
+              <p class="meta-value">2019 – Present</p>
+            </div>
+            <div class="meta-item">
+              <p class="eyebrow eyebrow--gap-xs">Platforms</p>
+              <p class="meta-value">Web • Mobile • Admin</p>
+            </div>
+            <div class="meta-item">
+              <p class="eyebrow eyebrow--gap-xs">Stack</p>
+              <p class="meta-value">Next.js • C# • Flutter • Blockchain • Figma</p>
+            </div>
+          </div>
+        </section>
 
-  <script>
-    const floatingBtns = document.querySelectorAll('.back-to-top, .back-home');
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const toggleFloatingBtns = () => {
-      const show = window.scrollY > 400;
-      floatingBtns.forEach(b => {
-        b.classList.toggle('visible', show);
-        b.toggleAttribute('inert', !show);
-      });
-    };
-    window.addEventListener('scroll', toggleFloatingBtns, { passive: true });
-    toggleFloatingBtns();
-    document.querySelector('.back-to-top').addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
-    });
+        <div class="hero-image fade-in" role="img" aria-label="Fraction Global platform screenshot">
+          <span class="hero-image-placeholder quote">Fraction Global — Platform</span>
+        </div>
 
-    if ('IntersectionObserver' in window) {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+        <!-- CONTENT -->
+        <article class="content">
+          <!-- THE SITUATION -->
+          <section class="content-section fade-in">
+            <h2>A discovery that became a company</h2>
+            <p>
+              Real world asset investment in Southeast Asia is largely inaccessible to ordinary
+              people. The process is opaque, and secondary liquidity is almost nonexistent. Fraction
+              set out to change that by tokenising real-world assets on the Solana blockchain, so
+              investors could buy and sell fractional ownership the same way they trade shares.
+            </p>
+            <p>
+              When I came in the company was called Ownr. There were founders, an idea, and some
+              early investor interest. No product, no brand, no process. I was Lead UX Designer at
+              Seven Peaks Software at the time, engaged by Fraction to run what was meant to be a
+              2-week discovery sprint. The consulting carried on through their seed rounds.
+            </p>
+            <p>
+              A year after I left Seven Peaks, the founders came back. I joined Fraction full-time
+              as Head of UX. Six years later the title is largely beside the point. I'm the person
+              who picks up whatever needs to get done. Design, brand, web and mobile development,
+              admin tooling, mentoring. Whatever the business needs, it gets done.
+            </p>
+          </section>
+
+          <!-- DISCOVERY -->
+          <section class="content-section fade-in">
+            <h2>Discovery &amp; MVP</h2>
+            <p>
+              Before a single wireframe, I ran a 2-week discovery period with the founders and early
+              investors. The goal was to define the parameters of a viable MVP. Not what we wanted
+              to build, but what the market needed and what was feasible.
+            </p>
+            <p>
+              I ran competitor audits across stock trading and real-estate investment platforms,
+              established user roles, performed task analysis, and mapped the key flows and sitemaps
+              for three interconnected platforms: an investor trading experience, an issuer
+              management portal, and an admin interface.
+            </p>
+            <p>
+              The resulting lo-fi wireframes and prototype were enough to
+              <strong>secure initial investor buy-in</strong> and green-light full development. That
+              work later contributed directly to a <strong>$3M Series A</strong>.
+            </p>
+
+            <div
+              class="img-placeholder dark"
+              role="img"
+              aria-label="Discovery outputs — user flows and sitemaps"
+            >
+              <span>User flows &amp; sitemaps — add screenshot</span>
+            </div>
+          </section>
+
+          <!-- STATS -->
+          <div
+            class="card-grid card-grid--auto stats fade-in"
+            role="region"
+            aria-label="Key outcomes"
+          >
+            <div class="stat">
+              <p class="stat-number">$3M</p>
+              <p class="stat-label">Series A — discovery work contributed directly</p>
+            </div>
+            <div class="stat">
+              <p class="stat-number">First</p>
+              <p class="stat-label">SEC-regulated tokenised property platform in Thailand</p>
+            </div>
+            <div class="stat">
+              <p class="stat-number">6 yrs</p>
+              <p class="stat-label">Ongoing — sole designer across the full product</p>
+            </div>
+            <div class="stat">
+              <p class="stat-number">3</p>
+              <p class="stat-label">Platforms designed — investor, issuer, admin</p>
+            </div>
+          </div>
+
+          <!-- BRAND -->
+          <section class="content-section fade-in">
+            <h2>Brand &amp; identity</h2>
+            <p>
+              Midway through the initial design phase my role expanded to include brand strategy.
+              The original name, Ownr, wasn't working. Through workshops with the founders we landed
+              on Fraction: clear, descriptive, with the right connotations of shared ownership and
+              precision.
+            </p>
+            <p>
+              I designed the complete brand identity: mark, typography, colour system, guidelines.
+              The whole thing positioned the platform as a serious financial product rather than a
+              crypto project. That distinction matters for regulatory credibility as much as user
+              trust.
+            </p>
+
+            <div class="grid grid--2 img-row">
+              <div class="img-placeholder" role="img" aria-label="Fraction brand identity">
+                <span>Brand identity — add image</span>
+              </div>
+              <div class="img-placeholder dark" role="img" aria-label="Fraction design system">
+                <span>Design system — add image</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- INVESTOR EXPERIENCE -->
+          <section class="content-section fade-in">
+            <h2>The investor experience</h2>
+            <p>
+              The investor platform needed to work for two very different users: someone familiar
+              with trading apps, and someone who has never bought a financial instrument in their
+              life. The information architecture follows a discover → research → invest → manage
+              pattern that mirrors trading conventions with property-specific context layered in.
+            </p>
+
+            <h3>Discovery and ICOs</h3>
+            <p>
+              Investors browse available properties and assets, view live token prices, and
+              participate in initial coin offerings when new assets are listed. The discovery
+              experience surfaces upcoming ICOs, trending assets, and portfolio recommendations. ICO
+              participation involves allocation requests, which required careful flow design to
+              manage limited supply fairly across multiple simultaneous investors.
+            </p>
+
+            <div
+              class="img-placeholder dark"
+              role="img"
+              aria-label="Fraction investor — asset discovery and ICO screens"
+            >
+              <span>Asset discovery &amp; ICO — add screenshot</span>
+            </div>
+
+            <h3>A secondary market that doesn't exist anywhere else</h3>
+            <p>
+              Once an ICO closes, tokens need somewhere to trade. The obvious answer, a traditional
+              spot order book, isn't available in Thailand. SEC regulation doesn't permit
+              conventional secondary marketplaces for tokenised ICO products.
+            </p>
+            <p>
+              What we built instead is a P2P chat-based marketplace. Investors find each other on
+              the platform and negotiate trades directly through a structured chat system. Every
+              flow was engineered against SEC, BOT, and AMLO constraints: pricing visibility,
+              counterparty disclosure, settlement. The trick was keeping the feel of a real
+              marketplace intact.
+            </p>
+            <p>
+              It's a first. No other SEC-regulated platform in Thailand runs anything like it, and
+              the SEC has placed the system in a 24-month sandbox to evaluate whether P2P
+              negotiation can become a fully regulated path to secondary liquidity for tokenised
+              assets.
+            </p>
+
+            <div
+              class="img-placeholder dark"
+              role="img"
+              aria-label="Fraction secondary market trading interface"
+            >
+              <span>Secondary market — add screenshot</span>
+            </div>
+
+            <h3>Portfolio, distributions and entitlements</h3>
+            <p>
+              The portfolio view shows holdings, current valuations, and projected returns. When an
+              asset generates income (rental yield, property sale proceeds), distributions are paid
+              directly to token holders. I designed the distribution flow to be transparent:
+              investors see exactly what they're owed, why, and when it lands in their wallet.
+            </p>
+            <p>
+              Entitlements extend this further. Rewards and benefits tied to holding specific assets
+              or reaching portfolio thresholds. These required a separate design system pattern that
+              distinguished entitlements from financial distributions without confusing the two.
+            </p>
+
+            <div class="grid grid--2 img-row">
+              <div class="img-placeholder dark" role="img" aria-label="Portfolio overview screen">
+                <span>Portfolio — add screenshot</span>
+              </div>
+              <div class="img-placeholder dark" role="img" aria-label="Distributions screen">
+                <span>Distributions — add screenshot</span>
+              </div>
+            </div>
+
+            <h3>Voting</h3>
+            <p>
+              Token holders can vote on decisions affecting their assets: renovations, sales,
+              management changes. Designing this well meant making the stakes of each vote clear,
+              the options unambiguous, and the outcome transparent after voting closes. Small
+              detail, high trust impact.
+            </p>
+          </section>
+
+          <!-- ISSUER EXPERIENCE -->
+          <section class="content-section fade-in">
+            <h2>The issuer experience</h2>
+            <p>
+              Issuers are the asset owners and managers who list properties on the platform. Their
+              needs are operationally complex. They're running financial products, not just posting
+              listings, and the interface had to reflect that without becoming overwhelming.
+            </p>
+
+            <h3>Asset listing and tokenisation</h3>
+            <p>
+              The listing flow takes an issuer from asset submission through legal structuring,
+              smart contract generation, wallet setup, and token minting. Each stage has its own
+              review state. Some automated, some requiring Fraction admin approval. I designed the
+              flow to give issuers clear visibility of where they are in the process and what's
+              blocking them, without exposing the technical complexity underneath.
+            </p>
+
+            <div class="img-placeholder dark" role="img" aria-label="Issuer asset listing flow">
+              <span>Asset listing flow — add screenshot</span>
+            </div>
+
+            <h3>ICO management and allocations</h3>
+            <p>
+              Issuers configure and manage their ICOs: opening and closing dates, pricing, token
+              supply, allocation thresholds. During an active ICO they can monitor subscription
+              progress in real time. Post-ICO, the allocation tools let them manage oversubscription
+              fairly and confirm final token distribution before smart contract execution.
+            </p>
+
+            <h3>Distribution payments</h3>
+            <p>
+              When an asset generates income, the issuer runs a distribution. I designed this as a
+              structured workflow: calculate the payment per token, review the recipient list,
+              confirm totals, trigger settlement. The system handles the USDC transfers on Solana,
+              but the issuer needs confidence at every step that the right people are getting the
+              right amounts. Audit trail and reconciliation views are built into the flow.
+            </p>
+
+            <div
+              class="img-placeholder dark"
+              role="img"
+              aria-label="Issuer distribution payment workflow"
+            >
+              <span>Distribution payments — add screenshot</span>
+            </div>
+
+            <h3>Reporting</h3>
+            <p>
+              Issuers have reporting obligations to both their investors and Thai regulators. The
+              reporting interface generates investor statements, transaction histories, and
+              regulatory filings. It's designed to be clear enough for a property manager to use
+              without a finance team looking over their shoulder.
+            </p>
+          </section>
+
+          <!-- PLATFORMS -->
+          <section class="content-section fade-in">
+            <h2>Three platforms, one design system</h2>
+            <p>
+              Fraction isn't one product. It's three distinct platforms serving different users,
+              each with its own technical constraints and design requirements. All three needed to
+              feel consistent while serving completely different jobs.
+            </p>
+
+            <h3>Mobile app</h3>
+            <p>
+              The investor-facing mobile app was the original product, built in Flutter for iOS and
+              Android. This is where most investors interact with the platform: browsing assets,
+              participating in ICOs, monitoring their portfolio, and receiving distributions.
+              Designing for mobile-first meant making complex financial data readable on small
+              screens without losing the detail serious investors need.
+            </p>
+
+            <div class="img-placeholder dark" role="img" aria-label="Fraction mobile app screens">
+              <span>Mobile app — add screenshot</span>
+            </div>
+
+            <h3>Web platform</h3>
+            <p>
+              Fraction Next is the web replacement for the mobile app. It's a broader platform that
+              extends the investor experience to desktop and opens up the issuer-facing tools. The
+              web platform handles the more operationally complex workflows: issuer asset listing,
+              ICO configuration, distribution runs, and investor reporting. Designed in Next.js, it
+              also serves as the primary interface for the overseas investor market where mobile app
+              distribution has more friction.
+            </p>
+
+            <div class="img-placeholder dark" role="img" aria-label="Fraction web platform">
+              <span>Web platform — add screenshot</span>
+            </div>
+
+            <h3>Admin portal — Retool</h3>
+            <p>
+              The admin platform was built in Retool, chosen as a "low code" solution to move
+              quickly without a dedicated front-end build. In practice the level of customisation
+              required (custom queries, component logic, permission systems, API integrations,
+              workflow automation) made it as involved as building a conventional admin portal.
+            </p>
+            <p>
+              I designed and developed the admin portal end to end: KYC review queues, asset
+              approval workflows, user management, transaction monitoring, feature flag management,
+              and distribution processing tools. It's the operational backbone the compliance and
+              operations teams run daily.
+            </p>
+            <p>
+              This was the first project where my role formally crossed from designer into
+              developer. That line has stayed blurred ever since.
+            </p>
+
+            <div class="img-placeholder" role="img" aria-label="Fraction admin portal — Retool">
+              <span>Admin portal — add screenshot</span>
+            </div>
+          </section>
+
+          <!-- DESIGN SYSTEM -->
+          <section class="content-section fade-in">
+            <h2>Design system</h2>
+            <p>
+              Three developers, two product lines, a roadmap that kept moving. A proper design
+              system wasn't optional. So I built one in Figma and I've maintained it ever since.
+              Dark theme, DM Sans, every component for every pattern across the apps and the web
+              platform. Everyone works from the same file, so there's no guessing and very little
+              drift.
+            </p>
+            <p>
+              Six years in, it looks nothing like the first version. New patterns get folded in as
+              the product grows. Old components get retired when they stop earning their place. The
+              mobile app, web platform, and admin tools all stay in step because they pull from the
+              same source.
+            </p>
+
+            <div class="img-placeholder dark" role="img" aria-label="Fraction Figma design system">
+              <span>Design system — add screenshot</span>
+            </div>
+          </section>
+
+          <!-- COMPLIANCE -->
+          <section class="content-section fade-in">
+            <h2>Designing for regulation</h2>
+            <p>
+              SEC digital asset licensing in Thailand has direct product implications. KYC
+              requirements, wallet management rules, transaction limits, secondary market
+              restrictions, and reporting obligations all had to be designed as hard constraints,
+              not afterthoughts.
+            </p>
+            <p>
+              I became the team's point person for translating SEC, BOT, and AMLO requirements into
+              product decisions. That meant reading Thai regulatory documents, working with legal
+              advisors, and designing flows that satisfied compliance without making the experience
+              needlessly painful.
+            </p>
+            <p>
+              The P2P secondary market is the clearest example of regulatory design in practice. Two
+              years of work, SEC approval obtained, the first of its kind in Thailand. A strong
+              foundation to build on, with much more still to come.
+            </p>
+          </section>
+
+          <!-- CLOSING -->
+          <section class="content-section fade-in">
+            <h2>What this project is</h2>
+            <p>
+              Fraction isn't a typical case study. There's no clean brief, no defined scope, no
+              hand-off. It's a live regulated financial platform built by a small team under real
+              business pressure, and it's been my primary product for six years.
+            </p>
+            <p>
+              What it demonstrates is harder to show than a polished sprint: sustained product
+              ownership, the ability to hold design quality while absorbing expanding scope, and the
+              judgment to make the right calls when the conditions aren't ideal.
+            </p>
+            <p>
+              The platform is live, SEC-regulated, and processing real transactions. That's the
+              outcome.
+            </p>
+
+            <div class="pill-list" role="list" aria-label="Skills used">
+              <span class="pill pill--sm" role="listitem">Product Ownership</span>
+              <span class="pill pill--sm" role="listitem">UX Research &amp; Discovery</span>
+              <span class="pill pill--sm" role="listitem">Brand Identity</span>
+              <span class="pill pill--sm" role="listitem">Design Systems</span>
+              <span class="pill pill--sm" role="listitem">Investor UX</span>
+              <span class="pill pill--sm" role="listitem">Issuer UX</span>
+              <span class="pill pill--sm" role="listitem">Compliance Design</span>
+              <span class="pill pill--sm" role="listitem">Solana / Blockchain</span>
+              <span class="pill pill--sm" role="listitem">Figma</span>
+              <span class="pill pill--sm" role="listitem">Next.js · Firebase</span>
+              <span class="pill pill--sm" role="listitem">Mobile · Web · Admin</span>
+            </div>
+          </section>
+        </article>
+
+        <!-- NEXT PROJECT -->
+        <nav class="next-project fade-in" aria-label="Next case study">
+          <p class="eyebrow eyebrow--wide eyebrow--gap">Next project</p>
+          <a href="./payconnect.html" class="link-underline link-underline--display"
+            >PayConnect — Enterprise KYC Platform</a
+          >
+        </nav>
+      </main>
+
+      <footer role="contentinfo">
+        <div class="footer-inner">
+          <p class="footer-copy">© Andrew Jordan 2026</p>
+          <nav class="footer-links" aria-label="Footer links">
+            <a class="link-muted link-muted--faint" href="../index.html">Home</a>
+            <a class="link-muted link-muted--faint" href="mailto:andrew@agbjordan.me">Email</a>
+            <a
+              class="link-muted link-muted--faint"
+              href="https://www.linkedin.com/in/andrew-jordan21"
+              >LinkedIn</a
+            >
+          </nav>
+        </div>
+      </footer>
+    </div>
+
+    <a
+      class="back-home"
+      href="../index.html"
+      aria-label="Back to home"
+      data-tooltip="Back to home"
+      inert
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+        <polyline points="9 22 9 12 15 12 15 22" />
+      </svg>
+    </a>
+    <button
+      class="back-to-top"
+      type="button"
+      aria-label="Back to top"
+      data-tooltip="Back to top"
+      inert
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M12 19V5M5 12l7-7 7 7" />
+      </svg>
+    </button>
+
+    <script>
+      const floatingBtns = document.querySelectorAll(".back-to-top, .back-home");
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const toggleFloatingBtns = () => {
+        const show = window.scrollY > 400;
+        floatingBtns.forEach((b) => {
+          b.classList.toggle("visible", show);
+          b.toggleAttribute("inert", !show);
         });
-      }, { threshold: 0.08 });
-      document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-    } else {
-      document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
-    }
-  </script>
+      };
+      window.addEventListener("scroll", toggleFloatingBtns, { passive: true });
+      toggleFloatingBtns();
+      document.querySelector(".back-to-top").addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: reducedMotion.matches ? "auto" : "smooth" });
+      });
 
-</body>
+      if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.08 },
+        );
+        document.querySelectorAll(".fade-in").forEach((el) => observer.observe(el));
+      } else {
+        document.querySelectorAll(".fade-in").forEach((el) => el.classList.add("visible"));
+      }
+    </script>
+  </body>
 </html>

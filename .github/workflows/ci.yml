@@ -1,0 +1,118 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# A second push to the same branch makes the in-flight run irrelevant.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PORT: 4173
+  BASE_URL: http://localhost:4173
+
+jobs:
+  # Formatting, CSS, HTML and asset budgets. No browser, so it finishes fast and
+  # gives the quick signal on the majority of mistakes.
+  static:
+    name: Static checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - name: Prettier
+        run: npm run format:check
+
+      - name: Stylelint
+        run: npm run lint:css
+
+      - name: html-validate
+        run: npm run lint:html
+
+      - name: Asset references and size budgets
+        run: npm run check:assets
+
+  # Everything that needs a real browser and a served copy of the site.
+  browser:
+    name: Links, accessibility, Lighthouse
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      # pa11y-ci@3 -> pa11y@6 -> puppeteer@9 bundles Chromium 91, which predates
+      # CSS nesting (Chrome 112) and silently drops every `& { ... }` block in
+      # styles.css -- reporting contrast failures for a page that never renders
+      # that way. .pa11yci.js refuses to fall back to it, so CI has to hand it a
+      # current Chrome. The ubuntu-latest image ships one; this step fails loudly
+      # if that ever stops being true or the version regresses.
+      - name: Verify a modern Chrome is available
+        run: |
+          CHROME_PATH=$(command -v google-chrome || command -v google-chrome-stable || true)
+          if [ -z "$CHROME_PATH" ]; then
+            echo "::error::No Google Chrome on the runner image."
+            exit 1
+          fi
+          VERSION=$("$CHROME_PATH" --version)
+          MAJOR=$(echo "$VERSION" | grep -oE '[0-9]+' | head -1)
+          echo "Found $VERSION at $CHROME_PATH"
+          if [ "$MAJOR" -lt 112 ]; then
+            echo "::error::Chrome $MAJOR is older than 112 and cannot parse CSS nesting."
+            exit 1
+          fi
+          echo "CHROME_PATH=$CHROME_PATH" >> "$GITHUB_ENV"
+
+      - name: Serve the site
+        run: |
+          npm run serve &
+          for i in $(seq 1 30); do
+            curl -sf "$BASE_URL/index.html" -o /dev/null && echo "up after ${i}s" && exit 0
+            sleep 1
+          done
+          echo "::error::Server never came up on $BASE_URL"
+          exit 1
+
+      - name: Internal links
+        run: npm run check:links
+
+      - name: Accessibility (WCAG 2 AA)
+        run: npm run check:a11y
+
+      # Reports go to the run's artifacts rather than lighthouserc.json's
+      # temporary-public-storage, so pushing a branch does not publish a
+      # rendering of the site to a public URL. Drop these two flags to restore
+      # the public upload.
+      - name: Lighthouse
+        run: |
+          npx lhci autorun \
+            --upload.target=filesystem \
+            --upload.outputDir=./lhci-report
+
+      - name: Upload Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-report
+          path: lhci-report/
+          retention-days: 14
+          if-no-files-found: ignore

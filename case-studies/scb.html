@@ -1,321 +1,456 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="How I coordinated 6 design and development teams across Bangkok, Hong Kong, and Singapore to ship a unified fintech product for SCB TechX.">
-  <title>SCB Level Up — Andrew Jordan</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="How I coordinated 6 design and development teams across Bangkok, Hong Kong, and Singapore to ship a unified fintech product for SCB TechX."
+    />
+    <title>SCB Level Up — Andrew Jordan</title>
 
-  <link rel="canonical" href="https://agbjordan.me/case-studies/scb.html">
+    <link rel="canonical" href="https://agbjordan.me/case-studies/scb.html" />
 
-  <!-- Open Graph -->
-  <meta property="og:site_name" content="Andrew Jordan">
-  <meta property="og:locale" content="en_GB">
-  <meta property="og:type" content="article">
-  <meta property="og:title" content="SCB Level Up — Andrew Jordan">
-  <meta property="og:description" content="How I coordinated 6 design and development teams across Bangkok, Hong Kong, and Singapore to ship a unified fintech product for SCB TechX.">
-  <meta property="og:url" content="https://agbjordan.me/case-studies/scb.html">
-  <meta property="og:image" content="https://agbjordan.me/static/og-image.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Andrew Jordan — Senior Product Owner & Designer, agbjordan.me">
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="Andrew Jordan" />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="SCB Level Up — Andrew Jordan" />
+    <meta
+      property="og:description"
+      content="How I coordinated 6 design and development teams across Bangkok, Hong Kong, and Singapore to ship a unified fintech product for SCB TechX."
+    />
+    <meta property="og:url" content="https://agbjordan.me/case-studies/scb.html" />
+    <meta property="og:image" content="https://agbjordan.me/static/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Andrew Jordan — Senior Product Owner and Designer, agbjordan.me"
+    />
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="SCB Level Up — Andrew Jordan">
-  <meta name="twitter:description" content="How I coordinated 6 design and development teams across Bangkok, Hong Kong, and Singapore to ship a unified fintech product for SCB TechX.">
-  <meta name="twitter:image" content="https://agbjordan.me/static/og-image.png">
-  <meta name="twitter:image:alt" content="Andrew Jordan — Senior Product Owner & Designer, agbjordan.me">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="SCB Level Up — Andrew Jordan" />
+    <meta
+      name="twitter:description"
+      content="How I coordinated 6 design and development teams across Bangkok, Hong Kong, and Singapore to ship a unified fintech product for SCB TechX."
+    />
+    <meta name="twitter:image" content="https://agbjordan.me/static/og-image.png" />
+    <meta
+      name="twitter:image:alt"
+      content="Andrew Jordan — Senior Product Owner and Designer, agbjordan.me"
+    />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Geist:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- Icons. The .ico is declared at 32x32 so browsers that understand SVG
+         prefer the scalable one; the .ico is the fallback for those that don't. -->
+    <link rel="icon" href="../favicon.ico" sizes="32x32" />
+    <link rel="icon" href="../static/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="../static/apple-touch-icon.png" />
 
-  <link rel="stylesheet" href="../css/styles.css">
-</head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Geist:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
 
-<body class="case-study cs-scb">
+    <link rel="stylesheet" href="../css/styles.css" />
+  </head>
 
-  <!-- HEADER -->
-  <header role="banner">
-    <div class="header-inner">
-      <a href="../index.html" class="logo" aria-label="Andrew Jordan — home">
-        <img src="../static/aj.svg" alt="Andrew Jordan" height="88px"/>
-      </a>
-      <nav class="header-contact" aria-label="Contact links">
-        <a class="link-muted" href="mailto:andrew@agbjordan.me">andrew@agbjordan.me</a>
-        <a class="link-muted" href="../Andrew-Jordan-Resume.pdf" download>Download Resume</a>
-        <a class="link-muted" href="https://www.linkedin.com/in/andrew-jordan21" aria-label="LinkedIn profile">LinkedIn</a>
-      </nav>
-    </div>
-  </header>
-
-  <div class="column">
-
-    <main id="main">
-
-      <section class="hero fade-in">
-
-        <a href="../index.html" class="nav-back">Back</a>
-
-        <p class="eyebrow eyebrow--accent eyebrow--wide eyebrow--gap-lg">SCB TechX · Level Up · 7 Peaks Software · 2019 – 2020</p>
-        <h1>Coordinating 6 teams across 3 countries to ship one product</h1>
-        <p class="hero-summary">
-          Level Up was a payday loans app for low-income Thai families, built by SCB TechX with Palo IT across Bangkok, Hong Kong, and Singapore. Six simultaneous feature teams. One product. My job was to keep the design coherent across all of them.
-        </p>
-        <div class="meta-row">
-          <div class="meta-item">
-            <p class="eyebrow eyebrow--gap-xs">Role</p>
-            <p class="meta-value">Lead UX Designer · Design Coordination</p>
-          </div>
-          <div class="meta-item">
-            <p class="eyebrow eyebrow--gap-xs">Client</p>
-            <p class="meta-value">SCB TechX</p>
-          </div>
-          <div class="meta-item">
-            <p class="eyebrow eyebrow--gap-xs">Teams</p>
-            <p class="meta-value">6 teams · 3 cities · Mixed agency &amp; client</p>
-          </div>
-          <div class="meta-item">
-            <p class="eyebrow eyebrow--gap-xs">Platform</p>
-            <p class="meta-value">iOS · Android</p>
-          </div>
-        </div>
-      </section>
-
-      <div class="hero-image fade-in" aria-label="Level Up app screens">
-        <span class="hero-image-placeholder quote">Level Up — SCB TechX</span>
-      </div>
-
-      <article class="content">
-
-        <!-- THE PRODUCT -->
-        <section class="content-section fade-in">
-          <h2>The product</h2>
-          <p>
-            Level Up was a short-term loans app targeting low-income Thai families — a segment typically underserved by traditional banking and overcharged by informal lenders. The product's central insight was that financial behaviour could be shaped through incentive design: reliable repayment behaviour should be rewarded, not just punished when it breaks down.
-          </p>
-          <p>
-            The gamification system was directly tied to financial outcomes. <strong>APR decreased with consistent repayment behaviour</strong> — the more reliably you repaid, the less you paid to borrow. Milestone rewards were built into the onboarding flow, recognising customers at each stage: sign-up, KYC completion, approval, first loan, first repayment. This turned a typically anxious process into a progressive experience with clear markers of progress and reward.
-          </p>
-          <p>
-            For the target user — someone who may never have had a formal loan before — these design decisions had real financial consequences. Getting the UX right wasn't just about conversion rates. It was about whether someone understood what they were signing up for and whether they felt equipped to manage it.
-          </p>
-
-          <div class="grid grid--2 img-row">
-            <div class="img-placeholder purple" role="img" aria-label="Level Up onboarding milestone screens">
-              <span>Onboarding milestones — add screenshot</span>
-            </div>
-            <div class="img-placeholder purple" role="img" aria-label="Level Up loan management screen">
-              <span>Loan management — add screenshot</span>
-            </div>
-          </div>
-        </section>
-
-        <!-- STATS -->
-        <div class="card-grid card-grid--auto stats fade-in" role="region" aria-label="Project scale">
-          <div class="stat">
-            <p class="stat-number">6</p>
-            <p class="stat-label">Simultaneous feature teams</p>
-          </div>
-          <div class="stat">
-            <p class="stat-number">3</p>
-            <p class="stat-label">Cities — Bangkok, Hong Kong, Singapore</p>
-          </div>
-          <div class="stat">
-            <p class="stat-number">8+</p>
-            <p class="stat-label">Palo IT designers across all offices</p>
-          </div>
-          <div class="stat">
-            <p class="stat-number">2 wks</p>
-            <p class="stat-label">Sprint cadence — feature to integration</p>
-          </div>
-        </div>
-
-        <!-- THE COORDINATION CHALLENGE -->
-        <section class="content-section fade-in">
-          <h2>The coordination challenge</h2>
-          <p>
-            The structure was deliberately parallel: six teams, each comprising designers, developers, and a product owner, working on separate features of the same product simultaneously. The theory was velocity — more teams, faster delivery. The reality was that without tight coordination, you'd end up with six features that didn't fit together.
-          </p>
-          <p>
-            I was responsible for the Palo IT designers across all three offices, working alongside SCB TechX's internal design principal to align on goals and standards across all six teams. That meant operating at two levels simultaneously: managing my own team's output and ensuring the full product remained coherent.
-          </p>
-
-          <div class="pullquote">
-            <p class="quote">Six teams moving fast in the same direction is an achievement. Six teams moving fast in six slightly different directions is a problem that compounds every sprint.</p>
-          </div>
-
-          <div class="grid grid--3 team-grid" role="region" aria-label="Team structure across offices">
-            <div class="panel team-office">
-              <div class="eyebrow team-office-header">Bangkok</div>
-              <div class="team-office-body">
-                <p class="team-role"><span>4</span> Palo IT Designers</p>
-                <p class="team-role">SCB TechX Design Staff</p>
-                <p class="team-role">Developers · POs</p>
-                <p class="team-role">Multiple feature teams</p>
-              </div>
-            </div>
-            <div class="panel team-office">
-              <div class="eyebrow team-office-header">Hong Kong</div>
-              <div class="team-office-body">
-                <p class="team-role"><span>2</span> Palo IT Designers</p>
-                <p class="team-role">Developers · POs</p>
-                <p class="team-role">Feature teams</p>
-              </div>
-            </div>
-            <div class="panel team-office">
-              <div class="eyebrow team-office-header">Singapore</div>
-              <div class="team-office-body">
-                <p class="team-role"><span>2</span> Palo IT Designers</p>
-                <p class="team-role">Developers · POs</p>
-                <p class="team-role">Feature teams</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- HOW IT WORKED -->
-        <section class="content-section fade-in">
-          <h2>How it worked</h2>
-
-          <h3>The sprint model</h3>
-          <p>
-            Each 2-week sprint followed the same pattern: teams worked independently on their assigned feature, with daily standups within each team and regular cross-team syncs to catch divergence early. At the end of each sprint, output from all six teams came together in an integration review — where the design consistency work either paid off or didn't.
-          </p>
-
-          <div class="card-grid card-grid--auto sprint-flow" role="region" aria-label="Sprint structure">
-            <div class="sprint-step">
-              <p class="stat-number">1</p>
-              <p class="sprint-step-label">Sprint brief — aligned goals per team</p>
-            </div>
-            <div class="sprint-step">
-              <p class="stat-number">2</p>
-              <p class="sprint-step-label">Parallel feature development — 6 teams</p>
-            </div>
-            <div class="sprint-step">
-              <p class="stat-number">3</p>
-              <p class="sprint-step-label">Lo-fi review — flows and structure</p>
-            </div>
-            <div class="sprint-step">
-              <p class="stat-number">4</p>
-              <p class="sprint-step-label">Hi-fi delivery using shared design system</p>
-            </div>
-            <div class="sprint-step">
-              <p class="stat-number">5</p>
-              <p class="sprint-step-label">Integration review — cohesion check</p>
-            </div>
-          </div>
-
-          <h3>Design system as coordination tool</h3>
-          <p>
-            The design system was the primary mechanism for keeping six teams aligned. Two designers were dedicated full-time to system ownership — not building features, but maintaining and evolving the component library and auditing new components as teams created them.
-          </p>
-          <p>
-            The process was deliberate: lo-fi wireframes were not held to strict component standards — they were for thinking, not building. But once a feature moved to hi-fi, it had to be built from the shared library. Any new component a team needed went through the system owners for review before being added to the library and made available to all teams.
-          </p>
-          <p>
-            This meant the system evolved with the product rather than being a constraint on it. Teams weren't blocked by missing components — they could propose and build them — but the quality gate ensured the library stayed consistent and the end product felt like it came from one place.
-          </p>
-
-          <div class="img-placeholder purple" role="img" aria-label="Level Up design system and component library">
-            <span>Design system — add screenshot</span>
-          </div>
-
-          <h3>Alignment across organisations</h3>
-          <p>
-            The structural complexity wasn't just geographic. Palo IT designers were agency staff. SCB TechX had their own internal design team with their own standards, culture, and priorities. Getting those two groups aligned — without either side feeling like they were being overruled — required working closely with SCB's design principal to establish shared goals and a shared language before the sprint work began.
-          </p>
-          <p>
-            My role was bridge: representing the Palo IT team's approach upward to SCB, and representing SCB's requirements and standards back to my own team. That dual accountability is what kept the work cohesive.
-          </p>
-        </section>
-
-        <!-- CLOSING -->
-        <section class="content-section fade-in">
-          <h2>What this demonstrates</h2>
-          <p>
-            This project isn't a showcase of interface design. It's a demonstration of design leadership at scale — coordinating a distributed team across time zones and organisational boundaries, maintaining quality standards without slowing delivery, and keeping a product coherent when six teams are simultaneously building it.
-          </p>
-          <p>
-            The same principles apply at any scale. Clarity of goals, a shared design language, quality gates at the right points in the process, and someone whose job it is to see the whole picture — that's what makes parallel teams work.
-          </p>
-
-          <div class="pill-list" role="list" aria-label="Skills used">
-            <span class="pill pill--sm" role="listitem">Design Leadership</span>
-            <span class="pill pill--sm" role="listitem">Distributed Team Management</span>
-            <span class="pill pill--sm" role="listitem">Design Systems</span>
-            <span class="pill pill--sm" role="listitem">Design Operations</span>
-            <span class="pill pill--sm" role="listitem">Agile · Sprint Management</span>
-            <span class="pill pill--sm" role="listitem">Cross-org Alignment</span>
-            <span class="pill pill--sm" role="listitem">Fintech UX</span>
-            <span class="pill pill--sm" role="listitem">Gamification Design</span>
-            <span class="pill pill--sm" role="listitem">iOS · Android</span>
-            <span class="pill pill--sm" role="listitem">Stakeholder Management</span>
-          </div>
-        </section>
-
-      </article>
-
-      <nav class="next-project fade-in" aria-label="Next case study">
-        <p class="eyebrow eyebrow--wide eyebrow--gap">Next project</p>
-        <a href="./yoma.html" class="link-underline link-underline--display">Yoma Bank — National Bank Rebrand</a>
-      </nav>
-
-    </main>
-
-    <footer role="contentinfo">
-      <div class="footer-inner">
-        <p class="footer-copy">© Andrew Jordan 2026</p>
-        <nav class="footer-links" aria-label="Footer links">
-          <a class="link-muted link-muted--faint" href="../index.html">Home</a>
-          <a class="link-muted link-muted--faint" href="mailto:andrew@agbjordan.me">Email</a>
-          <a class="link-muted link-muted--faint" href="https://www.linkedin.com/in/andrew-jordan21">LinkedIn</a>
+  <body class="case-study cs-scb">
+    <!-- HEADER -->
+    <header role="banner">
+      <div class="header-inner">
+        <a href="../index.html" class="logo" aria-label="Andrew Jordan — home">
+          <img src="../static/aj.svg" alt="Andrew Jordan" height="88" />
+        </a>
+        <nav class="header-contact" aria-label="Contact links">
+          <a class="link-muted" href="mailto:andrew@agbjordan.me">andrew@agbjordan.me</a>
+          <a class="link-muted" href="../Andrew-Jordan-Resume.pdf" download>Download Resume</a>
+          <a
+            class="link-muted"
+            href="https://www.linkedin.com/in/andrew-jordan21"
+            aria-label="LinkedIn profile"
+            >LinkedIn</a
+          >
         </nav>
       </div>
-    </footer>
+    </header>
 
-  </div>
+    <div class="column">
+      <main id="main">
+        <section class="hero fade-in">
+          <a href="../index.html" class="nav-back">Back</a>
 
-  <a class="back-home" href="../index.html" aria-label="Back to home" data-tooltip="Back to home" inert>
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-      <polyline points="9 22 9 12 15 12 15 22"/>
-    </svg>
-  </a>
-  <button class="back-to-top" type="button" aria-label="Back to top" data-tooltip="Back to top" inert>
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M12 19V5M5 12l7-7 7 7"/>
-    </svg>
-  </button>
+          <p class="eyebrow eyebrow--accent eyebrow--wide eyebrow--gap-lg">
+            SCB TechX · Level Up · 7 Peaks Software · 2019 – 2020
+          </p>
+          <h1>Coordinating 6 teams across 3 countries to ship one product</h1>
+          <p class="hero-summary">
+            Level Up was a payday loans app for low-income Thai families, built by SCB TechX with
+            Palo IT across Bangkok, Hong Kong, and Singapore. Six simultaneous feature teams. One
+            product. My job was to keep the design coherent across all of them.
+          </p>
+          <div class="meta-row">
+            <div class="meta-item">
+              <p class="eyebrow eyebrow--gap-xs">Role</p>
+              <p class="meta-value">Lead UX Designer · Design Coordination</p>
+            </div>
+            <div class="meta-item">
+              <p class="eyebrow eyebrow--gap-xs">Client</p>
+              <p class="meta-value">SCB TechX</p>
+            </div>
+            <div class="meta-item">
+              <p class="eyebrow eyebrow--gap-xs">Teams</p>
+              <p class="meta-value">6 teams · 3 cities · Mixed agency &amp; client</p>
+            </div>
+            <div class="meta-item">
+              <p class="eyebrow eyebrow--gap-xs">Platform</p>
+              <p class="meta-value">iOS · Android</p>
+            </div>
+          </div>
+        </section>
 
-  <script>
-    const floatingBtns = document.querySelectorAll('.back-to-top, .back-home');
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const toggleFloatingBtns = () => {
-      const show = window.scrollY > 400;
-      floatingBtns.forEach(b => {
-        b.classList.toggle('visible', show);
-        b.toggleAttribute('inert', !show);
-      });
-    };
-    window.addEventListener('scroll', toggleFloatingBtns, { passive: true });
-    toggleFloatingBtns();
-    document.querySelector('.back-to-top').addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
-    });
+        <div class="hero-image fade-in" role="img" aria-label="Level Up app screens">
+          <span class="hero-image-placeholder quote">Level Up — SCB TechX</span>
+        </div>
 
-    if ('IntersectionObserver' in window) {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+        <article class="content">
+          <!-- THE PRODUCT -->
+          <section class="content-section fade-in">
+            <h2>The product</h2>
+            <p>
+              Level Up was a short-term loans app targeting low-income Thai families — a segment
+              typically underserved by traditional banking and overcharged by informal lenders. The
+              product's central insight was that financial behaviour could be shaped through
+              incentive design: reliable repayment behaviour should be rewarded, not just punished
+              when it breaks down.
+            </p>
+            <p>
+              The gamification system was directly tied to financial outcomes.
+              <strong>APR decreased with consistent repayment behaviour</strong> — the more reliably
+              you repaid, the less you paid to borrow. Milestone rewards were built into the
+              onboarding flow, recognising customers at each stage: sign-up, KYC completion,
+              approval, first loan, first repayment. This turned a typically anxious process into a
+              progressive experience with clear markers of progress and reward.
+            </p>
+            <p>
+              For the target user — someone who may never have had a formal loan before — these
+              design decisions had real financial consequences. Getting the UX right wasn't just
+              about conversion rates. It was about whether someone understood what they were signing
+              up for and whether they felt equipped to manage it.
+            </p>
+
+            <div class="grid grid--2 img-row">
+              <div
+                class="img-placeholder purple"
+                role="img"
+                aria-label="Level Up onboarding milestone screens"
+              >
+                <span>Onboarding milestones — add screenshot</span>
+              </div>
+              <div
+                class="img-placeholder purple"
+                role="img"
+                aria-label="Level Up loan management screen"
+              >
+                <span>Loan management — add screenshot</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- STATS -->
+          <div
+            class="card-grid card-grid--auto stats fade-in"
+            role="region"
+            aria-label="Project scale"
+          >
+            <div class="stat">
+              <p class="stat-number">6</p>
+              <p class="stat-label">Simultaneous feature teams</p>
+            </div>
+            <div class="stat">
+              <p class="stat-number">3</p>
+              <p class="stat-label">Cities — Bangkok, Hong Kong, Singapore</p>
+            </div>
+            <div class="stat">
+              <p class="stat-number">8+</p>
+              <p class="stat-label">Palo IT designers across all offices</p>
+            </div>
+            <div class="stat">
+              <p class="stat-number">2 wks</p>
+              <p class="stat-label">Sprint cadence — feature to integration</p>
+            </div>
+          </div>
+
+          <!-- THE COORDINATION CHALLENGE -->
+          <section class="content-section fade-in">
+            <h2>The coordination challenge</h2>
+            <p>
+              The structure was deliberately parallel: six teams, each comprising designers,
+              developers, and a product owner, working on separate features of the same product
+              simultaneously. The theory was velocity — more teams, faster delivery. The reality was
+              that without tight coordination, you'd end up with six features that didn't fit
+              together.
+            </p>
+            <p>
+              I was responsible for the Palo IT designers across all three offices, working
+              alongside SCB TechX's internal design principal to align on goals and standards across
+              all six teams. That meant operating at two levels simultaneously: managing my own
+              team's output and ensuring the full product remained coherent.
+            </p>
+
+            <div class="pullquote">
+              <p class="quote">
+                Six teams moving fast in the same direction is an achievement. Six teams moving fast
+                in six slightly different directions is a problem that compounds every sprint.
+              </p>
+            </div>
+
+            <div
+              class="grid grid--3 team-grid"
+              role="region"
+              aria-label="Team structure across offices"
+            >
+              <div class="panel team-office">
+                <div class="eyebrow team-office-header">Bangkok</div>
+                <div class="team-office-body">
+                  <p class="team-role"><span>4</span> Palo IT Designers</p>
+                  <p class="team-role">SCB TechX Design Staff</p>
+                  <p class="team-role">Developers · POs</p>
+                  <p class="team-role">Multiple feature teams</p>
+                </div>
+              </div>
+              <div class="panel team-office">
+                <div class="eyebrow team-office-header">Hong Kong</div>
+                <div class="team-office-body">
+                  <p class="team-role"><span>2</span> Palo IT Designers</p>
+                  <p class="team-role">Developers · POs</p>
+                  <p class="team-role">Feature teams</p>
+                </div>
+              </div>
+              <div class="panel team-office">
+                <div class="eyebrow team-office-header">Singapore</div>
+                <div class="team-office-body">
+                  <p class="team-role"><span>2</span> Palo IT Designers</p>
+                  <p class="team-role">Developers · POs</p>
+                  <p class="team-role">Feature teams</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- HOW IT WORKED -->
+          <section class="content-section fade-in">
+            <h2>How it worked</h2>
+
+            <h3>The sprint model</h3>
+            <p>
+              Each 2-week sprint followed the same pattern: teams worked independently on their
+              assigned feature, with daily standups within each team and regular cross-team syncs to
+              catch divergence early. At the end of each sprint, output from all six teams came
+              together in an integration review — where the design consistency work either paid off
+              or didn't.
+            </p>
+
+            <div
+              class="card-grid card-grid--auto sprint-flow"
+              role="region"
+              aria-label="Sprint structure"
+            >
+              <div class="sprint-step">
+                <p class="stat-number">1</p>
+                <p class="sprint-step-label">Sprint brief — aligned goals per team</p>
+              </div>
+              <div class="sprint-step">
+                <p class="stat-number">2</p>
+                <p class="sprint-step-label">Parallel feature development — 6 teams</p>
+              </div>
+              <div class="sprint-step">
+                <p class="stat-number">3</p>
+                <p class="sprint-step-label">Lo-fi review — flows and structure</p>
+              </div>
+              <div class="sprint-step">
+                <p class="stat-number">4</p>
+                <p class="sprint-step-label">Hi-fi delivery using shared design system</p>
+              </div>
+              <div class="sprint-step">
+                <p class="stat-number">5</p>
+                <p class="sprint-step-label">Integration review — cohesion check</p>
+              </div>
+            </div>
+
+            <h3>Design system as coordination tool</h3>
+            <p>
+              The design system was the primary mechanism for keeping six teams aligned. Two
+              designers were dedicated full-time to system ownership — not building features, but
+              maintaining and evolving the component library and auditing new components as teams
+              created them.
+            </p>
+            <p>
+              The process was deliberate: lo-fi wireframes were not held to strict component
+              standards — they were for thinking, not building. But once a feature moved to hi-fi,
+              it had to be built from the shared library. Any new component a team needed went
+              through the system owners for review before being added to the library and made
+              available to all teams.
+            </p>
+            <p>
+              This meant the system evolved with the product rather than being a constraint on it.
+              Teams weren't blocked by missing components — they could propose and build them — but
+              the quality gate ensured the library stayed consistent and the end product felt like
+              it came from one place.
+            </p>
+
+            <div
+              class="img-placeholder purple"
+              role="img"
+              aria-label="Level Up design system and component library"
+            >
+              <span>Design system — add screenshot</span>
+            </div>
+
+            <h3>Alignment across organisations</h3>
+            <p>
+              The structural complexity wasn't just geographic. Palo IT designers were agency staff.
+              SCB TechX had their own internal design team with their own standards, culture, and
+              priorities. Getting those two groups aligned — without either side feeling like they
+              were being overruled — required working closely with SCB's design principal to
+              establish shared goals and a shared language before the sprint work began.
+            </p>
+            <p>
+              My role was bridge: representing the Palo IT team's approach upward to SCB, and
+              representing SCB's requirements and standards back to my own team. That dual
+              accountability is what kept the work cohesive.
+            </p>
+          </section>
+
+          <!-- CLOSING -->
+          <section class="content-section fade-in">
+            <h2>What this demonstrates</h2>
+            <p>
+              This project isn't a showcase of interface design. It's a demonstration of design
+              leadership at scale — coordinating a distributed team across time zones and
+              organisational boundaries, maintaining quality standards without slowing delivery, and
+              keeping a product coherent when six teams are simultaneously building it.
+            </p>
+            <p>
+              The same principles apply at any scale. Clarity of goals, a shared design language,
+              quality gates at the right points in the process, and someone whose job it is to see
+              the whole picture — that's what makes parallel teams work.
+            </p>
+
+            <div class="pill-list" role="list" aria-label="Skills used">
+              <span class="pill pill--sm" role="listitem">Design Leadership</span>
+              <span class="pill pill--sm" role="listitem">Distributed Team Management</span>
+              <span class="pill pill--sm" role="listitem">Design Systems</span>
+              <span class="pill pill--sm" role="listitem">Design Operations</span>
+              <span class="pill pill--sm" role="listitem">Agile · Sprint Management</span>
+              <span class="pill pill--sm" role="listitem">Cross-org Alignment</span>
+              <span class="pill pill--sm" role="listitem">Fintech UX</span>
+              <span class="pill pill--sm" role="listitem">Gamification Design</span>
+              <span class="pill pill--sm" role="listitem">iOS · Android</span>
+              <span class="pill pill--sm" role="listitem">Stakeholder Management</span>
+            </div>
+          </section>
+        </article>
+
+        <nav class="next-project fade-in" aria-label="Next case study">
+          <p class="eyebrow eyebrow--wide eyebrow--gap">Next project</p>
+          <a href="./yoma.html" class="link-underline link-underline--display"
+            >Yoma Bank — National Bank Rebrand</a
+          >
+        </nav>
+      </main>
+
+      <footer role="contentinfo">
+        <div class="footer-inner">
+          <p class="footer-copy">© Andrew Jordan 2026</p>
+          <nav class="footer-links" aria-label="Footer links">
+            <a class="link-muted link-muted--faint" href="../index.html">Home</a>
+            <a class="link-muted link-muted--faint" href="mailto:andrew@agbjordan.me">Email</a>
+            <a
+              class="link-muted link-muted--faint"
+              href="https://www.linkedin.com/in/andrew-jordan21"
+              >LinkedIn</a
+            >
+          </nav>
+        </div>
+      </footer>
+    </div>
+
+    <a
+      class="back-home"
+      href="../index.html"
+      aria-label="Back to home"
+      data-tooltip="Back to home"
+      inert
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+        <polyline points="9 22 9 12 15 12 15 22" />
+      </svg>
+    </a>
+    <button
+      class="back-to-top"
+      type="button"
+      aria-label="Back to top"
+      data-tooltip="Back to top"
+      inert
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M12 19V5M5 12l7-7 7 7" />
+      </svg>
+    </button>
+
+    <script>
+      const floatingBtns = document.querySelectorAll(".back-to-top, .back-home");
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const toggleFloatingBtns = () => {
+        const show = window.scrollY > 400;
+        floatingBtns.forEach((b) => {
+          b.classList.toggle("visible", show);
+          b.toggleAttribute("inert", !show);
         });
-      }, { threshold: 0.08 });
-      document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-    } else {
-      document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
-    }
-  </script>
+      };
+      window.addEventListener("scroll", toggleFloatingBtns, { passive: true });
+      toggleFloatingBtns();
+      document.querySelector(".back-to-top").addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: reducedMotion.matches ? "auto" : "smooth" });
+      });
 
-</body>
+      if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.08 },
+        );
+        document.querySelectorAll(".fade-in").forEach((el) => observer.observe(el));
+      } else {
+        document.querySelectorAll(".fade-in").forEach((el) => el.classList.add("visible"));
+      }
+    </script>
+  </body>
 </html>

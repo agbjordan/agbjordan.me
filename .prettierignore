@@ -1,0 +1,7 @@
+static/
+scripts/og-image.html
+*.pdf
+.vscode/
+_site/
+node_modules/
+package-lock.json

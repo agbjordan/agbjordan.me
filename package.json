@@ -1,0 +1,31 @@
+{
+  "name": "agbjordan-me",
+  "version": "1.0.0",
+  "description": "Andrew Jordan \u2014 portfolio site. Static HTML/CSS, no build step.",
+  "private": true,
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint:css": "stylelint \"css/**/*.css\"",
+    "lint:html": "html-validate \"*.html\" \"case-studies/*.html\"",
+    "check:assets": "node scripts/check-assets.mjs",
+    "serve": "http-server . -p 4173 -s -c-1",
+    "check:links": "linkinator http://localhost:4173 --recurse --skip \"^https?://(?!localhost)\"",
+    "check:a11y": "pa11y-ci",
+    "lint": "npm run format:check && npm run lint:css && npm run lint:html && npm run check:assets"
+  },
+  "devDependencies": {
+    "@lhci/cli": "^0.14.0",
+    "html-validate": "^9.0.0",
+    "http-server": "^14.1.1",
+    "linkinator": "^6.1.2",
+    "pa11y-ci": "^3.1.0",
+    "prettier": "^3.3.0",
+    "stylelint": "^16.9.0",
+    "stylelint-config-standard": "^36.0.1"
+  }
+}
