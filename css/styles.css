@@ -576,11 +576,12 @@ body.case-study h2 {
   --hero-phone-width: 40%;
   --hero-screen-fill: #0a0a0a;
   background-color: var(--hero-bg-fill);
+  z-index: -10;
 }
 .hero-bg {
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: 0;
   /* Longhands, not the shorthand: JS sets background-position-y and a later
      shorthand would silently reset it. */
   background-color: var(--hero-bg-fill);
