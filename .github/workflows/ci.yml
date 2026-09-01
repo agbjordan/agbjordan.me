@@ -46,6 +46,9 @@ jobs:
       - name: Asset references and size budgets
         run: npm run check:assets
 
+      - name: Cross-file sync contracts
+        run: npm run check:sync
+
   # Everything that needs a real browser and a served copy of the site.
   browser:
     name: Links, accessibility, Lighthouse

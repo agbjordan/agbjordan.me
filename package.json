@@ -1,7 +1,7 @@
 {
   "name": "agbjordan-me",
   "version": "1.0.0",
-  "description": "Andrew Jordan \u2014 portfolio site. Static HTML/CSS, no build step.",
+  "description": "Andrew Jordan — portfolio site. Static HTML/CSS, no build step.",
   "private": true,
   "license": "UNLICENSED",
   "engines": {
@@ -13,10 +13,11 @@
     "lint:css": "stylelint \"css/**/*.css\"",
     "lint:html": "html-validate \"*.html\" \"case-studies/*.html\"",
     "check:assets": "node scripts/check-assets.mjs",
+    "check:sync": "node scripts/check-sync.mjs",
     "serve": "http-server . -p 4173 -s -c-1",
     "check:links": "linkinator http://localhost:4173 --recurse --skip \"^https?://(?!localhost)\"",
     "check:a11y": "pa11y-ci",
-    "lint": "npm run format:check && npm run lint:css && npm run lint:html && npm run check:assets"
+    "lint": "npm run format:check && npm run lint:css && npm run lint:html && npm run check:assets && npm run check:sync"
   },
   "devDependencies": {
     "@lhci/cli": "^0.14.0",
