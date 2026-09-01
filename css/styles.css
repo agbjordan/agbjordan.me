@@ -151,27 +151,35 @@ a:focus-visible {
 }
 .skip-link:focus { top: 0; }
 
+/* Full-bleed white banner; the rule below is drawn on .header-inner
+   so it stays within the --column measure */
 header[role="banner"] {
   position: sticky;
+  width: 100%;
   top: 0;
   z-index: 100;
   background: var(--white);
-  padding: var(--space-md) 0 var(--space-lg);
-  border-bottom: 1px solid var(--rule);
-}
-/* Case-study header stays pinned to the top while scrolling */
-body.case-study header[role="banner"] {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: var(--white);
-  padding: var(--space-md) 0 var(--space-lg);
+  padding: var(--space-md) 0 0;
 }
 .header-inner {
+  position: relative;
+  max-width: var(--column);
+  margin: 0 auto;
+  padding: 0 var(--space-md) var(--space-lg);
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
   gap: var(--space-md);
+}
+/* Rule inset to the column's content edges so it lines up with
+   the section rules below */
+.header-inner::after {
+  content: "";
+  position: absolute;
+  left: var(--space-md);
+  right: var(--space-md);
+  bottom: 0;
+  border-bottom: 1px solid var(--rule);
 }
 .logo { 
   flex-shrink: 0; 
@@ -255,7 +263,7 @@ h2 {
 .work-item { display: block; cursor: pointer; }
 .work-item:hover .work-thumb {
   transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+  
 }
 .work-thumb {
   aspect-ratio: 16/10;
@@ -268,6 +276,7 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.1);
 }
 .work-thumb-label {
   font-family: var(--font-serif);
@@ -290,26 +299,37 @@ h2 {
 .work-item[data-project="yoma"]       .work-thumb { background: #F5F0F0; }
 .work-item[data-project="yoma"]       .work-thumb-label { color: rgba(180,30,30,0.15); }
 
-/* Fraction animated hero — layered web bg + real iPhone frame with scroll-driven screen */
-.work-thumb--fraction { background: #0D0D0D; }
-.fr-bg {
+/* Animated work hero — layered web bg + real iPhone frame with scroll-driven screen.
+   Shared by every .work-thumb--hero; per-project bits come from the custom
+   properties below, set on the thumb (or via a [data-project] rule). */
+.work-thumb--hero {
+  --hero-bg-image: none;      /* url("../static/<project>-hero-bg.jpg") */
+  --hero-bg-fill: #0a0a0a;    /* matches the page bg so the bottom letterbox is seamless */
+  --hero-phone-left: auto;    /* set one of these; leave the other auto */
+  --hero-phone-right: 6%;
+  --hero-phone-top: 26%;
+  --hero-phone-width: 40%;
+  --hero-screen-fill: #0a0a0a;
+  background: var(--hero-bg-fill);
+}
+.hero-bg {
   position: absolute;
   inset: 0;
-  /* fit the full web page to the container width, anchored to the top;
-     dark fill matches the page bg so the bottom letterbox is seamless */
-  background: url("../static/fraction-hero-bg.jpg") top center / 100% auto no-repeat, #0a0a0a;
+  /* fit the full web page to the container width, anchored to the top */
+  background: var(--hero-bg-image) top center / 100% auto no-repeat, var(--hero-bg-fill);
   will-change: background-position;
   z-index: 0;
 }
-.fr-phone {
-  position: absolute;
-  width: 40%;                 /* phone sits on the right, bleeding off the bottom */
-  right: 6%;
-  top: 26%;
+.hero-phone {
+  position: absolute;         /* phone bleeds off the bottom of the card */
+  width: var(--hero-phone-width);
+  left: var(--hero-phone-left);
+  right: var(--hero-phone-right);
+  top: var(--hero-phone-top);
   aspect-ratio: 480 / 988;    /* matches mobile-frame.png */
   z-index: 2;
 }
-.fr-phone-frame {
+.hero-phone-frame {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -318,19 +338,19 @@ h2 {
   pointer-events: none;
   filter: drop-shadow(0 24px 38px rgba(0,0,0,0.5));
 }
-.fr-phone-screen {
+.hero-phone-screen {
   position: absolute;         /* aligned to the frame's transparent screen cutout */
   left: 4%;
   top: 6%;
   right: 4%;
   bottom: 0%;
   overflow: hidden;
-  background: #0a0a0a;
+  background: var(--hero-screen-fill);
   z-index: 1;
 }
-.fr-phone-shot {
+.hero-phone-shot {
   position: absolute;
-  top: 0%;                 /* crop the app's own status bar; frame supplies 9:41 + island */
+  top: 0%;                    /* crop the app's own status bar; frame supplies 9:41 + island */
   left: 0;
   width: 100%;                /* fills the screen width, scrolls vertically */
   height: auto;
@@ -338,7 +358,25 @@ h2 {
   will-change: transform;
 }
 @media (prefers-reduced-motion: reduce) {
-  .fr-bg, .fr-phone-shot { transform: none !important; }
+  .hero-bg, .hero-phone-shot { transform: none !important; }
+}
+
+/* Per-project hero settings */
+.work-thumb--fraction {
+  --hero-bg-image: url("../static/fraction-hero-bg.jpg");
+  --hero-bg-fill: #0D0D0D;
+}
+.work-thumb--payconnect {
+  --hero-bg-image: url("../static/payconnect-hero-bg.jpg");
+  --hero-bg-fill: #fff;
+}
+.work-thumb--winga {
+  --hero-bg-image: url("../static/winga-hero-bg.jpg");
+  --hero-bg-fill: #030712;
+}
+.work-thumb--levelup {
+  --hero-bg-image: url("../static/levelup-hero-bg.jpg");
+  --hero-bg-fill: #4B0082;
 }
 
 .work-title {
@@ -563,7 +601,7 @@ body.case-study .content p strong { color: var(--ink); font-weight: 500; }
 .hero-image {
   background: var(--hero-bg, var(--surface));
   border: var(--hero-border, none);
-  aspect-ratio: 16/9;
+  aspect-ratio: 16/10;
   border-radius: 8px;
   margin: var(--space-lg) 0;
   display: flex;
@@ -578,7 +616,7 @@ body.case-study .content p strong { color: var(--ink); font-weight: 500; }
   width: 100%;
   height: 100%;
 }
-.hero-image-placeholder {
+.hero-image-hero {
   font-family: var(--font-serif);
   font-size: 2rem;
   font-weight: 300;

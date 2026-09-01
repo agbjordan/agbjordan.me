@@ -14,21 +14,22 @@
 </head>
 
 <body class="case-study cs-winga">
-  <div class="column">
 
-    <!-- HEADER -->
-    <header role="banner">
-      <div class="header-inner">
-        <a href="../index.html" class="logo" aria-label="Andrew Jordan — home">
-          <img src="../static/aj.svg" alt="Andrew Jordan" height="88px"/>
-        </a>
-        <nav class="header-contact" aria-label="Contact links">
-          <a href="mailto:me@agbjordan.com">me@agbjordan.com</a>
-          <a href="../Andrew-Jordan-Resume.pdf" download>Download Resume</a>
-          <a href="#" aria-label="LinkedIn profile">LinkedIn</a>
-        </nav>
-      </div>
-    </header>
+  <!-- HEADER -->
+  <header role="banner">
+    <div class="header-inner">
+      <a href="../index.html" class="logo" aria-label="Andrew Jordan — home">
+        <img src="../static/aj.svg" alt="Andrew Jordan" height="88px"/>
+      </a>
+      <nav class="header-contact" aria-label="Contact links">
+        <a href="mailto:me@agbjordan.com">me@agbjordan.com</a>
+        <a href="../Andrew-Jordan-Resume.pdf" download>Download Resume</a>
+        <a href="#" aria-label="LinkedIn profile">LinkedIn</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="column">
 
     <main id="main">
 
@@ -63,10 +64,11 @@
 
       <div class="hero-image fade-in">
         <a href="https://winga.me" target="_blank" rel="noopener" aria-label="Visit winga.me">
-          <span class="hero-image-placeholder">winga.me — add screenshot</span>
+          <span class="hero-image">
+            <img src="../static/winga-workplaces.jpg" alt="Winga dashboard showing a list of feature flags with their current state and toggle controls." loading="lazy" decoding="async">
+          </span>
         </a>
       </div>
-      <p class="live-badge">Live at winga.me — currently in development</p>
 
       <article class="content">
 
@@ -181,7 +183,7 @@
               <div class="decision-cell">Real-time flag state sync across clients without building a WebSocket layer. Auth handled without a backend.</div>
             </div>
             <div class="decision-row">
-              <div class="decision-cell"><strong>Gemini 1.5 Pro</strong></div>
+              <div class="decision-cell"><strong>Gemini</strong></div>
               <div class="decision-cell">AI scanner</div>
               <div class="decision-cell">Long context window handles large codebases in a single pass. Cost-effective at the usage pattern.</div>
             </div>

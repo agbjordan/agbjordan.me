@@ -60,21 +60,21 @@
 <body class="home">
   <a href="#main" class="skip-link">Skip to main content</a>
 
-  <div class="column">
+  <!-- HEADER -->
+  <header role="banner">
+    <div class="header-inner">
+      <a href="./index.html" class="logo" aria-label="Andrew Jordan — home">
+        <img src="./static/aj.svg" alt="Andrew Jordan" height="88px"/>
+      </a>
+      <nav class="header-contact" aria-label="Contact links">
+        <a href="mailto:me@agbjordan.com">me@agbjordan.com</a>
+        <a href="Andrew-Jordan-Resume.pdf" download>Download Resume</a>
+        <a href="#" aria-label="LinkedIn profile">LinkedIn</a>
+      </nav>
+    </div>
+  </header>
 
-    <!-- HEADER -->
-    <header role="banner">
-      <div class="header-inner">
-        <a href="./index.html" class="logo" aria-label="Andrew Jordan — home">
-          <img src="./static/aj.svg" alt="Andrew Jordan" height="88px"/>
-        </a>
-        <nav class="header-contact" aria-label="Contact links">
-          <a href="mailto:me@agbjordan.com">me@agbjordan.com</a>
-          <a href="Andrew-Jordan-Resume.pdf" download>Download Resume</a>
-          <a href="#" aria-label="LinkedIn profile">LinkedIn</a>
-        </nav>
-      </div>
-    </header>
+  <div class="column">
 
     <!-- MAIN CONTENT -->
     <main id="main">
@@ -101,13 +101,13 @@
         <div class="work-grid" role="list">
 
           <a class="work-item" href="case-studies/fraction.html" data-project="fraction" role="listitem" aria-label="Fraction Global case study">
-            <div class="work-thumb work-thumb--fraction" aria-hidden="true">
-              <div class="fr-bg"></div>
-              <div class="fr-phone">
-                <div class="fr-phone-screen">
-                  <img class="fr-phone-shot" src="static/fraction-mobile-bg.jpg" alt="" loading="lazy" decoding="async" width="440" height="952">
+            <div class="work-thumb work-thumb--hero work-thumb--fraction" data-parallax aria-hidden="true">
+              <div class="hero-bg"></div>
+              <div class="hero-phone">
+                <div class="hero-phone-screen">
+                  <img class="hero-phone-shot" src="static/fraction-mobile-bg.jpg" alt="" loading="lazy" decoding="async" width="440" height="952">
                 </div>
-                <img class="fr-phone-frame" src="static/mobile-frame.png" alt="" loading="lazy" decoding="async" width="480" height="988">
+                <img class="hero-phone-frame" src="static/mobile-frame.png" alt="" loading="lazy" decoding="async" width="480" height="988">
               </div>
             </div>
             <p class="work-company">Fraction Global</p>
@@ -116,8 +116,8 @@
           </a>
 
           <a class="work-item" href="case-studies/payconnect.html" data-project="payconnect" role="listitem" aria-label="PayConnect case study">
-            <div class="work-thumb" aria-hidden="true">
-              <span class="work-thumb-label">PayConnect</span>
+            <div class="work-thumb work-thumb--hero work-thumb--payconnect" data-parallax aria-hidden="true">
+              <div class="hero-bg"></div>
             </div>
             <p class="work-company">PayConnect</p>
             <p class="work-title">SEC regulated eKYC/eKYB platform</p>
@@ -125,8 +125,8 @@
           </a>
 
           <a class="work-item" href="case-studies/winga.html" data-project="winga" role="listitem" aria-label="Winga case study">
-            <div class="work-thumb" aria-hidden="true">
-              <span class="work-thumb-label">Winga</span>
+            <div class="work-thumb work-thumb--hero work-thumb--winga" data-parallax aria-hidden="true">
+              <div class="hero-bg"></div>
             </div>
             <p class="work-company">Winga</p>
             <p class="work-title">Feature flag consolidation platform</p>
@@ -134,8 +134,8 @@
           </a>
 
           <a class="work-item" href="case-studies/scb.html" data-project="scb" role="listitem" aria-label="SCB Level Up case study">
-            <div class="work-thumb" aria-hidden="true">
-              <span class="work-thumb-label">Level Up</span>
+            <div class="work-thumb work-thumb--hero work-thumb--levelup" data-parallax aria-hidden="true">
+              <div class="hero-bg"></div>
             </div>
             <p class="work-company">SCB / TechX</p>
             <p class="work-title">Payday loans app for low-income Thai families</p>
@@ -246,31 +246,49 @@
       document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
     }
 
-    // Fraction layered hero — scroll-driven parallax (bg drift + screen scroll)
+    // Layered work heroes — scroll-driven parallax (bg drift + phone screen scroll).
+    // Any [data-parallax] thumb with a .hero-bg and/or .hero-phone-shot opts in.
+    // Per-card tuning via data attributes (see defaults below).
     (function () {
-      const thumb = document.querySelector('.work-thumb--fraction');
-      if (!thumb) return;
+      const cards = Array.from(document.querySelectorAll('[data-parallax]'))
+        .map(el => {
+          const bg = el.querySelector('.hero-bg');
+          const shot = el.querySelector('.hero-phone-shot');
+          if (!bg && !shot) return null;
+          return {
+            el, bg, shot,
+            // how far the phone screenshot travels, as a fraction of its own height
+            shotTravel: parseFloat(el.dataset.parallaxShotTravel) || 0.3,
+            // fraction of the web page scrolled by the time the card exits the top
+            bgScroll: parseFloat(el.dataset.parallaxBgScroll) || 0.75,
+            // bg holds until the card's top edge reaches this fraction up the viewport
+            bgTrigger: parseFloat(el.dataset.parallaxBgTrigger) || 0.5
+          };
+        })
+        .filter(Boolean);
+      if (!cards.length) return;
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      const bg = thumb.querySelector('.fr-bg');
-      const shot = thumb.querySelector('.fr-phone-shot');
-      const screenEl = thumb.querySelector('.fr-phone-screen');
+
       let ticking = false;
       function update() {
         ticking = false;
-        const r = thumb.getBoundingClientRect();
         const vh = window.innerHeight || document.documentElement.clientHeight;
-        // 0 as the card enters from the bottom, 1 as it leaves the top
-        let p = (vh - r.top) / (vh + r.height);
-        p = Math.max(0, Math.min(1, p));
-        const travel = shot.offsetHeight * 0.3;
-        shot.style.transform = 'translateY(' + (-p * travel).toFixed(1) + 'px)';
-        // bg holds at the top until the card's top edge passes the middle of the viewport,
-        // then scrolls the web page down to reveal the bottom text
-        const BG_SCROLL = 0.75;   // fraction of the page scrolled by the time the card exits the top
-        const trigger = vh * 0.5; // start scrolling when the card top reaches 50% up the screen
-        let bgP = (trigger - r.top) / (trigger + r.height);
-        bgP = Math.max(0, Math.min(1, bgP));
-        bg.style.backgroundPositionY = (bgP * BG_SCROLL * 100).toFixed(2) + '%';
+        cards.forEach(card => {
+          const r = card.el.getBoundingClientRect();
+          if (card.shot) {
+            // 0 as the card enters from the bottom, 1 as it leaves the top
+            let p = (vh - r.top) / (vh + r.height);
+            p = Math.max(0, Math.min(1, p));
+            const travel = card.shot.offsetHeight * card.shotTravel;
+            card.shot.style.transform = 'translateY(' + (-p * travel).toFixed(1) + 'px)';
+          }
+          if (card.bg) {
+            const trigger = vh * card.bgTrigger;
+            let bgP = (trigger - r.top) / (trigger + r.height);
+            bgP = Math.max(0, Math.min(1, bgP));
+            card.bg.style.backgroundPositionY = (bgP * card.bgScroll * 100).toFixed(2) + '%';
+          }
+        });
       }
       function onScroll() {
         if (!ticking) { window.requestAnimationFrame(update); ticking = true; }
