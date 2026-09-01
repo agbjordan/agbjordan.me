@@ -22,9 +22,9 @@
         <img src="../static/aj.svg" alt="Andrew Jordan" height="88px"/>
       </a>
       <nav class="header-contact" aria-label="Contact links">
-        <a href="mailto:me@agbjordan.com">me@agbjordan.com</a>
-        <a href="../Andrew-Jordan-Resume.pdf" download>Download Resume</a>
-        <a href="#" aria-label="LinkedIn profile">LinkedIn</a>
+        <a class="link-muted" href="mailto:me@agbjordan.com">me@agbjordan.com</a>
+        <a class="link-muted" href="../Andrew-Jordan-Resume.pdf" download>Download Resume</a>
+        <a class="link-muted" href="https://www.linkedin.com/in/andrew-jordan21" aria-label="LinkedIn profile">LinkedIn</a>
       </nav>
     </div>
   </header>
@@ -37,36 +37,34 @@
 
         <a href="../index.html" class="nav-back">Back</a>
 
-        <p class="project-label">Winga · Personal Project · 2025 – Present</p>
+        <p class="eyebrow eyebrow--accent eyebrow--wide eyebrow--gap-lg">Winga · Personal Project · 2025 – Present</p>
         <h1>Building a product to solve a problem I lived every day</h1>
         <p class="hero-summary">
           Feature flags scattered across .env files, Vercel dashboards, GitHub secrets, and a Retool panel someone built six months ago. No single source of truth. No audit trail. No way to answer "can we turn that off?" without ten minutes of detective work. Winga is the tool I wished existed.
         </p>
         <div class="meta-row">
           <div class="meta-item">
-            <p class="meta-label">Role</p>
+            <p class="eyebrow eyebrow--gap-xs">Role</p>
             <p class="meta-value">Solo — Designer &amp; Developer</p>
           </div>
           <div class="meta-item">
-            <p class="meta-label">Status</p>
+            <p class="eyebrow eyebrow--gap-xs">Status</p>
             <p class="meta-value">In development · Waitlist open</p>
           </div>
           <div class="meta-item">
-            <p class="meta-label">Stack</p>
+            <p class="eyebrow eyebrow--gap-xs">Stack</p>
             <p class="meta-value">Next.js · Firebase · Gemini · Stripe</p>
           </div>
           <div class="meta-item">
-            <p class="meta-label">Site</p>
-            <p class="meta-value"><a href="https://winga.me" target="_blank" rel="noopener" style="color:var(--papaya);">winga.me ↗</a></p>
+            <p class="eyebrow eyebrow--gap-xs">Site</p>
+            <p class="meta-value"><a class="link-inline" href="https://winga.me" target="_blank" rel="noopener">winga.me ↗</a></p>
           </div>
         </div>
       </section>
 
       <div class="hero-image fade-in">
         <a href="https://winga.me" target="_blank" rel="noopener" aria-label="Visit winga.me">
-          <span class="hero-image">
-            <img src="../static/winga-workplaces.jpg" alt="Winga dashboard showing a list of feature flags with their current state and toggle controls." loading="lazy" decoding="async">
-          </span>
+          <img src="../static/winga-workplaces.jpg" alt="Winga dashboard showing a list of feature flags with their current state and toggle controls." loading="lazy" decoding="async">
         </a>
       </div>
 
@@ -86,7 +84,7 @@
           </p>
 
           <div class="pullquote">
-            <p>It would take longer to find out if it could be turned off than to actually fix the problem. That should never need to be asked.</p>
+            <p class="quote">It would take longer to find out if it could be turned off than to actually fix the problem. That should never need to be asked.</p>
           </div>
         </section>
 
@@ -131,7 +129,7 @@
             Giving non-technical team members safe access to toggle flags — without requiring a deploy — removes a whole category of developer interruptions. A PM can turn a feature on for a demo, or roll back a poorly-received release, without filing a ticket. The audit trail means there's accountability without gatekeeping.
           </p>
 
-          <div class="feature-grid" role="list" aria-label="Key product features">
+          <div class="card-grid card-grid--2 feature-grid" role="list" aria-label="Key product features">
             <div class="feature-item" role="listitem">
               <p class="feature-title">Import-first onboarding</p>
               <p class="feature-desc">Start with what you have. Import from .env, Vercel, and GitHub Secrets in minutes.</p>
@@ -166,11 +164,11 @@
             Building solo means the stack has to be maintainable by one person. Every choice was made against that constraint — no technology for its own sake, nothing that requires a team to operate.
           </p>
 
-          <div class="decisions" role="region" aria-label="Technology decisions">
+          <div class="panel decisions" role="region" aria-label="Technology decisions">
             <div class="decision-row header">
-              <div class="decision-cell">Technology</div>
-              <div class="decision-cell">Decision</div>
-              <div class="decision-cell">Why</div>
+              <div class="decision-cell eyebrow">Technology</div>
+              <div class="decision-cell eyebrow">Decision</div>
+              <div class="decision-cell eyebrow">Why</div>
             </div>
             <div class="decision-row">
               <div class="decision-cell"><strong>Next.js</strong></div>
@@ -223,27 +221,27 @@
             It's also a demonstration of the technical depth that my day job has developed. Designing the product and building it in the same stack I use professionally isn't a coincidence — it's what happens when the line between designer and developer has been blurring for six years.
           </p>
 
-          <a href="https://winga.me" target="_blank" rel="noopener" class="external-link">See the live site at winga.me</a>
+          <a href="https://winga.me" target="_blank" rel="noopener" class="link-underline link-underline--accent link-underline--external">See the live site at winga.me</a>
 
-          <div class="tag-list" role="list" aria-label="Skills demonstrated" style="margin-top: 24px;">
-            <span class="tag" role="listitem">Product Strategy</span>
-            <span class="tag" role="listitem">Solo Building</span>
-            <span class="tag" role="listitem">UX Design</span>
-            <span class="tag" role="listitem">Frontend Development</span>
-            <span class="tag" role="listitem">Next.js</span>
-            <span class="tag" role="listitem">Firebase</span>
-            <span class="tag" role="listitem">AI Integration</span>
-            <span class="tag" role="listitem">SaaS Pricing Design</span>
-            <span class="tag" role="listitem">Developer Tools</span>
-            <span class="tag" role="listitem">Stripe</span>
+          <div class="pill-list" role="list" aria-label="Skills used">
+            <span class="pill pill--sm" role="listitem">Product Strategy</span>
+            <span class="pill pill--sm" role="listitem">Solo Building</span>
+            <span class="pill pill--sm" role="listitem">UX Design</span>
+            <span class="pill pill--sm" role="listitem">Frontend Development</span>
+            <span class="pill pill--sm" role="listitem">Next.js</span>
+            <span class="pill pill--sm" role="listitem">Firebase</span>
+            <span class="pill pill--sm" role="listitem">AI Integration</span>
+            <span class="pill pill--sm" role="listitem">SaaS Pricing Design</span>
+            <span class="pill pill--sm" role="listitem">Developer Tools</span>
+            <span class="pill pill--sm" role="listitem">Stripe</span>
           </div>
         </section>
 
       </article>
 
       <nav class="next-project fade-in" aria-label="Next case study">
-        <p class="next-label">Next project</p>
-        <a href="case-study-scb.html" class="next-link">SCB Level Up — Distributed Design Leadership</a>
+        <p class="eyebrow eyebrow--wide eyebrow--gap">Next project</p>
+        <a href="./scb.html" class="link-underline link-underline--display">SCB Level Up — Distributed Design Leadership</a>
       </nav>
 
     </main>
@@ -252,9 +250,9 @@
       <div class="footer-inner">
         <p class="footer-copy">© Andrew Jordan 2026</p>
         <nav class="footer-links" aria-label="Footer links">
-          <a href="index.html">Home</a>
-          <a href="mailto:me@agbjordan.com">Email</a>
-          <a href="#">LinkedIn</a>
+          <a class="link-muted link-muted--faint" href="../index.html">Home</a>
+          <a class="link-muted link-muted--faint" href="mailto:me@agbjordan.com">Email</a>
+          <a class="link-muted link-muted--faint" href="#">LinkedIn</a>
         </nav>
       </div>
     </footer>
@@ -262,8 +260,9 @@
   </div>
 
   <a class="back-home" href="../index.html" aria-label="Back to home" data-tooltip="Back to home" inert>
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M19 12H5M12 5l-7 7 7 7"/>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+      <polyline points="9 22 9 12 15 12 15 22"/>
     </svg>
   </a>
   <button class="back-to-top" type="button" aria-label="Back to top" data-tooltip="Back to top" inert>

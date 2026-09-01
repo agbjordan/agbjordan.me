@@ -1,190 +1,202 @@
-/* ============================================================
-   TOKENS
-   ============================================================ */
+/* ==========================================================================
+   agbjordan.com
+   Hand-authored, no build step — what is written here is what ships.
+   Baseline target: Chrome/Edge 120+, Safari 17.2+, Firefox 117+.
+   Features used: native nesting (always with an explicit `&`), :is()/:where(),
+   clamp(), logical properties, color-mix(), custom-property theming.
+   Contents
+     1. Tokens
+     2. Base
+     3. Layout
+     4. Primitives      <- reusable; new components should need markup only
+     5. Components
+     6. Themes
+     7. At-rules
+   JS contracts — see README of the inline <script> on each page:
+     .fade-in / .visible          IntersectionObserver
+     .back-to-top / .back-home    scroll toggle (.visible + inert)
+     [data-parallax] .hero-bg     JS writes inline background-position-y
+     [data-parallax] .hero-phone-shot  JS writes inline transform
+   Do not rename these, and do not move .fade-in's hidden state out of the
+   prefers-reduced-motion: no-preference guard (the page would blank if JS fails).
+   ========================================================================== */
+
+/* ==========================================================================
+   1. TOKENS
+   ========================================================================== */
 :root {
+  /* --- Colour -------------------------------------------------------------
+     --papaya is the brand orange. It measures 2.5:1 on white, below both the
+     4.5:1 WCAG AA minimum for text and the 3:1 minimum for focus rings.
+     --papaya-text is the seam that lets readable text, links and focus rings
+     use a different value from decorative fills. Set it to #B35600 (4.94:1)
+     to meet AA; it currently points at the brand orange, so text and focus
+     rings drawn with it do NOT pass. */
   --papaya: #FF8000;
-  --papaya-light: #FFF3E6;
-  --ink: #111111;
-  --ink-secondary: #555555;
-  --ink-tertiary: #999999;
+  --papaya-text: #FF8000;
+  --papaya-text-hover: color-mix(in oklab, var(--papaya-text) 85%, black);
+  --ink: #111111;            /* 18.9:1 on white */
+  --ink-secondary: #555555;  /*  7.3:1 */
+  --ink-tertiary: #767676;   /*  4.6:1 — was #999 (2.9:1), which failed AA */
+  --white: #FFFFFF;
   --surface: #F9F8F6;
   --surface-blue: #F0F4FF;
-  --white: #FFFFFF;
   --rule: #E8E6E2;
-  --green: #22C55E;
-  --scb-purple: #4B0082;
-  --yoma-red: #CC1111;
-  --column: 860px;
+
+  /* --- Typography --------------------------------------------------------- */
   --font-serif: 'Cormorant Garamond', Georgia, serif;
   --font-sans: 'Geist', system-ui, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, 'SF Mono', 'Fira Code', monospace;
+
+  /* Root stays at 100% so the user's browser font-size preference is honoured;
+     body opts into 18px. 1rem = 16px. */
+  --text-2xs: 0.75rem;     /* 12px */
+  --text-xs: 0.8125rem;    /* 13px */
+  --text-sm: 0.875rem;     /* 14px */
+  --text-md: 1rem;         /* 16px */
+  --text-lg: 1.125rem;     /* 18px — body */
+
+  /* Serif display ramp. Four steps because the design genuinely uses four. */
+  --display-sm: clamp(1.6875rem, 3vw, 2.8125rem);
+  --display-md: clamp(2.025rem, 5vw, 2.8125rem);
+  --display-lg: clamp(2.025rem, 5vw, 3.375rem);
+  --display-xl: clamp(2.25rem, 5vw, 3.375rem);
+
+  /* --- Space --------------------------------------------------------------
+     xs..2xl is the component scale; the three --space-block/section values are
+     the vertical rhythm that used to be hardcoded as 32/40/64px. */
   --space-xs: 8px;
   --space-sm: 16px;
   --space-md: 24px;
   --space-lg: 48px;
   --space-xl: 80px;
   --space-2xl: 120px;
+  --space-block: 32px;
+  --space-block-lg: 40px;
+  --space-section: 64px;
+
+  /* --- Shape & motion ----------------------------------------------------- */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-pill: 100px;
+  --ease: 0.15s ease;
+  --ease-slow: 0.25s ease;
+  --focus-ring: 2px solid var(--papaya-text);
+
+  /* --- Layout -------------------------------------------------------------
+     Breakpoints (mobile-first, min-width only; em so they ignore --text-*):
+       30em = 480px   35em = 560px
+     Media queries cannot read custom properties, so these are documented here
+     and written literally below. */
+  --column: 860px;
 }
 
-/* ============================================================
-   RESET / BASE
-   ============================================================ */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { font-size: 18px; -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+/* ==========================================================================
+   2. BASE
+   ========================================================================== */
+*,
+*::before,
+*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html {
+  font-size: 100%;
+  /* iOS Safari never shipped the unprefixed property, so this is the only
+     form that works there. */
+  -webkit-text-size-adjust: 100%;
+}
 body {
   font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  line-height: 1.6;
   background: var(--white);
   color: var(--ink);
-  -webkit-font-smoothing: antialiased;
 }
-body.home,
-body.case-study {
-  line-height: 1.6;
-}
-img { max-width: 100%; display: block; }
-a { color: inherit; text-decoration: none; }
-a:focus-visible {
-  outline: 2px solid var(--papaya);
+:where(img, svg, video) { max-width: 100%; display: block; }
+:where(a) { color: inherit; text-decoration: none; }
+:where(ul, ol):where([class]) { list-style: none; }
+:where(button) { font: inherit; color: inherit; background: none; border: none; }
+
+/* One focus style for everything; :focus-visible keeps it off mouse clicks. */
+:where(a, button, [tabindex]):focus-visible {
+  outline: var(--focus-ring);
   outline-offset: 3px;
   border-radius: 2px;
 }
 
-.column {
-  max-width: var(--column);
-  margin: 0 auto;
-  padding: 0 var(--space-md);
-}
-
+/* Scroll-driven reveal. The hidden state lives inside no-preference so that
+   reduced-motion users — and anyone whose JS fails — always see the content. */
 @media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
   .fade-in {
     opacity: 0;
     transform: translateY(16px);
     transition: opacity 0.5s ease, transform 0.5s ease;
+    &.visible { opacity: 1; transform: none; }
   }
-  .fade-in.visible { opacity: 1; transform: none; }
 }
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
-}
-
-/* ============================================================
-   SHARED PATTERNS
-   ============================================================ */
-
-/* Uppercase "eyebrow" labels — base shape */
-.section-label,
-.project-label,
-.meta-label,
-.next-label,
-.comparison-label,
-.team-office-header,
-.work-company,
-.decision-row.header .decision-cell {
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink-tertiary);
-}
-
-/* Eyebrow per-instance tweaks */
-.section-label  { letter-spacing: 0.12em; margin-bottom: var(--space-sm); }
-.project-label  { letter-spacing: 0.12em; color: var(--papaya); margin-bottom: 20px; }
-.meta-label     { margin-bottom: 4px; }
-.next-label     { letter-spacing: 0.12em; margin-bottom: var(--space-sm); }
-.comparison-label { margin-bottom: var(--space-sm); }
-.comparison-label.before { color: var(--ink-tertiary); }
-.comparison-label.after  { color: var(--papaya); }
-.work-company   { color: var(--papaya); margin-bottom: 4px; }
-.decision-row.header .decision-cell { letter-spacing: 0.08em; }
-
-/* Card-grid containers (stats, comparison, sprint flow, features, scope) */
-.stats,
-.comparison,
-.sprint-flow,
-.feature-grid,
-.scope-grid {
-  display: grid;
-  gap: 1px;
-  background: var(--rule);
-  border: 1px solid var(--rule);
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-/* Card-grid cell backgrounds */
-.stat,
-.comparison-side,
-.sprint-step,
-.feature-item,
-.scope-item {
-  background: var(--white);
-}
-
-/* Pulsing / static green status dot */
-.availability-dot,
-.live-badge::before {
-  display: inline-block;
-  width: 7px;
-  height: 7px;
-  background: var(--green);
-  border-radius: 50%;
-}
-
-/* ============================================================
-   HOMEPAGE
-   ============================================================ */
-
 .skip-link {
   position: absolute;
   top: -100%;
   left: var(--space-md);
-  background: var(--papaya);
-  color: var(--white);
+  z-index: 1000;             /* above the sticky header (100) */
   padding: var(--space-xs) var(--space-sm);
-  font-size: 14px;
+  background: var(--ink);    /* white-on-papaya was 2.5:1 */
+  color: var(--white);
+  font-size: var(--text-sm);
   font-weight: 500;
-  border-radius: 0 0 4px 4px;
-  z-index: 1000;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
   transition: top 0.2s;
+  &:focus { top: 0; }
 }
-.skip-link:focus { top: 0; }
 
-/* Full-bleed white banner; the rule below is drawn on .header-inner
-   so it stays within the --column measure */
+/* ==========================================================================
+   3. LAYOUT
+   ========================================================================== */
+.column {
+  max-width: var(--column);
+  margin-inline: auto;
+  padding-inline: var(--space-md);
+}
+
+/* Vertical rhythm + hairline shared by every top-level section. */
+.section {
+  padding-block: var(--space-xl);
+  border-bottom: var(--section-rule, 1px solid var(--rule));
+}
 header[role="banner"] {
   position: sticky;
-  width: 100%;
   top: 0;
   z-index: 100;
+  width: 100%;
   background: var(--white);
-  padding: var(--space-md) 0 0;
+  padding-block: var(--space-md) 0;
 }
+
+/* Full-bleed white banner, but the hairline is drawn on .header-inner so it
+   lines up with the section rules inside the column measure. */
 .header-inner {
   position: relative;
   max-width: var(--column);
-  margin: 0 auto;
+  margin-inline: auto;
   padding: 0 var(--space-md) var(--space-lg);
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
   gap: var(--space-md);
+  &::after {
+    content: "";
+    position: absolute;
+    left: var(--space-md);
+    right: var(--space-md);
+    bottom: 0;
+    border-bottom: 1px solid var(--rule);
+  }
 }
-/* Rule inset to the column's content edges so it lines up with
-   the section rules below */
-.header-inner::after {
-  content: "";
-  position: absolute;
-  left: var(--space-md);
-  right: var(--space-md);
-  bottom: 0;
-  border-bottom: 1px solid var(--rule);
+.logo {
+  flex-shrink: 0;
+  transform: translateY(12px);
+  & img { width: auto; height: 88px; }
 }
-.logo { 
-  flex-shrink: 0; 
-  transform: translate(0px, 12px);}
-.logo img { width: auto; height: 88px; }
 .header-contact {
   display: flex;
   flex-direction: column;
@@ -192,537 +204,10 @@ header[role="banner"] {
   gap: var(--space-xs);
   padding-top: 4px;
 }
-.header-contact a {
-  font-size: 14px;
-  color: var(--ink-secondary);
-  transition: color 0.15s;
-}
-.header-contact a:hover { color: var(--papaya); }
-
-.intro {
-  padding: var(--space-xl) 0;
-  border-bottom: 1px solid var(--rule);
-}
-.intro h1 {
-  font-family: var(--font-serif);
-  font-weight: 200;
-  font-size: clamp(1.8rem, 5vw, 3.0rem);
-  line-height: 1.2;
-  letter-spacing: -0.01em;
-  margin-bottom: var(--space-md);
-  font-variant-numeric: lining-nums;
-}
-h2 {
-  font-family: var(--font-serif);
-  font-weight: 200;
-  font-size: clamp(1.8rem, 5vw, 2.5rem);
-  line-height: 1.2;
-  letter-spacing: -0.01em;
-  margin-bottom: var(--space-lg);
-  font-variant-numeric: lining-nums;
-}
-.intro h1 span { color: var(--papaya); }
-.intro-meta {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-  flex-wrap: wrap;
-  margin-top: var(--space-lg);
-}
-.title-tag {
-  font-size: 14px;
-  font-weight: 200;
-  color: var(--ink-secondary);
-  background: var(--surface);
-  padding: 8px 14px;
-  border-radius: 100px;
-  letter-spacing: 0.05em;
-}
-.availability {
-  font-size: 14px;
-  color: var(--ink-tertiary);
-}
-.availability-dot {
-  margin-right: 6px;
-  vertical-align: middle;
-  animation: pulse 2s infinite;
-}
-
-.work {
-  padding: var(--space-xl) 0;
-  border-bottom: 1px solid var(--rule);
-}
-.work-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-xl);
-}
-@media (min-width: 560px) {
-  .work-grid { grid-template-columns: 1fr; }
-}
-.work-item { display: block; cursor: pointer; }
-.work-item:hover .work-thumb {
-  transform: translateY(-3px) scale(1.02);
-  
-}
-.work-thumb {
-  aspect-ratio: 16/10;
-  background: var(--surface);
-  border-radius: 12px;
-  overflow: hidden;
-  margin-bottom: var(--space-sm);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.1);
-}
-.work-thumb-label {
-  font-family: var(--font-serif);
-  font-size: 2.5rem;
-  font-weight: 300;
-  font-style: italic;
-  color: var(--ink-tertiary);
-  letter-spacing: 0.02em;
-}
-.work-item[data-project="fraction"]   .work-thumb { background: #0D0D0D; }
-.work-item[data-project="fraction"]   .work-thumb-label { color: rgba(255,255,255,0.3); }
-.work-item[data-project="payconnect"] .work-thumb { background: var(--surface-blue); }
-.work-item[data-project="payconnect"] .work-thumb-label { color: rgba(30,60,180,0.2); }
-.work-item[data-project="winga"]      .work-thumb { background: var(--surface); }
-.work-item[data-project="winga"]      .work-thumb-label { color: rgba(0,0,0,0.12); }
-.work-item[data-project="scb"]        .work-thumb { background: var(--scb-purple); }
-.work-item[data-project="scb"]        .work-thumb-label { color: rgba(255,255,255,0.2); }
-.work-item[data-project="edc"]        .work-thumb { background: #1A1A2E; }
-.work-item[data-project="edc"]        .work-thumb-label { color: rgba(255,255,255,0.2); }
-.work-item[data-project="yoma"]       .work-thumb { background: #F5F0F0; }
-.work-item[data-project="yoma"]       .work-thumb-label { color: rgba(180,30,30,0.15); }
-
-/* Animated work hero — layered web bg + real iPhone frame with scroll-driven screen.
-   Shared by every .work-thumb--hero; per-project bits come from the custom
-   properties below, set on the thumb (or via a [data-project] rule). */
-.work-thumb--hero {
-  --hero-bg-image: none;      /* url("../static/<project>-hero-bg.jpg") */
-  --hero-bg-fill: #0a0a0a;    /* matches the page bg so the bottom letterbox is seamless */
-  --hero-phone-left: auto;    /* set one of these; leave the other auto */
-  --hero-phone-right: 6%;
-  --hero-phone-top: 26%;
-  --hero-phone-width: 40%;
-  --hero-screen-fill: #0a0a0a;
-  background: var(--hero-bg-fill);
-}
-.hero-bg {
-  position: absolute;
-  inset: 0;
-  /* fit the full web page to the container width, anchored to the top */
-  background: var(--hero-bg-image) top center / 100% auto no-repeat, var(--hero-bg-fill);
-  will-change: background-position;
-  z-index: 0;
-}
-.hero-phone {
-  position: absolute;         /* phone bleeds off the bottom of the card */
-  width: var(--hero-phone-width);
-  left: var(--hero-phone-left);
-  right: var(--hero-phone-right);
-  top: var(--hero-phone-top);
-  aspect-ratio: 480 / 988;    /* matches mobile-frame.png */
-  z-index: 2;
-}
-.hero-phone-frame {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;                 /* frame (with island) sits over the screenshot */
-  pointer-events: none;
-  filter: drop-shadow(0 24px 38px rgba(0,0,0,0.5));
-}
-.hero-phone-screen {
-  position: absolute;         /* aligned to the frame's transparent screen cutout */
-  left: 4%;
-  top: 6%;
-  right: 4%;
-  bottom: 0%;
-  overflow: hidden;
-  background: var(--hero-screen-fill);
-  z-index: 1;
-}
-.hero-phone-shot {
-  position: absolute;
-  top: 0%;                    /* crop the app's own status bar; frame supplies 9:41 + island */
-  left: 0;
-  width: 100%;                /* fills the screen width, scrolls vertically */
-  height: auto;
-  display: block;
-  will-change: transform;
-}
-@media (prefers-reduced-motion: reduce) {
-  .hero-bg, .hero-phone-shot { transform: none !important; }
-}
-
-/* Per-project hero settings */
-.work-thumb--fraction {
-  --hero-bg-image: url("../static/fraction-hero-bg.jpg");
-  --hero-bg-fill: #0D0D0D;
-}
-.work-thumb--payconnect {
-  --hero-bg-image: url("../static/payconnect-hero-bg.jpg");
-  --hero-bg-fill: #fff;
-}
-.work-thumb--winga {
-  --hero-bg-image: url("../static/winga-hero-bg.jpg");
-  --hero-bg-fill: #030712;
-}
-.work-thumb--levelup {
-  --hero-bg-image: url("../static/levelup-hero-bg.jpg");
-  --hero-bg-fill: #4B0082;
-}
-
-.work-title {
-  font-size: 18px;
-  font-weight: 400;
-  margin-bottom: 4px;
-}
-.work-tags {
-  font-size: 14px;
-  color: var(--ink-tertiary);
-}
-
-.experience {
-  padding: var(--space-xl) 0;
-  border-bottom: 1px solid var(--rule);
-}
-.exp-list { list-style: none; }
-.exp-item {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2px;
-  padding: var(--space-md) 0;
-  border-bottom: 1px solid var(--rule);
-}
-.exp-item:last-child { border-bottom: none; }
-@media (min-width: 480px) {
-  .exp-item {
-    grid-template-columns: 1fr auto;
-    align-items: baseline;
-    gap: var(--space-sm);
-  }
-}
-.exp-role {
-  font-size: 18px;
-  font-weight: 400;
-}
-.exp-company {
-  font-size: 16px;
-  color: var(--ink-secondary);
-}
-.exp-location {
-  color: var(--ink-tertiary);
-}
-/* .exp-company::before { content: "  ·  "; color: var(--rule); } */
-.exp-dates {
-  font-size: 16px;
-  color: var(--ink-tertiary);
-  white-space: nowrap;
-}
-
-.testimonials {
-  padding: var(--space-xl) 0;
-  border-bottom: 1px solid var(--rule);
-  background: var(--surface);
-  margin: 0 calc(-1 * var(--space-md));
-  padding-left: var(--space-md);
-  padding-right: var(--space-md);
-}
-.testimonial-list {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-lg);
-}
-@media (min-width: 560px) {
-  .testimonial-list { grid-template-columns: 1fr 1fr; }
-}
-.testimonial {
-  padding: var(--space-md);
-  background: var(--white);
-  border-radius: 6px;
-  border-left: 3px solid var(--papaya);
-}
-.testimonial blockquote {
-  font-family: var(--font-serif);
-  font-size: 1.05rem;
-  font-weight: 300;
-  font-style: italic;
-  line-height: 1.6;
-  margin-bottom: var(--space-sm);
-}
-.testimonial cite {
-  font-size: 12px;
-  font-style: normal;
-  color: var(--ink-tertiary);
-  display: block;
-}
-.testimonial cite strong {
-  color: var(--ink-secondary);
-  font-weight: 500;
-}
-
-.skills {
-  padding: var(--space-xl) 0;
-  border-bottom: 1px solid var(--rule);
-}
-.skills-line {
-  font-size: 15px;
-  color: var(--ink-secondary);
-  line-height: 1.8;
-}
-.skills-line strong { color: var(--ink); font-weight: 500; }
-
-.contact { padding: var(--space-xl) 0 var(--space-2xl); }
-.contact-links {
-  display: flex;
-  gap: var(--space-lg);
-  flex-wrap: wrap;
-  align-items: center;
-  margin-top: var(--space-md);
-}
-.contact-link {
-  font-size: 18px;
-  border-bottom: 1px solid var(--rule);
-  padding-bottom: 2px;
-  transition: color 0.15s, border-color 0.15s;
-}
-.contact-link:hover {
-  color: var(--papaya);
-  border-color: var(--papaya);
-}
-.contact-link.primary {
-  color: var(--papaya);
-  border-color: var(--papaya);
-  font-weight: 500;
-}
-.contact-note {
-  font-size: 16px;
-  color: var(--ink-tertiary);
-  margin-top: var(--space-lg);
-}
-
-body.home footer {
+footer[role="contentinfo"] {
   border-top: 1px solid var(--rule);
-  padding: var(--space-lg) 0;
+  padding-block: var(--footer-pad, var(--space-lg));
 }
-
-@media print {
-  .work-thumb { background: #eee !important; }
-  .availability-dot { animation: none; }
-}
-
-/* ============================================================
-   CASE STUDY — SHARED
-   ============================================================ */
-
-body.case-study h2 {
-  font-family: var(--font-serif);
-  font-weight: 400;
-  font-size: clamp(1.5rem, 3vw, 2.5rem);
-  line-height: 1.2;
-  margin-bottom: 20px;
-  letter-spacing: -0.01em;
-}
-body.case-study h3 {
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink-tertiary);
-  margin-bottom: var(--space-sm);
-  margin-top: 40px;
-}
-body.case-study h3:first-child { margin-top: 0; }
-body.case-study .content p {
-  font-size: 18px;
-  color: var(--ink-secondary);
-  line-height: 2;
-  margin-bottom: var(--space-sm);
-}
-body.case-study .content p:last-child { margin-bottom: 0; }
-body.case-study .content p strong { color: var(--ink); font-weight: 500; }
-
-.nav-inner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.nav-logo svg { width: 48px; height: auto; }
-.nav-back {
-  font-size: 16px;
-  color: var(--ink-tertiary);
-  transition: color 0.15s;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 2.5rem;
-}
-.nav-back:hover { color: var(--papaya); }
-.nav-back::before { content: "←"; }
-
-.hero {
-  padding: var(--space-xl) 0 64px;
-  border-bottom: 1px solid var(--rule);
-}
-.hero h1 {
-  font-family: var(--font-serif);
-  font-weight: 400;
-  font-size: clamp(2rem, 5vw, 3rem);
-  line-height: 1.15;
-  margin-bottom: var(--space-md);
-  letter-spacing: -0.01em;
-}
-.hero-summary {
-  font-size: 18px;
-  color: var(--ink-secondary);
-  line-height: 2;
-  margin-bottom: 40px;
-}
-.hero-summary a {
-  color: var(--papaya);
-}
-.meta-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 32px;
-  padding-top: 32px;
-  border-top: 1px solid var(--rule);
-}
-.meta-value { font-size: 16px; }
-
-/* Hero image — per-case colors driven by custom properties */
-.hero-image {
-  background: var(--hero-bg, var(--surface));
-  border: var(--hero-border, none);
-  aspect-ratio: 16/10;
-  border-radius: 8px;
-  margin: var(--space-lg) 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-.hero-image a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-}
-.hero-image-hero {
-  font-family: var(--font-serif);
-  font-size: 2rem;
-  font-weight: 300;
-  font-style: italic;
-  color: var(--hero-placeholder, var(--ink-tertiary));
-}
-
-.content { padding: 64px 0; }
-.content-section { margin-bottom: 64px; }
-.content-section:last-child { margin-bottom: 0; }
-
-.stats {
-  grid-template-columns: var(--stats-cols, repeat(auto-fit, minmax(160px, 1fr)));
-  margin: 40px 0;
-}
-.stat { padding: 28px var(--space-md); }
-.stat-number {
-  font-family: var(--font-serif);
-  font-size: 2.5rem;
-  font-weight: 300;
-  color: var(--papaya);
-  line-height: 1;
-  margin-bottom: var(--space-xs);
-}
-.stat-label {
-  font-size: 13px;
-  color: var(--ink-tertiary);
-  line-height: 1.4;
-}
-
-.pullquote {
-  border-left: 3px solid var(--papaya);
-  padding: 4px 0 4px var(--space-md);
-  margin: 40px 0;
-}
-.pullquote p {
-  font-family: var(--font-serif);
-  font-size: 1.3rem;
-  font-weight: 300;
-  font-style: italic;
-  color: var(--ink);
-  line-height: 1.5;
-}
-
-.img-placeholder {
-  background: var(--surface);
-  border-radius: 6px;
-  aspect-ratio: 16/9;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 32px 0;
-}
-.img-placeholder.dark   { background: #0D0D0D; }
-.img-placeholder.blue   { background: var(--surface-blue); }
-.img-placeholder.purple { background: #EEE8F5; }
-.img-placeholder.red    { background: #F5F0F0; }
-.img-placeholder span {
-  font-size: 12px;
-  color: var(--ink-tertiary);
-  letter-spacing: 0.05em;
-}
-.img-placeholder.dark span { color: rgba(255,255,255,0.2); }
-
-.img-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-sm);
-  margin: 32px 0;
-}
-.img-row .img-placeholder { margin: 0; }
-
-.tag-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-xs);
-  margin-top: var(--space-sm);
-}
-.tag {
-  font-size: 12px;
-  color: var(--ink-secondary);
-  background: var(--surface);
-  padding: 4px 12px;
-  border-radius: 100px;
-}
-
-.next-project {
-  border-top: 1px solid var(--rule);
-  padding: 64px 0;
-}
-.next-link {
-  display: inline-block;
-  font-family: var(--font-serif);
-  font-size: 1.8rem;
-  font-weight: 400;
-  border-bottom: 1px solid var(--rule);
-  padding-bottom: 2px;
-  transition: color 0.15s, border-color 0.15s;
-}
-.next-link:hover { color: var(--papaya); border-color: var(--papaya); }
-
-body.case-study footer {
-  border-top: 1px solid var(--rule);
-  padding: 32px 0;
-}
-
 .footer-inner {
   display: flex;
   justify-content: space-between;
@@ -731,174 +216,611 @@ body.case-study footer {
   gap: var(--space-sm);
 }
 .footer-copy {
-  font-size: 14px;
+  font-size: var(--text-sm);
   color: var(--ink-tertiary);
 }
 .footer-links {
   display: flex;
   gap: var(--space-md);
 }
-.footer-links a {
-  font-size: 14px;
-  color: var(--ink-tertiary);
-  transition: color 0.15s;
-}
-.footer-links a:hover { color: var(--papaya); }
 
+/* ==========================================================================
+   4. PRIMITIVES
+   Reusable across both page types. Variation is carried by modifiers and
+   custom properties, so a new component needs markup, not new CSS.
+   ========================================================================== */
+
+/* --- Muted link that warms on hover (header, footer, back-nav) ------------- */
+.link-muted {
+  font-size: var(--text-sm);
+  color: var(--ink-secondary);
+  transition: color var(--ease);
+  &.link-muted--faint { color: var(--ink-tertiary); }
+  &:hover { color: var(--papaya-text); }
+}
+
+/* --- Underlined link ------------------------------------------------------ */
+.link-underline {
+  display: inline-block;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 2px;
+  transition: color var(--ease), border-color var(--ease), opacity var(--ease);
+  &:hover {
+    color: var(--papaya-text);
+    border-color: var(--papaya-text);
+  }
+
+  /* Already-accented: carries the brand colour at rest. */
+  &.link-underline--accent {
+    color: var(--papaya-text);
+    border-color: var(--papaya-text);
+    font-weight: 500;
+  }
+
+  /* Serif, display-sized (next-project link). */
+  &.link-underline--display {
+    font-family: var(--font-serif);
+    font-size: 2.025rem;
+    font-weight: 400;
+  }
+
+  /* Outbound, with an arrow affordance. */
+  &.link-underline--external {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--text-sm);
+    margin-top: var(--space-sm);
+    &::after { content: "\2197"; font-size: var(--text-2xs); }
+  }
+}
+
+/* Inline text link inside a paragraph. */
+.link-inline {
+  color: var(--papaya-text);
+  transition: color var(--ease);
+  &:hover { color: var(--papaya-text-hover); }
+}
+
+/* --- Uppercase eyebrow label ---------------------------------------------- */
+.eyebrow {
+  font-size: var(--eyebrow-size, var(--text-sm));
+  font-weight: 500;
+  letter-spacing: var(--eyebrow-tracking, 0.1em);
+  text-transform: uppercase;
+  color: var(--ink-tertiary);
+  margin-bottom: var(--eyebrow-gap, 0);
+  &.eyebrow--accent { color: var(--papaya-text); }
+  &.eyebrow--wide { --eyebrow-tracking: 0.12em; }
+  &.eyebrow--gap { --eyebrow-gap: var(--space-sm); }
+  &.eyebrow--gap-lg { --eyebrow-gap: 20px; }
+  &.eyebrow--gap-xs { --eyebrow-gap: 4px; }
+}
+
+/* --- Serif display heading ------------------------------------------------ */
+:where(h1, h2),
+.display {
+  font-family: var(--font-serif);
+  font-weight: var(--display-weight, 200);
+  font-size: var(--display-size, var(--display-md));
+  line-height: var(--display-leading, 1.2);
+  letter-spacing: -0.01em;
+  font-variant-numeric: lining-nums;
+  text-wrap: balance;
+  margin-bottom: var(--display-gap, var(--space-lg));
+}
+
+/* Per-context ramp: property-only rules, no repeated declarations. */
+.intro h1 { --display-size: var(--display-lg); --display-gap: var(--space-md); }
+.hero h1 {
+  --display-size: var(--display-xl);
+  --display-weight: 400;
+  --display-leading: 1.15;
+  --display-gap: var(--space-md);
+}
+body.case-study h2 {
+  --display-size: var(--display-sm);
+  --display-weight: 400;
+  --display-gap: 20px;
+}
+
+/* --- Serif italic quote/label voice --------------------------------------- */
+.quote {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-style: italic;
+}
+
+/* --- Plain grid ----------------------------------------------------------- */
+.grid {
+  display: grid;
+  gap: var(--grid-gap, var(--space-sm));
+  grid-template-columns: repeat(var(--cols, 1), minmax(0, 1fr));
+}
+
+/* --- Hairline card grid ---------------------------------------------------
+   The 1px gap over a --rule background draws the dividers, so cells need no
+   borders of their own. Base is a single column: that is the whole reason the
+   three max-width:480px overrides could be deleted. */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 1), minmax(0, 1fr));
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-block: var(--space-block);
+  & > * {
+    background: var(--white);
+    padding: var(--card-pad, 20px var(--space-sm));
+  }
+
+  /* Fills the row with as many cells as fit — no breakpoint needed. */
+  &.card-grid--auto { grid-template-columns: repeat(auto-fit, minmax(var(--card-min, 120px), 1fr)); }
+}
+@media (min-width: 30em) {
+  .grid--2, .card-grid--2 { --cols: 2; }
+  .grid--3, .card-grid--3 { --cols: 3; }
+}
+
+/* --- Bordered, rounded, clipped container --------------------------------- */
+.panel {
+  border: 1px solid var(--rule);
+  border-radius: var(--panel-radius, var(--radius-md));
+  overflow: hidden;
+}
+
+/* --- Pill ----------------------------------------------------------------- */
+.pill {
+  font-size: var(--pill-size, var(--text-sm));
+  font-weight: 200;
+  color: var(--ink-secondary);
+  background: var(--surface);
+  padding: var(--pill-pad, 8px 14px);
+  border-radius: var(--radius-pill);
+  letter-spacing: 0.05em;
+  &.pill--sm {
+    --pill-size: var(--text-2xs);
+    --pill-pad: 4px 12px;
+    font-weight: 400;
+    letter-spacing: normal;
+  }
+}
+.pill-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  margin-top: var(--pill-list-gap, var(--space-lg));
+  &.pill-list--gap { --pill-list-gap: var(--space-md); }
+}
+
+
+/* ==========================================================================
+   5. COMPONENTS — HOMEPAGE
+   ========================================================================== */
+.intro {
+  & h1 span { color: var(--papaya-text); }
+}
+.intro-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  margin-top: var(--space-lg);
+}
+
+/* --- Work grid ------------------------------------------------------------ */
+.work-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-xl);
+}
+.work-item {
+  display: block;
+  cursor: pointer;
+  &:hover .work-thumb { transform: translateY(-3px) scale(1.02); }
+}
+.work-thumb {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  background: var(--thumb-bg, var(--surface));
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: var(--space-sm);
+  box-shadow: 0 12px 40px rgb(0 0 0 / 0.1);
+  transition: transform var(--ease-slow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Only the Yoma card is a plain thumb; every other card is covered edge to
+   edge by .hero-bg, so it needs no background of its own. */
+.work-item[data-project="yoma"] {
+  --thumb-bg: #F5F0F0;
+  & .work-thumb-label { color: rgb(180 30 30 / 0.15); }
+}
+.work-thumb-label {
+  font-family: var(--font-serif);
+  font-size: 2.8125rem;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--ink-tertiary);
+  letter-spacing: 0.02em;
+}
+.work-title {
+  font-size: var(--text-lg);
+  font-weight: 400;
+  margin-bottom: 4px;
+}
+.work-tags {
+  font-size: var(--text-sm);
+  color: var(--ink-tertiary);
+}
+
+/* --- Animated work hero ---------------------------------------------------
+   Layered web background + real iPhone frame with a scroll-driven screenshot.
+   Every knob is a custom property so a new project is a class in the markup
+   plus four lines in the THEMES section.
+   JS writes inline background-position-y on .hero-bg and transform on
+   .hero-phone-shot; inline styles beat these rules, which is the intent. */
+.work-thumb--hero {
+  --hero-bg-image: none;
+  --hero-bg-fill: #0a0a0a;   /* matches the page bg so the letterbox is seamless */
+  --hero-phone-left: auto;   /* set one of left/right; leave the other auto */
+  --hero-phone-right: 6%;
+  --hero-phone-top: 26%;
+  --hero-phone-width: 40%;
+  --hero-screen-fill: #0a0a0a;
+  background-color: var(--hero-bg-fill);
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  /* Longhands, not the shorthand: JS sets background-position-y and a later
+     shorthand would silently reset it. */
+  background-color: var(--hero-bg-fill);
+  background-image: var(--hero-bg-image);
+  background-position: top center;   /* fit full-width, anchored to the top */
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  will-change: background-position;
+}
+.hero-phone {
+  position: absolute;        /* bleeds off the bottom of the card */
+  z-index: 2;
+  width: var(--hero-phone-width);
+  left: var(--hero-phone-left);
+  right: var(--hero-phone-right);
+  top: var(--hero-phone-top);
+  aspect-ratio: 480 / 988;   /* matches mobile-frame.png */
+}
+.hero-phone-frame {
+  position: absolute;
+  inset: 0;
+  z-index: 2;                /* frame + island sit over the screenshot */
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  filter: drop-shadow(0 24px 38px rgb(0 0 0 / 0.5));
+}
+.hero-phone-screen {
+  position: absolute;        /* aligned to the frame's transparent cutout */
+  inset: 6% 4% 0;
+  z-index: 1;
+  overflow: hidden;
+  background: var(--hero-screen-fill);
+}
+.hero-phone-shot {
+  position: absolute;
+  top: 0;                    /* frame supplies the 9:41 status bar */
+  left: 0;
+  width: 100%;
+  height: auto;              /* JS reads offsetHeight to size the travel */
+  display: block;
+  will-change: transform;
+}
+
+/* --- Experience ----------------------------------------------------------- */
+.exp-item {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2px;
+  padding-block: var(--space-md);
+  border-bottom: 1px solid var(--rule);
+  &:last-child { border-bottom: none; }
+}
+@media (min-width: 30em) {
+  .exp-item {
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    gap: var(--space-sm);
+  }
+}
+.exp-role {
+  font-size: var(--text-lg);
+  font-weight: 400;
+}
+.exp-company {
+  font-size: var(--text-md);
+  color: var(--ink-secondary);
+}
+.exp-location { color: var(--ink-tertiary); }
+.exp-dates {
+  font-size: var(--text-md);
+  color: var(--ink-tertiary);
+  white-space: nowrap;
+}
+
+/* --- Contact -------------------------------------------------------------- */
+.contact {
+  --section-rule: none;
+  padding-bottom: var(--space-2xl);
+}
+.contact-links {
+  display: flex;
+  gap: var(--space-lg);
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: var(--space-md);
+}
+
+/* ==========================================================================
+   5b. COMPONENTS — CASE STUDY
+   ========================================================================== */
+body.case-study { --footer-pad: var(--space-block); }
+
+/* Prose defaults for case-study body copy.
+   These are wrapped in :where() so they carry specificity 0. Without it,
+   `body.case-study .content p` scores (0,2,2) and silently beats every
+   component class on a <p> inside <article class="content"> — .stat-number,
+   .stat-label, .feature-title, .feature-desc, .team-role, .sprint-step-label
+   and .eyebrow were all losing to it. Prose is the default; components win. */
+:where(body.case-study) h3 {
+  font-size: var(--text-md);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: var(--space-sm);
+  margin-top: var(--space-block-lg);
+  &:first-child { margin-top: 0; }
+}
+:where(body.case-study .content) p {
+  font-size: var(--text-lg);
+  font-weight: 300;
+  color: var(--ink-secondary);
+  line-height: 2;
+  margin-bottom: var(--space-sm);
+  text-wrap: pretty;
+  &:last-child { margin-bottom: 0; }
+  & strong { color: var(--ink); font-weight: 500; }
+}
+.nav-back {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--text-md);
+  color: var(--ink-tertiary);
+  margin-bottom: 2.8125rem;
+  transition: color var(--ease);
+  &::before { content: "\2190"; }
+  &:hover { color: var(--papaya-text); }
+}
+.hero {
+  padding-block: var(--space-xl) var(--space-section);
+  border-bottom: 1px solid var(--rule);
+}
+.hero-summary {
+  font-size: var(--text-lg);
+  color: var(--ink-secondary);
+  line-height: 2;
+  margin-bottom: var(--space-block-lg);
+  & a { color: var(--papaya-text); }
+}
+.meta-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-block);
+  padding-top: var(--space-block);
+  border-top: 1px solid var(--rule);
+}
+.meta-value { font-size: var(--text-md); }
+
+/* Hero image — per-case colours come from the THEMES section. */
+.hero-image {
+  aspect-ratio: 16 / 10;
+  background: var(--case-hero-bg, var(--surface));
+  border: var(--case-hero-border, none);
+  border-radius: var(--radius-md);
+  margin-block: var(--space-lg);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  & a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+  & img { width: 100%; height: 100%; object-fit: cover; }
+}
+.hero-image-placeholder {
+  font-family: var(--font-serif);
+  font-size: 2.25rem;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--case-hero-placeholder, var(--ink-tertiary));
+}
+.content { padding-block: var(--space-section); }
+.content-section {
+  margin-bottom: var(--space-section);
+  &:last-child { margin-bottom: 0; }
+}
+
+/* --- Stats (card-grid) ---------------------------------------------------- */
+.stats {
+  --card-pad: 24px var(--space-sm);
+  --card-min: 160px;
+  margin-block: var(--space-block-lg);
+}
+.stat-number {
+  font-family: var(--font-serif);
+  font-size: var(--stat-size, 2.8125rem);
+  font-weight: 300;
+  color: var(--papaya-text);
+  line-height: 1;
+  margin-bottom: var(--space-md);
+  font-variant-numeric: lining-nums;
+}
+.stat-label {
+  font-size: var(--text-sm);
+  color: var(--ink-tertiary);
+  line-height: 1.4;
+}
+
+/* --- Pullquote ------------------------------------------------------------ */
+.pullquote {
+  border-inline-start: 3px solid var(--papaya);
+  padding: 4px 0 4px var(--space-md);
+  margin-block: var(--space-block-lg);
+  & p {
+    font-size: 1.4625rem;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+}
+
+/* --- Images --------------------------------------------------------------- */
+.img-placeholder {
+  aspect-ratio: 16 / 9;
+  background: var(--img-bg, var(--surface));
+  border-radius: 6px;
+  margin-block: var(--space-block);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &.dark { --img-bg: #0D0D0D; }
+  &.blue { --img-bg: var(--surface-blue); }
+  &.purple { --img-bg: #EEE8F5; }
+  &.red { --img-bg: #F5F0F0; }
+  & span {
+    font-size: var(--text-2xs);
+    color: var(--ink-tertiary);
+    letter-spacing: 0.05em;
+  }
+  &.dark span { color: rgb(255 255 255 / 0.35); }
+}
+.img-row {
+  margin-block: var(--space-block);
+  & .img-placeholder { margin-block: 0; }
+}
+
+/* --- Next project --------------------------------------------------------- */
+.next-project {
+  border-top: 1px solid var(--rule);
+  padding-block: var(--space-section);
+}
+
+/* --- Floating buttons -----------------------------------------------------
+   Hidden state is opacity + visibility; the markup ships `inert` and the page
+   script toggles it, so these are never reachable while invisible. */
 .back-to-top,
 .back-home {
   position: fixed;
   bottom: var(--space-md);
+  z-index: 100;
   width: 44px;
   height: 44px;
-  background: var(--papaya);
+  background: var(--papaya-text);
   color: var(--white);
-  border: none;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
   transform: translateY(8px);
-  transition: opacity 0.2s ease, transform 0.2s ease, background 0.15s;
-  z-index: 100;
+  transition: opacity 0.2s ease, transform 0.2s ease, background var(--ease);
+  &.visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: none;
+  }
+  &:hover { background: var(--papaya-text-hover); }
+  &:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 3px;
+  }
+  & svg { width: 18px; height: 18px; display: block; }
+  &[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 8px);
+    right: 0;
+    padding: 6px 8px;
+    background: var(--ink);
+    color: var(--white);
+    font-size: var(--text-2xs);
+    font-weight: 400;
+    line-height: 1;
+    white-space: nowrap;
+    border-radius: var(--radius-sm);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(4px);
+    transition: opacity var(--ease), transform var(--ease);
+  }
+  &:hover[data-tooltip]::after,
+  &:focus-visible[data-tooltip]::after {
+    opacity: 1;
+    transform: none;
+  }
 }
 .back-to-top { right: var(--space-md); }
 .back-home { right: calc(var(--space-md) + 56px); }
-.back-to-top.visible,
-.back-home.visible {
-  opacity: 1;
-  pointer-events: auto;
-  transform: none;
-}
-.back-to-top:hover,
-.back-home:hover { background: #E67200; }
-.back-to-top:focus-visible,
-.back-home:focus-visible {
-  outline: 2px solid var(--ink);
-  outline-offset: 3px;
-}
-.back-to-top svg,
-.back-home svg { width: 18px; height: 18px; display: block; }
 
-.back-to-top[data-tooltip]::after,
-.back-home[data-tooltip]::after {
-  content: attr(data-tooltip);
-  position: absolute;
-  bottom: calc(100% + 8px);
-  right: 0;
-  background: var(--ink);
-  color: var(--white);
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 1;
-  white-space: nowrap;
-  padding: 6px 8px;
-  border-radius: 4px;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(4px);
-  transition: opacity 0.15s ease, transform 0.15s ease;
-}
-.back-to-top:hover::after,
-.back-to-top:focus-visible::after,
-.back-home:hover::after,
-.back-home:focus-visible::after {
-  opacity: 1;
-  transform: none;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .back-to-top,
-  .back-home { transition: opacity 0.01s linear; transform: none; }
-  .back-to-top.visible,
-  .back-home.visible { transform: none; }
-  .back-to-top[data-tooltip]::after,
-  .back-home[data-tooltip]::after { transition: opacity 0.01s linear; transform: none; }
-}
-
-/* ============================================================
-   CASE STUDY — PER-PAGE THEMING
-   ============================================================ */
-
-body.cs-fraction {
-  --hero-bg: #0D0D0D;
-  --hero-placeholder: rgba(255,255,255,0.15);
-}
-body.cs-payconnect {
-  --hero-bg: var(--surface-blue);
-  --hero-placeholder: rgba(30,60,180,0.15);
-}
-body.cs-scb {
-  --hero-bg: #EEE8F5;
-  --hero-placeholder: rgba(75,0,130,0.12);
-  --stats-cols: repeat(auto-fit, minmax(140px, 1fr));
-}
-body.cs-winga {
-  --hero-bg: var(--surface);
-  --hero-border: 1px solid var(--rule);
-  --hero-placeholder: rgba(0,0,0,0.1);
-}
-body.cs-winga .img-placeholder { border: 1px solid var(--rule); }
-body.cs-yoma {
-  --hero-bg: #F5F0F0;
-  --hero-placeholder: rgba(180,30,30,0.12);
-}
-
-/* ============================================================
-   CASE STUDY — UNIQUE COMPONENTS
-   ============================================================ */
-
-/* PayConnect — before/after comparison */
+/* --- Comparison (card-grid) ----------------------------------------------- */
 .comparison {
-  grid-template-columns: 1fr 1fr;
-  margin: 40px 0;
+  --card-pad: 28px var(--space-md);
+  margin-block: var(--space-block-lg);
 }
-@media (max-width: 480px) {
-  .comparison { grid-template-columns: 1fr; }
-}
-.comparison-side { padding: 28px var(--space-md); }
-.comparison-side ul {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.comparison-side li {
-  font-size: 14px;
-  color: var(--ink-secondary);
-  line-height: 1.5;
-  padding-left: var(--space-sm);
-  position: relative;
-}
-.comparison-side li::before {
-  content: "–";
-  position: absolute;
-  left: 0;
-  color: var(--ink-tertiary);
-}
-.comparison-side.after li::before {
-  content: "→";
-  color: var(--papaya);
+.comparison-side {
+  & ul {
+    list-style: none;   /* this list carries no class, so the base reset misses it */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  & li {
+    position: relative;
+    padding-left: var(--space-sm);
+    font-size: var(--text-sm);
+    color: var(--ink-secondary);
+    line-height: 1.5;
+    &::before {
+      content: var(--marker, "\2013");
+      position: absolute;
+      left: 0;
+      color: var(--marker-color, var(--ink-tertiary));
+    }
+  }
+  &.after li {
+    --marker: "\2192";
+    --marker-color: var(--papaya-text);
+  }
 }
 
-/* SCB — team structure */
-.team-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-sm);
-  margin: 40px 0;
-}
-@media (max-width: 480px) {
-  .team-grid { grid-template-columns: 1fr; }
-}
-.team-office {
-  border: 1px solid var(--rule);
-  border-radius: 6px;
-  overflow: hidden;
-}
+/* --- Team structure ------------------------------------------------------- */
+.team-grid { margin-block: var(--space-block-lg); }
+.team-office { --panel-radius: 6px; }
 .team-office-header {
   background: var(--surface);
   padding: 12px var(--space-sm);
@@ -911,133 +833,174 @@ body.cs-yoma {
   gap: 6px;
 }
 .team-role {
-  font-size: 13px;
+  font-size: var(--text-xs);
   color: var(--ink-secondary);
+  & span { font-weight: 500; color: var(--papaya-text); }
 }
-.team-role span { font-weight: 500; color: var(--papaya); }
 
-/* SCB — sprint flow */
+/* --- Sprint flow (card-grid) ---------------------------------------------- */
 .sprint-flow {
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  margin: 32px 0;
+  --card-min: 120px;
+  margin-block: var(--space-block);
 }
 .sprint-step {
-  padding: 20px var(--space-sm);
+  --stat-size: 2.025rem;
   text-align: center;
 }
-.sprint-step-number {
-  font-family: var(--font-serif);
-  font-size: 1.8rem;
-  font-weight: 300;
-  color: var(--papaya);
-  line-height: 1;
-  margin-bottom: var(--space-xs);
-}
 .sprint-step-label {
-  font-size: 12px;
+  font-size: var(--text-2xs);
   color: var(--ink-tertiary);
   line-height: 1.4;
 }
 
-/* Winga — stack decisions table */
-.decisions {
-  border: 1px solid var(--rule);
-  border-radius: 8px;
-  overflow: hidden;
-  margin: 32px 0;
-}
+/* --- Stack decisions table ------------------------------------------------ */
+.decisions { margin-block: var(--space-block); }
 .decision-row {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   border-bottom: 1px solid var(--rule);
+  &:last-child { border-bottom: none; }
+  /* Scoped to .decision-row: a bare `.header` rule would also hit this row's
+     own class list. */
+  &.header { background: var(--surface); }
 }
-.decision-row:last-child { border-bottom: none; }
-.decision-row.header { background: var(--surface); }
 .decision-cell {
   padding: 14px var(--space-sm);
-  font-size: 13px;
+  font-size: var(--text-xs);
   color: var(--ink-secondary);
   border-right: 1px solid var(--rule);
   line-height: 1.4;
+  &:last-child { border-right: none; }
+  & strong { color: var(--ink); font-weight: 500; }
 }
-.decision-cell:last-child { border-right: none; }
-.decision-cell strong { color: var(--ink); font-weight: 500; }
+/* .decision-cell sets font-size and colour at the same specificity as .eyebrow
+   and comes later, so the header cells restate just those two. */
+.decision-row.header .decision-cell {
+  --eyebrow-tracking: 0.08em;
+  font-size: var(--text-sm);
+  color: var(--ink-tertiary);
+}
 
-/* Winga — feature grid */
+/* --- Feature grid (card-grid) --------------------------------------------- */
 .feature-grid {
-  grid-template-columns: 1fr 1fr;
-  margin: 32px 0;
+  --card-pad: var(--space-md) 20px;
+  margin-block: var(--space-block);
 }
-@media (max-width: 480px) {
-  .feature-grid { grid-template-columns: 1fr; }
-}
-.feature-item { padding: var(--space-md) 20px; }
 .feature-title {
-  font-size: 14px;
+  font-size: var(--text-sm);
   font-weight: 500;
   color: var(--ink);
   margin-bottom: 6px;
 }
 .feature-desc {
-  font-size: 13px;
+  font-size: var(--text-xs);
   color: var(--ink-tertiary);
   line-height: 1.5;
-  margin: 0;
 }
 
-/* Winga — code block */
+/* --- Scope grid (card-grid) ----------------------------------------------- */
+.scope-grid {
+  --card-min: 140px;
+  margin-block: var(--space-block);
+}
+.scope-item {
+  font-size: var(--text-xs);
+  color: var(--ink-secondary);
+  line-height: 1.4;
+}
+
+/* --- Code block ----------------------------------------------------------- */
 .code-block {
   background: var(--ink);
   border-radius: 6px;
   padding: var(--space-md);
-  margin: 32px 0;
+  margin-block: var(--space-block);
   overflow-x: auto;
+  & code {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: rgb(255 255 255 / 0.85);
+    line-height: 1.6;
+    white-space: pre;
+  }
 }
-.code-block code {
-  font-family: 'Geist Mono', 'SF Mono', 'Fira Code', monospace;
-  font-size: 13px;
-  color: rgba(255,255,255,0.85);
-  line-height: 1.6;
-  white-space: pre;
-}
-.code-comment { color: rgba(255,255,255,0.35); }
+.code-comment { color: rgb(255 255 255 / 0.55); }  /* 0.35 composited to 3.2:1 */
 .code-keyword { color: var(--papaya); }
-.code-string  { color: #98D982; }
+.code-string { color: #98D982; }
 
-/* Winga — external link */
-.external-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  color: var(--papaya);
-  border-bottom: 1px solid var(--papaya);
-  padding-bottom: 2px;
-  margin-top: var(--space-sm);
-  transition: opacity 0.15s;
-}
-.external-link:hover { opacity: 0.75; }
-.external-link::after { content: "↗"; font-size: 12px; }
+/* ==========================================================================
+   6. THEMES
+   Per-project custom-property overrides. Adding a project means adding a
+   block here — no new rules anywhere else.
+   ========================================================================== */
 
-/* Winga — live badge */
-.live-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  color: var(--ink-tertiary);
-  margin-top: var(--space-xs);
+/* Homepage work-card heroes */
+.work-thumb--fraction {
+  --hero-bg-image: url("../static/fraction-hero-bg.jpg");
+  --hero-bg-fill: #0D0D0D;
 }
-.live-badge::before { content: ""; }
+.work-thumb--payconnect {
+  --hero-bg-image: url("../static/payconnect-hero-bg.jpg");
+  --hero-bg-fill: #FFFFFF;
+}
+.work-thumb--winga {
+  --hero-bg-image: url("../static/winga-hero-bg.jpg");
+  --hero-bg-fill: #030712;
+}
+.work-thumb--levelup {
+  --hero-bg-image: url("../static/levelup-hero-bg.jpg");
+  --hero-bg-fill: #4B0082;
+}
 
-/* Yoma — scope grid */
-.scope-grid {
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  margin: 32px 0;
+/* Case-study pages */
+body.cs-fraction {
+  --case-hero-bg: #0D0D0D;
+  --case-hero-placeholder: rgb(255 255 255 / 0.15);
 }
-.scope-item {
-  padding: 20px var(--space-sm);
-  font-size: 13px;
-  color: var(--ink-secondary);
-  line-height: 1.4;
+body.cs-payconnect {
+  --case-hero-bg: var(--surface-blue);
+  --case-hero-placeholder: rgb(30 60 180 / 0.15);
+}
+body.cs-scb {
+  --case-hero-bg: #EEE8F5;
+  --case-hero-placeholder: rgb(75 0 130 / 0.12);
+  & .stats { --card-min: 140px; }
+}
+body.cs-winga {
+  --case-hero-bg: var(--surface);
+  --case-hero-border: 1px solid var(--rule);
+  --case-hero-placeholder: rgb(0 0 0 / 0.1);
+  & .img-placeholder { border: 1px solid var(--rule); }
+}
+body.cs-yoma {
+  --case-hero-bg: #F5F0F0;
+  --case-hero-placeholder: rgb(180 30 30 / 0.12);
+}
+
+/* ==========================================================================
+   7. AT-RULES
+   ========================================================================== */
+
+/* Every motion in one place. `!important` on the parallax targets is the
+   deliberate kill-switch for the transforms JS writes as inline styles. */
+@media (prefers-reduced-motion: reduce) {
+  .hero-bg,
+  .hero-phone-shot { transform: none !important; }
+  .work-item:hover .work-thumb { transform: none; }
+  .back-to-top,
+  .back-home {
+    transition: opacity 0.01s linear;
+    transform: none;
+    &.visible { transform: none; }
+    &[data-tooltip]::after {
+      transition: opacity 0.01s linear;
+      transform: none;
+    }
+  }
+}
+@media print {
+  .work-thumb { background: #eee !important; }
+  .back-to-top,
+  .back-home,
+  .skip-link { display: none; }
 }
