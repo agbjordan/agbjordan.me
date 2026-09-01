@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="How I designed and built Winga — a feature flag consolidation platform born out of the chaos of managing flags across .env files, Vercel, GitHub, and Retool simultaneously.">
+  <title>Winga — Andrew Jordan</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Geist:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body class="case-study cs-winga">
+
+  <!-- HEADER -->
+  <header role="banner">
+    <div class="header-inner">
+      <a href="../index.html" class="logo" aria-label="Andrew Jordan — home">
+        <img src="../static/aj.svg" alt="Andrew Jordan" height="88px"/>
+      </a>
+      <nav class="header-contact" aria-label="Contact links">
+        <a class="link-muted" href="mailto:me@agbjordan.com">me@agbjordan.com</a>
+        <a class="link-muted" href="../Andrew-Jordan-Resume.pdf" download>Download Resume</a>
+        <a class="link-muted" href="https://www.linkedin.com/in/andrew-jordan21" aria-label="LinkedIn profile">LinkedIn</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="column">
+
+    <main id="main">
+
+      <section class="hero fade-in">
+
+        <a href="../index.html" class="nav-back">Back</a>
+
+        <p class="eyebrow eyebrow--accent eyebrow--wide eyebrow--gap-lg">Winga · Personal Project · 2025 – Present</p>
+        <h1>Building a product to solve a problem I lived every day</h1>
+        <p class="hero-summary">
+          Feature flags scattered across .env files, Vercel dashboards, GitHub secrets, and a Retool panel someone built six months ago. No single source of truth. No audit trail. No way to answer "can we turn that off?" without ten minutes of detective work. Winga is the tool I wished existed.
+        </p>
+        <div class="meta-row">
+          <div class="meta-item">
+            <p class="eyebrow eyebrow--gap-xs">Role</p>
+            <p class="meta-value">Solo — Designer &amp; Developer</p>
+          </div>
+          <div class="meta-item">
+            <p class="eyebrow eyebrow--gap-xs">Status</p>
+            <p class="meta-value">In development · Waitlist open</p>
+          </div>
+          <div class="meta-item">
+            <p class="eyebrow eyebrow--gap-xs">Stack</p>
+            <p class="meta-value">Next.js · Firebase · Gemini · Stripe</p>
+          </div>
+          <div class="meta-item">
+            <p class="eyebrow eyebrow--gap-xs">Site</p>
+            <p class="meta-value"><a class="link-inline" href="https://winga.me" target="_blank" rel="noopener">winga.me ↗</a></p>
+          </div>
+        </div>
+      </section>
+
+      <div class="hero-image fade-in">
+        <a href="https://winga.me" target="_blank" rel="noopener" aria-label="Visit winga.me">
+          <img src="../static/winga-workplaces.jpg" alt="Winga dashboard showing a list of feature flags with their current state and toggle controls." loading="lazy" decoding="async">
+        </a>
+      </div>
+
+      <article class="content">
+
+        <!-- THE PROBLEM -->
+        <section class="content-section fade-in">
+          <h2>The problem I was living</h2>
+          <p>
+            At Fraction, feature flags were everywhere and nowhere at the same time. Some lived in Vercel environment variables. Others were in .env files that may or may not have been committed to the repo. A few were hardcoded constants that nobody remembered setting. And some were in a Retool dashboard I'd built that only a handful of people knew existed.
+          </p>
+          <p>
+            When something went wrong in production — and in a financial platform, something going wrong has real consequences — the first question was always: <strong>can we turn that feature off while we fix it?</strong> Finding the answer took longer than the fix itself. Ten minutes of searching through four different systems to answer a yes/no question.
+          </p>
+          <p>
+            No single source of truth. No audit trail. No accountability. And no way for anyone outside the dev team to understand the current state of the product — which meant product managers and operations staff were always dependent on engineers for information they should have been able to access themselves.
+          </p>
+
+          <div class="pullquote">
+            <p class="quote">It would take longer to find out if it could be turned off than to actually fix the problem. That should never need to be asked.</p>
+          </div>
+        </section>
+
+        <!-- WHY NOT EXISTING TOOLS -->
+        <section class="content-section fade-in">
+          <h2>Why not just use what exists</h2>
+          <p>
+            Enterprise feature flag platforms exist. LaunchDarkly, Split, Unleash. They're well-built and powerful. They're also priced per seat, designed for large organisations, and assume you're starting from scratch — that you'll migrate everything into their system and build around their SDK from day one.
+          </p>
+          <p>
+            That's not the reality for most small teams. The reality is flags already exist, scattered across multiple systems, and asking a team to abandon all of them to adopt a new platform is a significant migration cost that most teams won't take on. So the flags stay scattered, and the problem continues.
+          </p>
+          <p>
+            Winga's starting point is different: <strong>import what you already have first</strong>. .env files, Vercel environment variables, GitHub Secrets — bring them all in, see everything in one place, and then decide what to do next. The migration happens gradually, on the team's terms, without a big-bang cutover.
+          </p>
+        </section>
+
+        <!-- PRODUCT DECISIONS -->
+        <section class="content-section fade-in">
+          <h2>The product decisions</h2>
+          <p>
+            Building alone means every decision is yours — which is clarifying. There's no committee, no one to defer to. You either believe a decision is right or you don't ship it.
+          </p>
+
+          <h3>Import-first</h3>
+          <p>
+            The onboarding flow starts by importing existing flags, not creating new ones. This was the first and most important product decision. Every competing tool opens with an empty dashboard and asks you to create your first flag. That moment of emptiness is a friction point — it asks the user to imagine a future state rather than solve their current problem. Winga starts by making the current mess visible.
+          </p>
+
+          <h3>AI codebase scanner</h3>
+          <p>
+            Beyond importing existing flags, a Gemini-powered scanner reads the codebase and suggests where feature flags should exist but don't — hardcoded values, magic booleans, commented-out blocks. This surfaces the shadow flags that aren't in any system yet. It's a different kind of import: not from a config file but from the codebase itself.
+          </p>
+
+          <h3>Flat pricing</h3>
+          <p>
+            Per workspace, not per seat. A 10-person team pays the same as a 2-person team. This was a deliberate positioning decision — the per-seat model punishes growth and creates perverse incentives around access. If you want PMs and ops staff to have visibility into flag states, you shouldn't have to pay more to give it to them.
+          </p>
+
+          <h3>PM access as a feature</h3>
+          <p>
+            Giving non-technical team members safe access to toggle flags — without requiring a deploy — removes a whole category of developer interruptions. A PM can turn a feature on for a demo, or roll back a poorly-received release, without filing a ticket. The audit trail means there's accountability without gatekeeping.
+          </p>
+
+          <div class="card-grid card-grid--2 feature-grid" role="list" aria-label="Key product features">
+            <div class="feature-item" role="listitem">
+              <p class="feature-title">Import-first onboarding</p>
+              <p class="feature-desc">Start with what you have. Import from .env, Vercel, and GitHub Secrets in minutes.</p>
+            </div>
+            <div class="feature-item" role="listitem">
+              <p class="feature-title">AI codebase scanner</p>
+              <p class="feature-desc">Gemini reads your codebase and surfaces flags that should exist but don't.</p>
+            </div>
+            <div class="feature-item" role="listitem">
+              <p class="feature-title">Full audit trail</p>
+              <p class="feature-desc">Every change logged. Who did it, when, and why. No more post-incident archaeology.</p>
+            </div>
+            <div class="feature-item" role="listitem">
+              <p class="feature-title">PM-safe access</p>
+              <p class="feature-desc">Non-technical team members can toggle flags without a deploy or a developer.</p>
+            </div>
+            <div class="feature-item" role="listitem">
+              <p class="feature-title">Flat pricing</p>
+              <p class="feature-desc">Per workspace, not per seat. No growth penalties.</p>
+            </div>
+            <div class="feature-item" role="listitem">
+              <p class="feature-title">Three lines to integrate</p>
+              <p class="feature-desc">First-class SDKs for JS, React, and Next.js. REST API for everything else.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- STACK -->
+        <section class="content-section fade-in">
+          <h2>Stack decisions</h2>
+          <p>
+            Building solo means the stack has to be maintainable by one person. Every choice was made against that constraint — no technology for its own sake, nothing that requires a team to operate.
+          </p>
+
+          <div class="panel decisions" role="region" aria-label="Technology decisions">
+            <div class="decision-row header">
+              <div class="decision-cell eyebrow">Technology</div>
+              <div class="decision-cell eyebrow">Decision</div>
+              <div class="decision-cell eyebrow">Why</div>
+            </div>
+            <div class="decision-row">
+              <div class="decision-cell"><strong>Next.js</strong></div>
+              <div class="decision-cell">Full-stack framework</div>
+              <div class="decision-cell">One codebase for frontend and API routes. Vercel deployment without ops overhead.</div>
+            </div>
+            <div class="decision-row">
+              <div class="decision-cell"><strong>Firebase</strong></div>
+              <div class="decision-cell">Auth + Realtime DB</div>
+              <div class="decision-cell">Real-time flag state sync across clients without building a WebSocket layer. Auth handled without a backend.</div>
+            </div>
+            <div class="decision-row">
+              <div class="decision-cell"><strong>Gemini</strong></div>
+              <div class="decision-cell">AI scanner</div>
+              <div class="decision-cell">Long context window handles large codebases in a single pass. Cost-effective at the usage pattern.</div>
+            </div>
+            <div class="decision-row">
+              <div class="decision-cell"><strong>Stripe</strong></div>
+              <div class="decision-cell">Payments</div>
+              <div class="decision-cell">Set it and leave it. The right tool for subscription billing at this scale.</div>
+            </div>
+            <div class="decision-row">
+              <div class="decision-cell"><strong>Brevo</strong></div>
+              <div class="decision-cell">Transactional email</div>
+              <div class="decision-cell">Reliable deliverability for a product where email notifications matter for incident response.</div>
+            </div>
+          </div>
+
+          <div class="code-block" aria-label="Winga SDK integration example">
+            <code><span class="code-comment">// Three lines. That's it.</span>
+<span class="code-keyword">import</span> { Winga } <span class="code-keyword">from</span> <span class="code-string">'@winga/js'</span>
+<span class="code-keyword">const</span> winga = <span class="code-keyword">new</span> Winga({ apiKey: <span class="code-string">'proj_live_xxx'</span> })
+
+<span class="code-keyword">if</span> (winga.isEnabled(<span class="code-string">'new-checkout'</span>)) {
+  showNewCheckout()
+}</code>
+          </div>
+        </section>
+
+        <!-- WHAT THIS DEMONSTRATES -->
+        <section class="content-section fade-in">
+          <h2>What this demonstrates</h2>
+          <p>
+            Winga is a product I'm building because I needed it — which is the most honest reason to build anything. The problem is real, the solution is considered, and every decision has a clear rationale.
+          </p>
+          <p>
+            As a portfolio piece it shows something different from client work: what happens when there's no brief, no client, no team, and no deadline. Just a problem worth solving and a decision about how to solve it properly. The product thinking, the stack choices, the pricing model, the onboarding philosophy — all of it is mine.
+          </p>
+          <p>
+            It's also a demonstration of the technical depth that my day job has developed. Designing the product and building it in the same stack I use professionally isn't a coincidence — it's what happens when the line between designer and developer has been blurring for six years.
+          </p>
+
+          <a href="https://winga.me" target="_blank" rel="noopener" class="link-underline link-underline--accent link-underline--external">See the live site at winga.me</a>
+
+          <div class="pill-list" role="list" aria-label="Skills used">
+            <span class="pill pill--sm" role="listitem">Product Strategy</span>
+            <span class="pill pill--sm" role="listitem">Solo Building</span>
+            <span class="pill pill--sm" role="listitem">UX Design</span>
+            <span class="pill pill--sm" role="listitem">Frontend Development</span>
+            <span class="pill pill--sm" role="listitem">Next.js</span>
+            <span class="pill pill--sm" role="listitem">Firebase</span>
+            <span class="pill pill--sm" role="listitem">AI Integration</span>
+            <span class="pill pill--sm" role="listitem">SaaS Pricing Design</span>
+            <span class="pill pill--sm" role="listitem">Developer Tools</span>
+            <span class="pill pill--sm" role="listitem">Stripe</span>
+          </div>
+        </section>
+
+      </article>
+
+      <nav class="next-project fade-in" aria-label="Next case study">
+        <p class="eyebrow eyebrow--wide eyebrow--gap">Next project</p>
+        <a href="./scb.html" class="link-underline link-underline--display">SCB Level Up — Distributed Design Leadership</a>
+      </nav>
+
+    </main>
+
+    <footer role="contentinfo">
+      <div class="footer-inner">
+        <p class="footer-copy">© Andrew Jordan 2026</p>
+        <nav class="footer-links" aria-label="Footer links">
+          <a class="link-muted link-muted--faint" href="../index.html">Home</a>
+          <a class="link-muted link-muted--faint" href="mailto:me@agbjordan.com">Email</a>
+          <a class="link-muted link-muted--faint" href="#">LinkedIn</a>
+        </nav>
+      </div>
+    </footer>
+
+  </div>
+
+  <a class="back-home" href="../index.html" aria-label="Back to home" data-tooltip="Back to home" inert>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+      <polyline points="9 22 9 12 15 12 15 22"/>
+    </svg>
+  </a>
+  <button class="back-to-top" type="button" aria-label="Back to top" data-tooltip="Back to top" inert>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 19V5M5 12l7-7 7 7"/>
+    </svg>
+  </button>
+
+  <script>
+    const floatingBtns = document.querySelectorAll('.back-to-top, .back-home');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const toggleFloatingBtns = () => {
+      const show = window.scrollY > 400;
+      floatingBtns.forEach(b => {
+        b.classList.toggle('visible', show);
+        b.toggleAttribute('inert', !show);
+      });
+    };
+    window.addEventListener('scroll', toggleFloatingBtns, { passive: true });
+    toggleFloatingBtns();
+    document.querySelector('.back-to-top').addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
+    });
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+        });
+      }, { threshold: 0.08 });
+      document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    } else {
+      document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
+    }
+  </script>
+
+</body>
+</html>

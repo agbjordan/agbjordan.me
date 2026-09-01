@@ -1,0 +1,52 @@
+//
+// general.scss
+//
+
+body {
+    overflow-x: hidden !important;
+    font-weight: 400;
+    color: $dark !important;
+    font-family: $font-family-base;
+}
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    line-height: 1.3;
+    font-weight: 600 !important;
+}
+a {
+    text-decoration: none !important;
+    font-size: 15px;
+}
+p {
+    line-height: 1.8;
+    font-size: 15px;
+}
+::selection {
+    background: rgba($primary, 0.6);
+    color: $white;
+}
+
+// Back To Top
+.back-to-top {
+    z-index: 99;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 32px;
+    height: 32px;
+    line-height: 30px;
+    display: none;
+    color: $white;
+    background-color: $primary;
+    transition: all 0.5s ease;
+    box-shadow: 0 0 3px rgba(22, 28, 45, 0.15);
+}
+.back-to-top:hover {
+    background-color: $primary;
+    color: $white;
+}
+.back-to-top .icons {
+    transition: all 0.5s ease;
+    stroke-width: 2;
+    height: 16px;
+    width: 16px;
+}

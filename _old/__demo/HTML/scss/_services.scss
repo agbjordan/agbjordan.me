@@ -1,0 +1,42 @@
+//
+// services.scss
+//
+
+.services-section {
+    .service-box {
+        padding: 60px 40px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    .icon-img img {
+        width: 50px;
+    }
+    span {
+        font-size: 16px;
+    }
+    .services-sub-title .services-link {
+        font-size: 21px !important;
+        font-weight: 500 !important;
+        line-height: 1.8;
+        color: $dark;
+        &:hover {
+            color: $dark !important;
+        }
+    }
+    p {
+        line-height: 1.8;
+        font-size: 14px !important;
+        font-weight: 300 !important;
+        color: #696969;
+        margin: 0;
+    }
+    a {
+        font-size: 14px !important;
+        // text-decoration: underline !important;
+        transition: all 1s;
+        &:hover {
+            color: $primary !important;
+            transition: all 1s;
+        }
+    }
+}
+
