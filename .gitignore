@@ -4,3 +4,6 @@ node_modules/
 _site/
 *.zip
 lhci-report/
+
+# Throwaway debug/screenshot scripts
+_*.mjs
