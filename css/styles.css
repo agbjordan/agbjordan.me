@@ -500,7 +500,13 @@ body.case-study h2 {
   border-radius: var(--radius-lg);
   overflow: hidden;
   margin-bottom: var(--space-sm);
-  box-shadow: 0 12px 40px rgb(0 0 0 / 0.1);
+  /* Two layers on purpose. The single 10% cast only read on the light cards
+     (Payconnect, Yoma) — against the near-black cards (Fraction, Winga,
+     LevelUp) it fell inside the card's own edge and disappeared. The negative
+     spread pushes the visible falloff clear of that edge so every card lifts. */
+  box-shadow:
+    0 2px 6px rgb(0 0 0 / 0.06),
+    0 18px 45px -12px rgb(0 0 0 / 0.28);
   transition: transform var(--ease-slow);
   display: flex;
   align-items: center;
