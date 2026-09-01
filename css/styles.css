@@ -26,15 +26,27 @@
    ========================================================================== */
 :root {
   /* --- Colour -------------------------------------------------------------
-     --papaya is the brand orange. It measures 2.5:1 on white, below both the
-     4.5:1 WCAG AA minimum for text and the 3:1 minimum for focus rings, so it
-     is for decorative fills only -- rules, pullquote bars, hover washes.
-     --papaya-text is the seam that lets readable text, links and focus rings
-     use a darker value than those fills. Every element that draws with it sits
-     on --white, where #B35600 measures 4.94:1. Keep text and fills separate:
-     restoring --papaya-text to #ff8000 reintroduces ~30 AA contrast failures. */
+     --papaya is the brand orange, and --papaya-text deliberately matches it.
+
+     DO NOT DARKEN --papaya-text. At 2.52:1 on white it does not meet the 4.5:1
+     WCAG AA minimum for text, and darkening it to something that does (#B35600
+     and similar) is a rejected change -- the brand orange is the brand orange.
+     This is an accepted, documented exception, not an oversight, and the a11y
+     gate is configured around it: .pa11yci.js excludes the specific selectors
+     that draw with this token. Change the value and that exclusion list goes
+     stale.
+
+     Lighthouse cannot be scoped the same way, so its color-contrast audit
+     fails on these elements and drags the accessibility category to 0.96
+     against a 0.95 threshold. That is expected and still passes. The thin
+     margin is deliberate: any NEW accessibility problem drops it below 0.95
+     and fails CI, which is what the gate is for.
+
+     The two tokens stay separate so a darker text-only value can be swapped in
+     from one place if that call is ever revisited. --ink-tertiary is the token
+     to reach for when text needs to be quiet AND pass AA. */
   --papaya: #ff8000;
-  --papaya-text: #b35600; /*  4.94:1 on white */
+  --papaya-text: #ff8000; /*  2.52:1 on white -- see the note above */
   --papaya-text-hover: color-mix(in oklab, var(--papaya-text) 85%, black);
   --ink: #111111; /* 18.9:1 on white */
   --ink-secondary: #555555; /*  7.3:1 */
@@ -500,13 +512,19 @@ body.case-study h2 {
   border-radius: var(--radius-lg);
   overflow: hidden;
   margin-bottom: var(--space-sm);
-  /* Two layers on purpose. The single 10% cast only read on the light cards
-     (Payconnect, Yoma) — against the near-black cards (Fraction, Winga,
-     LevelUp) it fell inside the card's own edge and disappeared. The negative
-     spread pushes the visible falloff clear of that edge so every card lifts. */
+  /* Two layers: a tight ambient plus a wider key with negative spread, so the
+     falloff clears the card edge instead of hiding under it.
+     Strength is a knob because an identical cast does not read identically —
+     against a near-black card (Fraction, Winga) it looks like a crisp lift,
+     against a white one (Payconnect, Yoma) the same grey looks like a heavy
+     haze. The light cards dial these down in THEMES to match by eye, which is
+     the only match that matters here.
+     Defaults live in the var() fallbacks, not as declarations on this rule --
+     same idiom as --thumb-bg above. A declaration here would sit on the
+     element itself and beat the value Yoma inherits from its .work-item. */
   box-shadow:
-    0 2px 6px rgb(0 0 0 / 0.06),
-    0 18px 45px -12px rgb(0 0 0 / 0.28);
+    0 2px 6px rgb(0 0 0 / var(--thumb-shadow-ambient, 0.06)),
+    0 18px 45px -12px rgb(0 0 0 / var(--thumb-shadow-key, 0.28));
   transition: transform var(--ease-slow);
   display: flex;
   align-items: center;
@@ -517,6 +535,10 @@ body.case-study h2 {
    edge by .hero-bg, so it needs no background of its own. */
 .work-item[data-project="yoma"] {
   --thumb-bg: #f5f0f0;
+  /* Same reason as Payconnect — a light card needs less shadow to read level
+     with the dark ones. Set here rather than on .work-thumb so it inherits. */
+  --thumb-shadow-ambient: 0.04;
+  --thumb-shadow-key: 0.16;
   & .work-thumb-label {
     color: rgb(180 30 30 / 0.15);
   }
@@ -558,7 +580,7 @@ body.case-study h2 {
 .hero-bg {
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: -1;
   /* Longhands, not the shorthand: JS sets background-position-y and a later
      shorthand would silently reset it. */
   background-color: var(--hero-bg-fill);
@@ -1102,6 +1124,10 @@ body.case-study {
 .work-thumb--payconnect {
   --hero-bg-image: url("../static/payconnect-hero-bg.jpg");
   --hero-bg-fill: #ffffff;
+  /* White card: the shared shadow reads far heavier here than on the dark
+     cards, so it is pulled back to sit level with them by eye. */
+  --thumb-shadow-ambient: 0.04;
+  --thumb-shadow-key: 0.15;
 }
 .work-thumb--winga {
   --hero-bg-image: url("../static/winga-hero-bg.jpg");

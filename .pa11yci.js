@@ -28,6 +28,32 @@ const PAGES = [
 
 const BASE = process.env.PA11Y_BASE_URL || "http://localhost:4173";
 
+/**
+ * Accepted brand exception: --papaya-text is the brand orange (#ff8000), which
+ * measures 2.52:1 on white against a 4.5:1 AA requirement. Darkening it is a
+ * rejected change (see the note on the token in css/styles.css), so the gate is
+ * scoped around it instead of being switched off.
+ *
+ * These are every selector that renders static text in that orange. Listed one
+ * by one on purpose: ignoring the contrast rule codes globally would also have
+ * hidden the --ink-tertiary failures that were real, and this list going stale
+ * is a louder failure than a silently broadened rule.
+ *
+ * Trade-off worth knowing: pa11y hides these elements outright, so ALL rules
+ * are skipped on them, not just contrast. They are plain text links, numbers
+ * and labels with no interactive behaviour, which is what makes that
+ * acceptable here. Do not add a widget or a form control to this list.
+ */
+const BRAND_ORANGE_TEXT = [
+  ".link-inline",
+  ".link-underline--accent",
+  ".eyebrow--accent",
+  ".intro h1 span",
+  ".hero-summary a",
+  ".stat-number",
+  ".team-role span",
+].join(", ");
+
 /** First Chrome that exists, in preference order. CI sets CHROME_PATH. */
 const CANDIDATES = [
   process.env.CHROME_PATH,
@@ -57,6 +83,7 @@ module.exports = {
     // The fade-in reveal is driven by IntersectionObserver; give it a beat to
     // run so pa11y measures revealed content rather than opacity-0 elements.
     wait: 1000,
+    hideElements: BRAND_ORANGE_TEXT,
     // Must stay 1. puppeteer@9 driving a modern Chrome cannot hold two browser
     // contexts open at once: at concurrency 2 exactly one page of each pair dies
     // with "Protocol error: Connection closed", which pa11y-ci reports as a
