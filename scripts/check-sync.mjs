@@ -36,7 +36,7 @@ import { join, dirname, resolve, basename } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const SKIP_LINK_LEVEL = "warn"; // flip to "error" once the case studies have skip links
+const SKIP_LINK_LEVEL = "error"; // all pages have skip links; keep new pages honest
 
 const errors = [];
 const warnings = [];

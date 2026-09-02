@@ -37,7 +37,7 @@ npm run check:a11y     # needs Chrome 112+ on PATH or CHROME_PATH; older Chromiu
 npx lhci autorun
 ```
 
-Known-expected results, not news: Lighthouse a11y scores 0.96; `check:assets` warns about the unreferenced `static/payconnect-mobile-bg.jpg`; `check:sync` warns that the five case studies lack skip links (pending retrofit — flip `SKIP_LINK_LEVEL` in `scripts/check-sync.mjs` once fixed).
+Known-expected results, not news: Lighthouse a11y scores 0.96. `check:assets` and `check:sync` run warning-free — treat any warning from either as a real finding, not an accepted one.
 
 ## Layout
 

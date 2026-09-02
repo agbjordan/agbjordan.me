@@ -18,9 +18,6 @@ Run the full local QA gate, in this order. Stop and report if a stage fails, but
 
 5. **Cleanup:** kill the background server, even if a stage failed.
 
-6. **Summarize** pass/fail per gate. Flag known-expected results so they are not reported as news:
-   - Lighthouse accessibility scores **0.96** against the 0.95 threshold — deliberate thin margin, not a regression.
-   - `check:assets` warns about the unreferenced `static/payconnect-mobile-bg.jpg`.
-   - `check:sync` warns that the five case studies lack skip links (pending retrofit).
+6. **Summarize** pass/fail per gate. One known-expected result, not news: Lighthouse accessibility scores **0.96** against the 0.95 threshold — deliberate thin margin, not a regression. `check:assets` and `check:sync` run warning-free; any warning from them is a real finding.
 
 Anything else is a real finding — report it with the failing URL/selector and the likely fix.
